@@ -1,0 +1,7 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"employee_marketing_campaign_workitem","employee_marketing_campaign_workitem_access","marketing_campaign.model_marketing_campaign_workitem","base.group_user",1,0,0,0
+"employee_ir_ui_view_custom","employee_ir_ui_view_custom_access","base.model_ir_ui_view_custom","base.group_user",1,0,0,0
+"employee_ir_translation","employee_ir_translation_access","base.model_ir_translation","base.group_user",1,0,0,0
+"employee_ir_filters","employee_ir_filters_access","base.model_ir_filters","base.group_user",1,0,0,0
+"employee_workflow_workitem","employee_workflow_workitem_access","base.model_workflow_workitem","base.group_user",1,0,0,0
+"employee_report_paperformat","employee_report_paperformat_access","report.model_report_paperformat","base.group_user",1,0,0,0

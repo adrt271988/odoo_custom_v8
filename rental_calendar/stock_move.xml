@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+<!--
+		<record model="ir.ui.view" id="warehouse_stock_move_form">
+            <field name="name">warehouse.stock.move.form</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="picking_partner" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+-->
+        
+		<record model="ir.ui.view" id="warehouse_stock_move_calendar">
+            <field name="name">Calendario de Movimientos</field>
+            <field name="model">stock.move</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <calendar string="Calendar View" date_start="date" date_stop="date_expected" color="state">
+                    <field name="picking_partner"/>
+                    <field name="product_id"/>
+                    <field name="product_qty"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_stock_move_calendar_all">
+            <field name="sequence" eval="4"/>
+            <field name="view_mode">calendar</field>
+            <field name="view_id" ref="warehouse_stock_move_calendar"/>
+            <field name="act_window_id" ref="stock.action_move_form2"/>
+        </record>
+    </data>
+</openerp>

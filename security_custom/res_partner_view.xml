@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record id="security_custom_view_partner_form" model="ir.ui.view">
+            <field name="name">security.custom.view.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="mail.view_emails_partner_info_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='message_follower_ids']" position="replace">
+                    <field name="message_follower_ids" widget="mail_followers" groups="security_custom.employee_messaging_group"/>
+                </xpath>
+                <xpath expr="//field[@name='message_ids']" position="replace">
+                    <field name="message_ids" widget="mail_thread" groups="security_custom.employee_messaging_group"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="security_custom_partner_form" model="ir.ui.view">
+            <field name="name">security.custom.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='category_id']" position="replace">
+                    <field name="category_id" widget="many2many_tags" placeholder="Tags..." options='{"no_create": 1, "no_create_edit": 1}'/>
+                </xpath>
+                <xpath expr="//field[@name='state_id']" position="replace">
+                    <field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%" options='{"no_open": True,"no_create": 1, "no_create_edit": 1}'
+						on_change="onchange_state(state_id)" attrs="{'readonly': [('use_parent_address','=',True)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='country_id']" position="replace">
+                    <field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True,"no_create": 1, "no_create_edit": 1}'
+                    attrs="{'readonly': [('use_parent_address','=',True)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='title']" position="replace">
+                    <field name="title" options='{"no_open": True,"no_create": 1, "no_create_edit": 1}'/>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="replace">
+                    <field name="user_id" context="{'default_groups_ref': ['base.group_partner_manager']}" options='{"no_open": True,"no_create": 1, "no_create_edit": 1}'/>
+                </xpath>
+                <xpath expr="//field[@name='company_id']" position="replace">
+                    <field name="company_id" groups="base.group_multi_company" options='{"no_open": True,"no_create": 1, "no_create_edit": 1}'/>
+                </xpath>
+            </field>
+        </record>
+
+   </data>
+</openerp>

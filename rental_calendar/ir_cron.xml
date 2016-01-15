@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<openerp>
+    <data noupdate="0">
+        <record id="rental_calendar_ir_cron" model="ir.cron">
+            <field name="name">Rental Reminder</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+            <field name="doall">True</field>
+            <field name="model">sale.order</field>
+            <field name="function">_rental_reminder</field>
+            <field name="args">()</field>
+            <field name="active">True</field>
+            <field name="numbercall">1</field>
+        </record>
+    </data>
+</openerp>

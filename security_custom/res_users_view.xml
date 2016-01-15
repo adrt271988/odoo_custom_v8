@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+       <record model="ir.ui.view" id="inherit_security_view_users_form_simple_modif_mail">
+            <field name="name">inherit.security.view.users.form.simple.modif.mail</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="mail.view_users_form_simple_modif_mail"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='notify_email']" position="replace">
+                    <field name="notify_email" widget="radio" readonly="0" groups="base.group_hr_manager"/>
+                </xpath>
+            </field>
+        </record>
+        
+       <record model="ir.ui.view" id="inherit_security_view_users_form_preferences">
+            <field name="name">inherit.security.view.users.form.preferences</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="sales_team.view_users_form_preferences"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='default_section_id']" position="replace">
+                    <field name="default_section_id" readonly="0" groups="base.group_hr_manager"/>
+                </xpath>
+            </field>
+        </record>
+        
+       <record model="ir.ui.view" id="inherit_security_view_users_form_simple_modif">
+            <field name="name">inherit.security.view.users.form.simple.modif</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='lang']" position="replace">
+                    <field name="lang" readonly="0" groups="base.group_hr_manager"/>
+                </xpath>
+                <xpath expr="//field[@name='tz']" position="replace">
+                    <field name="tz" readonly="0" groups="base.group_hr_manager"/>
+                </xpath>
+                <xpath expr="//group[@string='Email Preferences']" position="replace">
+                    <group string="Email Preferences" groups="base.group_hr_manager">
+                        <field name="email" widget="email" readonly="0" groups="base.group_hr_manager"/>
+                        <field name="signature" readonly="0" groups="base.group_hr_manager"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

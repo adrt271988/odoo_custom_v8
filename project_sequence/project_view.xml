@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+		<record model="ir.ui.view" id="project_sequence_edit_project">
+            <field name="name">project.sequence.edit.project</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='oe_title']" position="inside">
+                    <xpath expr="//field[@name='name']" position="after">
+                        <label for="code" class="oe_edit_only" string="VDMi Project ID"/>
+                        <h2>
+                            <field name="code" class="oe_inline"/>
+                            <button name="get_code" string="Generate new VDMi Project ID"  class="oe_inline oe_edit_only" type="object"
+                                states="template,draft,open" icon="terp-check" groups="base.group_user"/>
+                        </h2>
+                    </xpath>
+                </xpath>
+            </field>
+        </record>
+        
+		<record model="ir.ui.view" id="project_sequence_view_project">
+            <field name="name">project.sequence.view.project</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="code" class="oe_inline"/>
+                </xpath>
+            </field>
+        </record>
+        
+		<record model="ir.ui.view" id="project_sequence_view_project_kanban">
+            <field name="name">project.sequence.view.project.kanban</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="code"/>
+                </xpath>
+                <xpath expr="//h4[@class='text-center']" position="after">
+                    <h5 class="text-left"><span>VDMi Project ID: </span><field name="code"/></h5>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+		<record model="ir.ui.view" id="afr_custom_accounting_report_view">
+            <field name="name">afr.custom.accounting.report.view</field>
+            <field name="model">accounting.report</field>
+            <field name="inherit_id" ref="account.accounting_report_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='enable_filter']" position="after">
+                    <field name="show_zero"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

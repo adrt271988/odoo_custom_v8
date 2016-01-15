@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+        <record model="ir.rule" id="sale_invoice_report_crmsection_rule">
+            <field name="name">Informes ARA, Equipo de Ventas</field>
+            <field name="model_id" ref="model_sale_invoice_report"/>
+            <field name="domain_force">[('section_id','=',user.default_section_id.id)]</field>
+            <field name="global" eval="False"/>
+            <field name="groups" eval="[(4,ref('ara_record_rules_report_group'))]"/>
+        </record>
+    </data>
+</openerp>

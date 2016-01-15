@@ -1,0 +1,452 @@
+<?xml version="1.0"?>
+<openerp>
+    <data noupdate="0">
+        <!-- Creating Group Bookkeeper -->
+        <record id="account_bookkeeper_group" model="res.groups">
+            <field name="name">Bookkeeper</field>
+            <field name="comment"></field>
+            <field name="implied_ids" eval="[(4,ref('security_custom.employee_messaging_group')),
+											 (4,ref('base.group_multi_company')),
+											]"/>
+            <field name="menu_access" eval="[(4,ref('knowledge.menu_document')),
+											 (4,ref('account.menu_finance')),
+											 (4,ref('account.menu_finance_payables')),
+											 (4,ref('account.menu_action_invoice_tree2')),
+											 (4,ref('account.menu_action_invoice_tree4')),
+											 (4,ref('account.menu_finance_bank_and_cash')),
+											 (4,ref('account.menu_finance_reports')),
+											 (4,ref('account.menu_journals_report')),
+											 (4,ref('account.menu_account_partner_ledger')),
+											 (4,ref('account.menu_tax_report')),
+											 (4,ref('account.menu_general_ledger')),
+											 (4,ref('account.menu_finance_periodical_processing')),
+											 (4,ref('account.menu_bank_reconcile_bank_statements')),
+											 (4,ref('base.menu_main_pm')),
+												]"/>
+        </record>
+        
+        <!-- Creating Access Rights for Bookkeeper -->
+        <record id = "project_project_bookkeeper_access" model = "ir.model.access">
+            <field name = "name">project.project.bookkeeper.access</field>
+            <field name = "model_id" ref ="project.model_project_project"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "project_category_bookkeeper_access" model = "ir.model.access">
+            <field name = "name">project.category.bookkeeper.access</field>
+            <field name = "model_id" ref ="project.model_project_category"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "project_task_bookkeeper_access" model = "ir.model.access">
+            <field name = "name">project.task.bookkeeper.access</field>
+            <field name = "model_id" ref ="project.model_project_task"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "1"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "project_task_history_bookkeeper_access" model = "ir.model.access">
+            <field name = "name">project.task.history.bookkeeper.access</field>
+            <field name = "model_id" ref ="project.model_project_task_history"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "1"/>
+            <field name = "perm_create" eval = "1"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "project_task_type_bookkeeper_access" model = "ir.model.access">
+            <field name = "name">project.task.type.bookkeeper.access</field>
+            <field name = "model_id" ref ="project.model_project_task_type"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "project_task_work_bookkeeper_access" model = "ir.model.access">
+            <field name = "name">project.task.work.bookkeeper.access</field>
+            <field name = "model_id" ref ="project.model_project_task_work"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_invoice_line_bookkeeper" model = "ir.model.access">
+            <field name = "name">account.invoice.line.bookkeeper</field>
+            <field name = "model_id" ref ="account.model_account_invoice_line"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "1"/>
+            <field name = "perm_create" eval = "1"/>
+            <field name = "perm_unlink" eval = "1"/>
+        </record>
+        
+        <record id = "account_move_bookkeeper" model = "ir.model.access">
+            <field name = "name">account.move.bookkeeper</field>
+            <field name = "model_id" ref ="account.model_account_move"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "1"/>
+            <field name = "perm_create" eval = "1"/>
+            <field name = "perm_unlink" eval = "1"/>
+        </record>
+        
+        <record id = "account_move_line_bookkeeper" model = "ir.model.access">
+            <field name = "name">account.move.line.bookkeeper</field>
+            <field name = "model_id" ref ="account.model_account_move_line"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "1"/>
+            <field name = "perm_create" eval = "1"/>
+            <field name = "perm_unlink" eval = "1"/>
+        </record>
+        
+        <record id = "account_invoice_tax_bookkeeper" model = "ir.model.access">
+            <field name = "name">account.invoice.tax.bookkeeper</field>
+            <field name = "model_id" ref ="account.model_account_invoice_tax"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "1"/>
+            <field name = "perm_create" eval = "1"/>
+            <field name = "perm_unlink" eval = "1"/>
+        </record>
+        
+        <record id = "account_move_reconcile_bookkeeper" model = "ir.model.access">
+            <field name = "name">account.move.reconcile.bookkeeper</field>
+            <field name = "model_id" ref ="account.model_account_move_reconcile"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "1"/>
+            <field name = "perm_create" eval = "1"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "sale_order_bookkeeper" model = "ir.model.access">
+            <field name = "name">sale.order.bookkeeper</field>
+            <field name = "model_id" ref ="sale.model_sale_order"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_analytic_line_bookkeeper" model = "ir.model.access">
+            <field name = "name">account.analytic.line.bookkeeper</field>
+            <field name = "model_id" ref ="account.model_account_analytic_line"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_tax_bookkeeper" model = "ir.model.access">
+            <field name = "name">account.tax.bookkeeper</field>
+            <field name = "model_id" ref ="account.model_account_tax"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_tax_code_bookkeeper" model = "ir.model.access">
+            <field name = "name">account.tax.code.bookkeeper</field>
+            <field name = "model_id" ref ="account.model_account_tax_code"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_payment_term_bookkeeper" model = "ir.model.access">
+            <field name = "name">account.payment.term.bookkeeper</field>
+            <field name = "model_id" ref ="account.model_account_payment_term"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "res_partner_bank_bookkeeper" model = "ir.model.access">
+            <field name = "name">res.partner.bank.bookkeeper</field>
+            <field name = "model_id" ref ="base.model_res_partner_bank"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "product_product_bookkeeper" model = "ir.model.access">
+            <field name = "name">product.product.bookkeeper</field>
+            <field name = "model_id" ref ="product.model_product_product"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_invoice_bookkeeper" model = "ir.model.access">
+            <field name = "name">account.invoice.bookkeeper</field>
+            <field name = "model_id" ref ="account.model_account_invoice"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "1"/>
+            <field name = "perm_create" eval = "1"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_bank_statement_bookkeeper" model = "ir.model.access">
+            <field name = "name">account.bank.statement.bookkeeper</field>
+            <field name = "model_id" ref ="account.model_account_bank_statement"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "1"/>
+            <field name = "perm_create" eval = "1"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_bank_statement_line_bookkeeper" model = "ir.model.access">
+            <field name = "name">account.bank.statement.line.bookkeeper</field>
+            <field name = "model_id" ref ="account.model_account_bank_statement_line"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "1"/>
+            <field name = "perm_create" eval = "1"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_journal_bookkeeper" model = "ir.model.access">
+            <field name = "name">account.journal.bookkeeper</field>
+            <field name = "model_id" ref ="account.model_account_journal"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_journal_period_bookkeeper" model = "ir.model.access">
+            <field name = "name">account.journal.period.bookkeeper</field>
+            <field name = "model_id" ref ="account.model_account_journal_period"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "1"/>
+            <field name = "perm_create" eval = "1"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_period_bookkeeper" model = "ir.model.access">
+            <field name = "name">account.period.bookkeeper</field>
+            <field name = "model_id" ref ="account.model_account_period"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_statement_operation_template_bookkeeper" model = "ir.model.access">
+            <field name = "name">account.statement.operation.template.bookkeeper</field>
+            <field name = "model_id" ref ="account.model_account_statement_operation_template"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_cashbox_line_bookkeeper" model = "ir.model.access">
+            <field name = "name">account.cashbox.line.bookkeeper</field>
+            <field name = "model_id" ref ="account.model_account_cashbox_line"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "1"/>
+            <field name = "perm_create" eval = "1"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_journal_cashbox_line_bookkeeper" model = "ir.model.access">
+            <field name = "name">account.journal.cashbox.line.bookkeeper</field>
+            <field name = "model_id" ref ="account.model_account_journal_cashbox_line"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "1"/>
+            <field name = "perm_create" eval = "1"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_financial_report_bookkeeper" model = "ir.model.access">
+            <field name = "name">account.financial.report.bookkeeper</field>
+            <field name = "model_id" ref ="account.model_account_financial_report"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+
+        <record id = "ir_values_bookkeeper" model = "ir.model.access">
+            <field name = "name">ir.values.bookkeeper</field>
+            <field name = "model_id" ref ="base.model_ir_values"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+     
+        
+        <record id = "base.access_ir_attachment_group_user" model = "ir.model.access">
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "knowledge.access_ir_attachment_partner_manager" model = "ir.model.access">
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "bookkeeper_access_ir_attachment" model = "ir.model.access">
+			<field name = "name">bookkeeper.access.ir.attachment</field>
+            <field name = "model_id" ref ="base.model_ir_attachment"/>
+            <field name = "group_id" ref ="account_bookkeeper_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "1"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        
+        <!-- Asigning HR root menu to HR Manager and Officer (not Employee)-->
+		<record model="ir.ui.menu" id="hr.menu_hr_root">
+		  <field name="groups_id" eval="[(6,0,[ref('base.group_hr_manager'),ref('base.group_hr_user')])]"/>
+		</record>
+		
+		<!-- Asigning Reporting, Dashboard and My Dashboard to HR Manager group-->
+		<record model="ir.ui.menu" id="base.menu_reporting">
+		  <field name="groups_id" eval="[(4,ref('base.group_hr_manager'))]"/>
+		</record>
+		
+		<record model="ir.ui.menu" id="base.menu_reporting_dashboard">
+		  <field name="groups_id" eval="[(4,ref('base.group_hr_manager'))]"/>
+		</record>
+		
+		<record model="ir.ui.menu" id="board.menu_board_my_dash">
+		  <field name="groups_id" eval="[(4,ref('base.group_hr_manager'))]"/>
+		</record>
+		
+		<!-- Asigning menus to group Invoicing and Payments-->
+		
+		<record model="ir.ui.menu" id="account.next_id_40">
+		  <field name="groups_id" eval="[(4,ref('account.group_account_invoice'))]"/>
+		</record>
+		
+		<record model="ir.ui.menu" id="account.account_analytic_journal_print">
+		  <field name="groups_id" eval="[(4,ref('account.group_account_invoice'))]"/>
+		</record>
+		
+		<record model="ir.ui.menu" id="account.menu_finance_payables">
+		  <field name="groups_id" eval="[(4,ref('account.group_account_invoice'))]"/>
+		</record>
+		
+		<record model="ir.ui.menu" id="account.menu_action_invoice_tree2">
+		  <field name="groups_id" eval="[(4,ref('account.group_account_invoice'))]"/>
+		</record>
+		
+		<record model="ir.ui.menu" id="account.menu_action_invoice_tree4">
+		  <field name="groups_id" eval="[(4,ref('account.group_account_invoice'))]"/>
+		</record>
+        
+        <!-- Asigning menus with no group to group Accountant-->
+		<record model="ir.ui.menu" id="account.menu_account_central_journal">
+		  <field name="groups_id" eval="[(4,ref('account.group_account_user'))]"/>
+		</record>
+		
+		<record model="ir.ui.menu" id="account_voucher.menu_action_sale_receipt">
+		  <field name="groups_id" eval="[(4,ref('account.group_account_user'))]"/>
+		</record>
+		
+		<record model="ir.ui.menu" id="account_voucher.menu_action_purchase_receipt">
+		  <field name="groups_id" eval="[(4,ref('account.group_account_user'))]"/>
+		</record>
+		
+		<record model="ir.ui.menu" id="account_voucher.menu_action_vendor_receipt">
+		  <field name="groups_id" eval="[(4,ref('account.group_account_user'))]"/>
+		</record>
+		
+		<record model="ir.ui.menu" id="account_voucher.menu_action_vendor_payment">
+		  <field name="groups_id" eval="[(4,ref('account.group_account_user'))]"/>
+		</record>
+		
+		<record model="ir.ui.menu" id="account.menu_account_customer">
+		  <field name="groups_id" eval="[(4,ref('account.group_account_user'))]"/>
+		</record>
+		
+		<record model="ir.ui.menu" id="account.menu_account_supplier">
+		  <field name="groups_id" eval="[(4,ref('account.group_account_user'))]"/>
+		</record>
+		
+		<record model="ir.ui.menu" id="account.menu_action_account_invoice_report_all">
+		  <field name="groups_id" eval="[(4,ref('account.group_account_user'))]"/>
+		</record>
+		
+		<record model="ir.ui.menu" id="account.periodical_processing_journal_entries_validation">
+		  <field name="groups_id" eval="[(4,ref('account.group_account_user'))]"/>
+		</record>
+		
+		<record model="ir.ui.menu" id="account.menu_finance_recurrent_entries">
+		  <field name="groups_id" eval="[(4,ref('account.group_account_user'))]"/>
+		</record>
+		
+		<record model="ir.ui.menu" id="account.menu_account_end_year_treatments">
+		  <field name="groups_id" eval="[(4,ref('account.group_account_user'))]"/>
+		</record>
+		
+		<record model="ir.ui.menu" id="account.menu_automatic_reconcile">
+		  <field name="groups_id" eval="[(4,ref('account.group_account_user'))]"/>
+		</record>
+		
+		<record model="ir.ui.menu" id="account.menu_manual_reconcile">
+		  <field name="groups_id" eval="[(4,ref('account.group_account_user'))]"/>
+		</record>
+		
+		<record model="ir.ui.menu" id="document.menu_document_directories">
+		  <field name="groups_id" eval="[(4,ref('base.group_document_user'))]"/>
+		</record>
+		
+		<!-- Asigning menus from Marketing to group of Marketing-->
+		<record model="ir.ui.menu" id="base.marketing_menu">
+		  <field name="groups_id" eval="[(6,0,[ref('marketing.group_marketing_user')])]"/>
+		</record>
+		
+		<record model="ir.ui.menu" id="base.marketing_reporting_menu">
+		  <field name="groups_id" eval="[(4,ref('marketing.group_marketing_user'))]"/>
+		</record>
+    </data>
+</openerp>

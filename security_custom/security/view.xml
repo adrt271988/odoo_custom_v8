@@ -1,0 +1,294 @@
+<?xml version="1.0"?>
+<openerp>
+    <data noupdate="0">
+        <!-- Creating Group View -->
+        <record id="account_view_group" model="res.groups">
+            <field name="name">View</field>
+            <field name="comment"></field>
+            <field name="menu_access" eval="[(4,ref('knowledge.menu_document')),
+											 (4,ref('account.menu_finance')),
+                                             (4,ref('account.menu_finance_payables')),
+											 (4,ref('account.menu_finance_reports')),
+											 (4,ref('account.menu_journals_report')),
+											 (4,ref('account.menu_account_partner_ledger')),
+											 (4,ref('account.menu_tax_report')),
+											 (4,ref('account.menu_general_ledger')),
+											 (4,ref('base.menu_reporting')),
+											 (4,ref('base.next_id_64')),
+											 (4,ref('base.next_id_73')),
+											 (4,ref('account.menu_action_account_invoice_report_all')),
+												]"/>
+        </record>
+        
+        
+
+        <record id = "account_journal_viewCustom" model = "ir.model.access">
+            <field name = "name">account.journal.viewCustom</field>
+            <field name = "model_id" ref ="account.model_account_journal"/>
+            <field name = "group_id" ref ="account_view_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_journal_period_viewCustom" model = "ir.model.access">
+            <field name = "name">account.journal.period.viewCustom</field>
+            <field name = "model_id" ref ="account.model_account_journal_period"/>
+            <field name = "group_id" ref ="account_view_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "1"/>
+            <field name = "perm_create" eval = "1"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_period_viewCustom" model = "ir.model.access">
+            <field name = "name">account.period.viewCustom</field>
+            <field name = "model_id" ref ="account.model_account_period"/>
+            <field name = "group_id" ref ="account_view_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_financial_report_viewCustom" model = "ir.model.access">
+            <field name = "name">account.financial.report.viewCustom</field>
+            <field name = "model_id" ref ="account.model_account_financial_report"/>
+            <field name = "group_id" ref ="account_view_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_journal_cashbox_line_viewCustom" model = "ir.model.access">
+            <field name = "name">account.journal.cashbox.line.viewCustom</field>
+            <field name = "model_id" ref ="account.model_account_journal_cashbox_line"/>
+            <field name = "group_id" ref ="account_view_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_invoice_line_viewCustom" model = "ir.model.access">
+            <field name = "name">account.invoice.line.viewCustom</field>
+            <field name = "model_id" ref ="account.model_account_invoice_line"/>
+            <field name = "group_id" ref ="account_view_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "1"/>
+            <field name = "perm_create" eval = "1"/>
+            <field name = "perm_unlink" eval = "1"/>
+        </record>
+        
+        <record id = "account_move_viewCustom" model = "ir.model.access">
+            <field name = "name">account.move.viewCustom</field>
+            <field name = "model_id" ref ="account.model_account_move"/>
+            <field name = "group_id" ref ="account_view_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "1"/>
+            <field name = "perm_create" eval = "1"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_move_line_viewCustom" model = "ir.model.access">
+            <field name = "name">account.move.line.viewCustom</field>
+            <field name = "model_id" ref ="account.model_account_move_line"/>
+            <field name = "group_id" ref ="account_view_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "1"/>
+            <field name = "perm_create" eval = "1"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_invoice_tax_viewCustom" model = "ir.model.access">
+            <field name = "name">account.invoice.tax.viewCustom</field>
+            <field name = "model_id" ref ="account.model_account_invoice_tax"/>
+            <field name = "group_id" ref ="account_view_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "1"/>
+            <field name = "perm_create" eval = "1"/>
+            <field name = "perm_unlink" eval = "1"/>
+        </record>
+        
+        <record id = "account_move_reconcile_viewCustom" model = "ir.model.access">
+            <field name = "name">account.move.reconcile.viewCustom</field>
+            <field name = "model_id" ref ="account.model_account_move_reconcile"/>
+            <field name = "group_id" ref ="account_view_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_analytic_line_viewCustom" model = "ir.model.access">
+            <field name = "name">account.analytic.line.viewCustom</field>
+            <field name = "model_id" ref ="account.model_account_analytic_line"/>
+            <field name = "group_id" ref ="account_view_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_tax_viewCustom" model = "ir.model.access">
+            <field name = "name">account.tax.viewCustom</field>
+            <field name = "model_id" ref ="account.model_account_tax"/>
+            <field name = "group_id" ref ="account_view_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_tax_code_viewCustom" model = "ir.model.access">
+            <field name = "name">account.tax.code.viewCustom</field>
+            <field name = "model_id" ref ="account.model_account_tax_code"/>
+            <field name = "group_id" ref ="account_view_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_payment_term_viewCustom" model = "ir.model.access">
+            <field name = "name">account.payment.term.viewCustom</field>
+            <field name = "model_id" ref ="account.model_account_payment_term"/>
+            <field name = "group_id" ref ="account_view_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "res_partner_viewCustom" model = "ir.model.access">
+            <field name = "name">res.partner.viewCustom</field>
+            <field name = "model_id" ref ="base.model_res_partner"/>
+            <field name = "group_id" ref ="account_view_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "1"/>
+            <field name = "perm_create" eval = "1"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "res_partner_bank_viewCustom" model = "ir.model.access">
+            <field name = "name">res.partner.bank.viewCustom</field>
+            <field name = "model_id" ref ="base.model_res_partner_bank"/>
+            <field name = "group_id" ref ="account_view_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "product_product_viewCustom" model = "ir.model.access">
+            <field name = "name">product.product.viewCustom</field>
+            <field name = "model_id" ref ="product.model_product_product"/>
+            <field name = "group_id" ref ="account_view_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_invoice_viewCustom" model = "ir.model.access">
+            <field name = "name">account.invoice.viewCustom</field>
+            <field name = "model_id" ref ="account.model_account_invoice"/>
+            <field name = "group_id" ref ="account_view_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "1"/>
+            <field name = "perm_create" eval = "1"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "sale_report_viewCustom" model = "ir.model.access">
+            <field name = "name">sale.report.viewCustom</field>
+            <field name = "model_id" ref ="sale.model_sale_report"/>
+            <field name = "group_id" ref ="account_view_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "purchase_report_viewCustom" model = "ir.model.access">
+            <field name = "name">purchase.report.viewCustom</field>
+            <field name = "model_id" ref ="purchase.model_purchase_report"/>
+            <field name = "group_id" ref ="account_view_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "account_invoice_report_viewCustom" model = "ir.model.access">
+            <field name = "name">account.invoice.report.viewCustom</field>
+            <field name = "model_id" ref ="account.model_account_invoice_report"/>
+            <field name = "group_id" ref ="account_view_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+        
+        <record id = "ir_values_viewCustom" model = "ir.model.access">
+            <field name = "name">ir.values.viewCustom</field>
+            <field name = "model_id" ref ="base.model_ir_values"/>
+            <field name = "group_id" ref ="account_view_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "0"/>
+            <field name = "perm_create" eval = "0"/>
+            <field name = "perm_unlink" eval = "0"/>
+        </record>
+
+        <!-- Asigning menus with no group to group Accountant-->
+      <record model="ir.ui.menu" id="account.menu_action_account_fiscalyear">
+            <field name="groups_id" eval="[(4,ref('account.group_account_user'))]"/>
+      </record>
+      <record model="ir.ui.menu" id="account.menu_action_bank_tree">
+            <field name="groups_id" eval="[(4,ref('account.group_account_user'))]"/>
+      </record>
+      <record model="ir.ui.menu" id="account.account_account_menu">
+            <field name="groups_id" eval="[(4,ref('account.group_account_user'))]"/>
+      </record>
+      <record model="ir.ui.menu" id="account.menu_action_account_form">
+            <field name="groups_id" eval="[(4,ref('account.group_account_user'))]"/>
+      </record>
+      <record model="ir.ui.menu" id="account.next_id_27">
+            <field name="groups_id" eval="[(4,ref('account.group_account_user'))]"/>
+      </record>
+      <record model="ir.ui.menu" id="account.menu_configuration_misc">
+            <field name="groups_id" eval="[(4,ref('account.group_account_user'))]"/>
+      </record>
+      <record model="ir.ui.menu" id="account.next_id_23">
+            <field name="groups_id" eval="[(4,ref('account.group_account_user'))]"/>
+      </record>
+      <record model="ir.ui.menu" id="account.menu_account_reports">
+            <field name="groups_id" eval="[(4,ref('account.group_account_user'))]"/>
+      </record>
+      
+      <!-- Setting Record Rules-->
+<!--
+		<record id="account_invoice_viewCustom_rule" model="ir.rule">
+			<field name="name">View User Invoice Rule</field>
+			<field name="model_id" ref="account.model_account_invoice"/>
+			<field name="active" eval="False"/>
+			<field name="domain_force">['|',('user_id','=',user.id),('user_id','=',False)]</field>
+			<field name="groups" eval="[(4,ref('account_view_group'))]"/>
+		</record>
+-->
+<!--
+		<record id="res_partner_supplier_viewCustom_rule" model="ir.rule">
+			<field name="name">View Supplier Rule</field>
+			<field name="model_id" ref="base.model_res_partner"/>
+			<field name="domain_force">[('supplier','=',True),('customer','=',False)]</field>
+			<field name="groups" eval="[(4,ref('account_view_group'))]"/>
+			<field name = "perm_read" eval = "0"/>
+            <field name = "perm_write" eval = "1"/>
+            <field name = "perm_create" eval = "1"/>
+            <field name = "perm_unlink" eval = "1"/>
+		</record>
+-->
+    </data>
+</openerp>

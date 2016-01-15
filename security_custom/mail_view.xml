@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+       <record model="ir.ui.view" id="inherit_security_mail_wizard_invite_form">
+            <field name="name">inherit.security.mail.wizard.invite.form</field>
+            <field name="model">mail.wizard.invite</field>
+            <field name="inherit_id" ref="mail.mail_wizard_invite_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_ids']" position="replace">
+                    <field name="partner_ids" widget="many2many_tags_email"
+                        placeholder="Add contacts to notify..."
+                        context="{'force_email':True, 'show_email':True}" groups="security_custom.employee_messaging_group"/>
+                </xpath>
+            </field>
+        </record>
+        
+       <record model="ir.ui.view" id="inherit_security_email_compose_message_wizard_form">
+            <field name="name">inherit.security.email.compose.message.wizard.form</field>
+            <field name="model">mail.compose.message</field>
+            <field name="inherit_id" ref="mail.email_compose_message_wizard_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//label[@for='partner_ids']" position="replace">
+                    <label for="partner_ids" string="Recipients"
+                        attrs="{'invisible': [('is_log', '=', True)]}" groups="security_custom.employee_messaging_group"/>
+                </xpath>
+                <xpath expr="//div[@groups='base.group_user']" position="replace">
+                    <div groups="security_custom.employee_messaging_group" attrs="{'invisible': [('is_log', '=', True)]}">
+                        <span attrs="{'invisible': [('composition_mode', '!=', 'mass_mail')]}">
+                            <strong>Email mass mailing</strong> on
+                            <span attrs="{'invisible': [('use_active_domain', '=', True)]}">the selected records</span>
+                            <span attrs="{'invisible': [('use_active_domain', '=', False)]}">the current search filter</span>.
+                        </span>
+                        <span attrs="{'invisible':[('composition_mode', '!=', 'comment')]}">Followers of the document and</span>
+                        <field name="partner_ids" widget="many2many_tags_email" placeholder="Add contacts to notify..." context="{'force_email':True, 'show_email':True}" attrs="{'invisible': [('composition_mode', '!=', 'comment')]}"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="inherit_security_email_compose_message_wizard_inherit_form">
+            <field name="name">inherit.security.email.compose.message.wizard.inherit.form</field>
+            <field name="model">mail.compose.message</field>
+            <field name="inherit_id" ref="email_template.email_compose_message_wizard_inherit_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='save_as_template']" position="replace">
+                    <button icon="/email_template/static/src/img/email_template_save.png"
+                            type="object" name="save_as_template" string="Save as new template" class="oe_link"
+                            help="Save as a new template" groups="security_custom.employee_messaging_group"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

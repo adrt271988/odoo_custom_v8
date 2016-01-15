@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+		<record model="ir.ui.view" id="warehouse_calendar_sale_rental">
+            <field name="name">Calendario de Alquileres</field>
+            <field name="model">sale.rental</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <calendar string="Calendar View" date_start="start_date" date_stop="end_date" color="state">
+                    <field name="start_order_id"/>
+                    <field name="partner_id"/>
+                    <field name="rented_product_id"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="sale_rental.sale_rental_action">
+            <field name="view_mode">tree,form,calendar</field>
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<openerp>
+    <data noupdate="0">
+        <record id="sale_invoice_report_group" model="res.groups">
+            <field name="name">Analisis de facturas ARA</field>
+            <field name="comment">Los usuarios de este grupo podrán visualizar el reporte</field>
+            <field name="category_id" eval="ref('base.module_category_report_designer')"/>
+            <field name="users" eval="[(4,ref('base.user_root'))]"/>
+            <field name="menu_access" eval="[(4,ref('menu_action_sale_invoice_report_all'))]"/>
+        </record>
+        
+        <record id="ara_record_rules_report_group" model="res.groups">
+            <field name="name">Grupo Reglas de Registro ARA</field>
+            <field name="comment">Los usuarios de este grupo solo podrán visualizar los datos asociados al Equipo de Ventas al que pertenecen</field>
+            <field name="category_id" eval="ref('base.module_category_report_designer')"/>
+        </record>
+        
+        <record id = "sale_invoice_report_access_right" model = "ir.model.access">
+            <field name = "name">sale.invoice.report.access.right</field>
+            <field name = "model_id" ref ="model_sale_invoice_report"/>
+            <field name = "group_id" ref ="sale_invoice_report_group"/>
+            <field name = "perm_read" eval = "1"/>
+            <field name = "perm_write" eval = "1"/>
+            <field name = "perm_create" eval = "1"/>
+            <field name = "perm_unlink" eval = "1"/>
+        </record>
+    </data>
+</openerp>
