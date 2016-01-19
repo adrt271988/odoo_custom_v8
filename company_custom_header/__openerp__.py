@@ -1,8 +1,9 @@
-# -*- coding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2010 Tiny SPRL (<http://tiny.be>).
+#    Rental module for Odoo
+#    Copyright (C) 2014-2015 Akretion (http://www.akretion.com)
+#    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,8 +20,18 @@
 #
 ##############################################################################
 
-import stock_move
-import product
-import rental
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
+{
+    'name': 'Company Custom Header',
+    'version': '8.0.0.1.0',
+    'category': '',
+    'license': '',
+    'summary': 'Reports Header Customization',
+    'author': 'Alexander Rodriguez',
+    'website': '',
+    'depends': ['report'],
+    'data': [
+        'layouts.xml',
+    ],
+    'installable': True,
+}

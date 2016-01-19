@@ -28,6 +28,8 @@
 Calendario para Alquileres
 ====================================================
 * Calendarizar los alquileres y movimientos de stock que se generan
+* Envio de correos y notificaciones a los clientes sobre los alquileres vencidos o por vencer
+* Facturar al cliente por perdidas de articulos alquilados
     """,
     'author': 'Alexander Rodriguez',
     'website': '',
@@ -36,7 +38,8 @@ Calendario para Alquileres
             'stock_move.xml',
             'rental_view.xml',
             'product_view.xml',
-            #~ 'ir_cron.xml',
+            'email_template.xml',
+            'ir_cron.xml',
     ],
     'demo': [],
     'test': [],
