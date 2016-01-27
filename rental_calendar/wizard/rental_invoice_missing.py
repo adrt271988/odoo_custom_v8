@@ -21,15 +21,17 @@ class rental_invoice_missing(osv.osv_memory):
         if context is None:
             context = {}
 
-        print ids
         wizard = ids and self.browse(cr, uid, ids[0], context=context) or False
+        sale_obj = self.pool.get('sale.order')
         rental = self.pool.get('sale.rental')
-        print '*******',wizard.partner_id.id
-        rental_ids = rental.search(cr, uid, [('partner_id','=',wizard.partner_id.id)])
-        if rental_ids:
-            for rent in rental.browse(cr, uid, rental_ids):
-                if rent.state == 'out':
-                    print 'something'
+        sale_ids = sale_obj.search(cr, uid, [('partner_id','=',wizard.partner_id.id)])
+        for sale in sale_obj.browse(cr, uid, sale_ids):
+            for line in sale.order_line:
+                rental_id = rental.search(cr, uid, [('star_order_line_id','=',line.id)])
+                if rental_id:
+                    rent = rental.browse(cr, uid, rental_id[0])
+                    if rent.state == 'out':
+                        print 'something'
         else:
             raise osv.except_osv(_('Error'), _('No existen alquileres a nombre de este cliente!'))
 
