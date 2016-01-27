@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+      <record model="ir.ui.view" id="rental_invoice_missing_form">
+      <field name="name">rental.invoice.missing.form</field>
+      <field name="model">rental.invoice.missing</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+          <form string="Generar Facturas por Productos Perdidos">
+            <group col="2">
+                  <field name="partner_id"/>
+            </group>
+            <group col="2">
+                <button name="generate_missing_invoice" string="Generar"
+                        type="object" icon="terp-stock_effects-object-colorize" />
+                <button icon="gtk-cancel" special="cancel" string="Cerrar"/>
+            </group>
+          </form>
+      </field>
+      </record>
+
+      <record id="rental_invoice_missing_action" model="ir.actions.act_window">
+            <field name="name">Generar Facturas por Productos Perdidos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rental.invoice.missing</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="rental_invoice_missing_form"/>
+            <field name="target">new</field>
+      </record>
+
+      <menuitem
+                icon="STOCK_PRINT"
+                name="Facturar Pérdidas"
+                parent="base.menu_sales"
+                action="rental_invoice_missing_action"
+                id="rental_invoice_missing_menu"
+                sequence="100"
+               />
+
+</data>
+</openerp>

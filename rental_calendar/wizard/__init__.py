@@ -19,34 +19,6 @@
 #
 ##############################################################################
 
-
-{
-    'name': 'Calendario para Alquileres',
-    'category': '', 
-    'version': '1.0',
-    'description': """ 
-Calendario para Alquileres
-====================================================
-* Calendarizar los alquileres y movimientos de stock que se generan
-* Envio de correos y notificaciones a los clientes sobre los alquileres por vencer
-* Facturar al cliente por perdidas de articulos alquilados
-    """,
-    'author': 'Alexander Rodriguez',
-    'website': '',
-    'depends': ['sale_rental'],
-    'data': [
-            'stock_move.xml',
-            'rental_view.xml',
-            'product_view.xml',
-            'email_template.xml',
-            'ir_cron.xml',
-            'wizard/rental_invoice_missing.xml',
-            'sale_view.xml',
-    ],
-    'demo': [],
-    'test': [],
-    'installable': True,
-    'auto_install': False,
-}
-
+import rental_invoice_missing
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

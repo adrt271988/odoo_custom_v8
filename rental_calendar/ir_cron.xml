@@ -5,7 +5,7 @@
             <field name="name">Rental Reminder</field>
             <field name="user_id" ref="base.user_root"/>
             <field name="interval_number">1</field>
-            <field name="interval_type">minutes</field>
+            <field name="interval_type">days</field>
             <field name="doall">True</field>
             <field eval="'sale.rental'" name="model"/>
             <field eval="'rental_reminder'" name="function"/>

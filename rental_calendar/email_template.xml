@@ -6,28 +6,32 @@
             <field name="email_from">${object.company_id and object.company_id.email or ''}</field>
             <field name="subject">Recordatorio de Alquiler para ${object.partner_id.name}</field>
             <field name="email_to">${object.partner_id.email and object.partner_id.email or ''}</field>
-            <field name="model_id" ref="sale_rental.model_sale_rental"/>
+            <field name="model_id" ref="sale.model_sale_order"/>
             <field name="auto_delete" eval="True"/>
             <field name="lang">${object.lang}</field>
             <field name="body_html"><![CDATA[
-                """ 
-                Write here a body of email using HTML tag.....
-                """            
-            ]]></field>
-        </record>
-        
-        <record id="email_template_rental_delay" model="email.template">
-            <field name="name">Enviar Recordatorio de Retraso en Alquiler</field>
-            <field name="email_from">${object.company_id and object.company_id.email or ''}</field>
-            <field name="subject">Retraso de Alquiler para ${object.partner_id.name}</field>
-            <field name="email_to">${object.partner_id.email and object.partner_id.email or ''}</field>
-            <field name="model_id" ref="sale_rental.model_sale_rental"/>
-            <field name="auto_delete" eval="True"/>
-            <field name="lang">${object.lang}</field>
-            <field name="body_html"><![CDATA[
-                """ 
-                Write here a body of email using HTML tag.....
-                """            
+                <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+                <p>Estimad@s ${object.partner_id.name},</p>
+
+                <p>
+                    Le recordamos que su pedido de alquiler Número ${object.name} está por
+                    vencerse el día ${object.global_end_date}, por lo cual le pedimos por favor
+                    acercase para hacer la devolución respectiva.
+                </p>
+                
+                <p>
+                    Nota: Este mensaje a sido generado automáticamente, favor no responderlo.
+                </p>
+
+                <p>
+                    Saludos Cordiales,
+                </p>
+                
+                <p>
+                    ${object.company_id.name} 
+                </p>
+            </div>
             ]]></field>
         </record>
   </data>
