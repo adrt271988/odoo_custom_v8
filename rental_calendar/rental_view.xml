@@ -1,7 +1,18 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
-		<record model="ir.ui.view" id="rental_calendar_calendar_view">
+        <record id="rental_calendar_sale_rental_tree" model="ir.ui.view">
+            <field name="name">rental.calendar.sale.rental.tree</field>
+            <field name="model">sale.rental</field>
+            <field name="inherit_id" ref="sale_rental.sale_rental_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="start_order_id"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="rental_calendar_calendar_view">
             <field name="name">Calendario de Alquileres</field>
             <field name="model">sale.rental</field>
             <field name="priority" eval="2"/>
@@ -14,35 +25,26 @@
             </field>
         </record>
 
-        <!-- TODO: no es posible realizar busquedas por campos related o function-->
-<!--
         <record id="rental_calendar_search_view" model="ir.ui.view">
             <field name="name">rental.calendar.search.view</field>
             <field name="model">sale.rental</field>
             <field name="arch" type="xml">
                 <search string="Buscar Alquiler">
-                    <filter name="out" string="Fuera" domain="[('state','=','out')]"/>
-                    <filter name="ordered" string="Ordenado" domain="[('state','=','ordered')]"/>
-                    <filter name="sold" string="Vendido" domain="[('state','=','sold')]"/>
-                    <filter name="back_in" string="Retornado" domain="[('state','=','in')]"/>
-                    <separator/>
-                    <field name="partner_id" operator="child_of"/>
+                    <field name="non_rel_partner_id"/>
+                    <field name="non_rel_sale_id"/>
                     <separator/>
                     <group expand="0" string="Agrupar por">
-                    	<filter name="group_by_partner_id" string="Partner" context="{'group_by':'partner_id'}"/>
-                        <filter string="Estado" context="{'group_by':'state'}"/>
+                        <filter name="group_by_partner_id" string="Cliente" context="{'group_by':'non_rel_partner_id'}"/>
+                        <filter name="group_by_sale_id" string="Pedido" context="{'group_by':'non_rel_sale_id'}"/>
                         <separator/>
                     </group>
                </search>
             </field>
         </record>
--->
 
         <record model="ir.actions.act_window" id="sale_rental.sale_rental_action">
             <field name="view_mode">tree,form,calendar</field>
-<!--
             <field name="search_view_id" ref="rental_calendar_search_view"/>
--->
         </record>
     </data>
 </openerp>

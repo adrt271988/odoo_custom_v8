@@ -9,7 +9,7 @@
       <field name="arch" type="xml">
           <form string="Generar Facturas por Productos Perdidos">
             <group col="2">
-                  <field name="partner_id"/>
+                  <field name="description" nolabel="1" readonly="1"/>
             </group>
             <group col="2">
                 <button name="generate_missing_invoice" string="Generar"
@@ -20,6 +20,15 @@
       </field>
       </record>
 
+      <act_window id="rental_invoice_missing_wizard_action"
+            name="Facturar Productos Perdidos"
+            src_model="sale.rental"
+            res_model="rental.invoice.missing"
+            view_type="form" view_mode="form"
+            key2="client_action_multi" target="new"/>
+
+<!--  TODO: Aun no defino la mejor forma de hacerlo, por ahora lo realizo como wizard llamado
+            desde el tree de rentals
       <record id="rental_invoice_missing_action" model="ir.actions.act_window">
             <field name="name">Generar Facturas por Productos Perdidos</field>
             <field name="type">ir.actions.act_window</field>
@@ -38,6 +47,7 @@
                 id="rental_invoice_missing_menu"
                 sequence="100"
                />
+-->
 
 </data>
 </openerp>

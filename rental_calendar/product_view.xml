@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <record id="warehouse_calendar_product_normal_form_view" model="ir.ui.view">
-            <field name="name">warehouse.calendar.product.normal.form.view</field>
+        <record id="rental_calendar_product_normal_form_view" model="ir.ui.view">
+            <field name="name">rental.calendar.product.normal.form.view</field>
             <field name="model">product.product</field>
             <field name="inherit_id" ref="sale_rental.product_normal_form_view" />
             <field name="arch" type="xml">

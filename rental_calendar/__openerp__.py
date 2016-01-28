@@ -28,10 +28,11 @@
 Calendario para Alquileres
 ====================================================
 * Calendarizar los alquileres y movimientos de stock que se generan
+* Filtros por pedido y cliente en listado de Alquileres
 * Envio de correos y notificaciones a los clientes sobre los alquileres por vencer
-* Facturar al cliente por perdidas de articulos alquilados
+* Facturar al cliente por pérdidas de articulos alquilados
     """,
-    'author': 'Alexander Rodriguez',
+    'author': 'Alexander Rodriguez (adrt271988@gmail.com)',
     'website': '',
     'depends': ['sale_rental'],
     'data': [
