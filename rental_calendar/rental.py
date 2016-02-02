@@ -14,7 +14,7 @@ class rental_calendar_sale_rental(osv.osv):
             #Obtenemos los pedidos de venta a evaluar
             for rental in self.browse(cr, uid, rental_ids, context):
                 if rental.state == 'out':
-                    if rental.start_order_id not in sales:
+                    if rental.start_order_id.id not in sales:
                         sales.append(rental.start_order_id.id)
             #Enviamos la notificacion por pedido
             for sale in self.pool.get('sale.order').browse(cr, uid, sales, context):

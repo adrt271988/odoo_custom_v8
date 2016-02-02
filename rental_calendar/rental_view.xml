@@ -6,8 +6,26 @@
             <field name="model">sale.rental</field>
             <field name="inherit_id" ref="sale_rental.sale_rental_tree" />
             <field name="arch" type="xml">
+                <xpath expr="//tree[@string='Rentals']" position="attributes">
+                    <attribute name="create">0</attribute>
+                </xpath>
                 <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="start_order_id"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="rental_calendar_sale_rental_form" model="ir.ui.view">
+            <field name="name">rental.calendar.sale.rental.form</field>
+            <field name="model">sale.rental</field>
+            <field name="inherit_id" ref="sale_rental.sale_rental_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form[@string='Rental']" position="attributes">
+                    <attribute name="create">0</attribute>
+                    <attribute name="edit">0</attribute>
+                </xpath>
+                <xpath expr="//field[@name='start_order_line_id']" position="replace">
+                    <field name="start_order_line_id" readonly="1"/>
                 </xpath>
             </field>
         </record>

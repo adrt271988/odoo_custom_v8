@@ -402,40 +402,40 @@ class SaleRental(models.Model):
         self.end_date = end_date
 
     display_name = fields.Char(
-        compute='_display_name', string='Display Name')
+        compute='_display_name', string='Nombre')
     start_order_line_id = fields.Many2one(
-        'sale.order.line', string='Rental Sale Order Line')
+        'sale.order.line', string='Línea de pedido de alquiler')
     start_date = fields.Date(
         related='start_order_line_id.start_date',
-        string='Start Date', readonly=True)
+        string='Fecha Inicio', readonly=True)
     rental_product_id = fields.Many2one(
         'product.product', related='start_order_line_id.product_id',
-        string="Rental Service", readonly=True)
+        string="Servicio de alquiler", readonly=True)
     rented_product_id = fields.Many2one(
         'product.product',
         related='start_order_line_id.product_id.rented_product_id',
-        string="Rented Product", readonly=True)
+        string="Producto de alquiler", readonly=True)
     rental_qty = fields.Float(
         related='start_order_line_id.rental_qty',
-        string="Rental Quantity", readonly=True)
+        string="Cantidad alquilada", readonly=True)
     start_order_id = fields.Many2one(
         'sale.order', related='start_order_line_id.order_id',
-        string='Rental Sale Order', readonly=True)
+        string='Pedido de Alquiler', readonly=True)
     company_id = fields.Many2one(
         'res.company', related='start_order_id.company_id',
-        string='Company', readonly=True)
+        string='Compañía', readonly=True)
     partner_id = fields.Many2one(
         'res.partner', related='start_order_id.partner_id',
-        string='Partner', readonly=True)
+        string='Cliente', readonly=True)
     procurement_id = fields.Many2one(
-        'procurement.order', string="Procurement", readonly=True,
+        'procurement.order', string="Abastecimiento", readonly=True,
         compute='_compute_procurement_and_move')
     out_move_id = fields.Many2one(
         'stock.move', compute='_compute_procurement_and_move',
-        string='Outgoing Stock Move', readonly=True)
+        string='Movimiento de Stock de Salida', readonly=True)
     in_move_id = fields.Many2one(
         'stock.move', compute='_compute_procurement_and_move',
-        string='Return Stock Move', readonly=True)
+        string='Movimiento de Stock de Retorno', readonly=True)
     out_state = fields.Selection([
         ('draft', 'New'),
         ('cancel', 'Cancelled'),
@@ -444,7 +444,7 @@ class SaleRental(models.Model):
         ('assigned', 'Available'),
         ('done', 'Done'),
         ], readonly=True, related='out_move_id.state',
-        string='State of the Outgoing Stock Move')
+        string='Estatus del Movimiento de Stock de Salida')
     in_state = fields.Selection([
         ('draft', 'New'),
         ('cancel', 'Cancelled'),
@@ -453,25 +453,25 @@ class SaleRental(models.Model):
         ('assigned', 'Available'),
         ('done', 'Done'),
         ], readonly=True, related='in_move_id.state',
-        string='State of the Return Stock Move')
+        string='Estatus del Movimiento de Stock de Retorno')
     out_picking_id = fields.Many2one(
         'stock.picking', related='out_move_id.picking_id',
-        string='Delivery Order', readonly=True)
+        string='Albarán de Salida', readonly=True)
     in_picking_id = fields.Many2one(
         'stock.picking', related='in_move_id.picking_id',
-        string='Return Picking', readonly=True)
+        string='Picking de Retorno', readonly=True)
     extension_order_line_ids = fields.One2many(
         'sale.order.line', 'extension_rental_id',
-        string='Rental Extensions', readonly=True)
+        string='Extensiones de alquiler', readonly=True)
     sell_order_line_ids = fields.One2many(
         'sale.order.line', 'sell_rental_id',
-        string='Sell Rented Product', readonly=True)
+        string='Venta de Producto en Alquiler', readonly=True)
     sell_procurement_id = fields.Many2one(
-        'procurement.order', string="Sell Procurement", readonly=True,
+        'procurement.order', string="Abastecimiento de Venta", readonly=True,
         compute='_compute_procurement_and_move')
     sell_move_id = fields.Many2one(
         'stock.move', compute='_compute_procurement_and_move',
-        string='Sell Stock Move', readonly=True)
+        string='Movimiento de stock de venta', readonly=True)
     sell_state = fields.Selection([
         ('draft', 'New'),
         ('cancel', 'Cancelled'),
@@ -480,21 +480,20 @@ class SaleRental(models.Model):
         ('assigned', 'Available'),
         ('done', 'Done'),
         ], readonly=True, related='sell_move_id.state',
-        string='State of the Sell Stock Move')
+        string='Estado del movimiento de stock de venta')
     sell_picking_id = fields.Many2one(
         'stock.picking', related='sell_move_id.picking_id',
-        string='Sell Delivery Order', readonly=True)
+        string='Orden de Entrega de Venta', readonly=True)
     end_date = fields.Date(
-        compute='_compute_end_date', string='End Date (extensions included)',
+        compute='_compute_end_date', string='Fecha Fin (extensiones incluidas)',
         readonly=True,
-        help="End Date of the Rental, taking into account all the "
-        "extensions sold to the customer.")
+        help="Fecha fin del alquiler, tomando en cuenta las extensiones realizadas por el cliente")
     state = fields.Selection([
-        ('ordered', 'Ordered'),
-        ('out', 'Out'),
-        ('sell_progress', 'Sell in progress'),
-        ('sold', 'Sold'),
-        ('in', 'Back In'),
+        ('ordered', 'Solicitado'),
+        ('out', 'Salida'),
+        ('sell_progress', 'Venta en Progreso'),
+        ('sold', 'Vendido'),
+        ('in', 'Regresado'),
         ], string='State', compute='_compute_procurement_and_move',
         readonly=True)
 
