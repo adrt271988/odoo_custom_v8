@@ -36,12 +36,12 @@ class ProductProduct(models.Model):
 
     # Link rental service -> rented HW product
     rented_product_id = fields.Many2one(
-        'product.product', string='Related Rented Product',
+        'product.product', string='Producto alquilado relacionado',
         domain=[('type', 'in', ('product', 'consu'))])
     # Link rented HW product -> rental service
     rental_service_ids = fields.One2many(
         'product.product', 'rented_product_id',
-        string='Related Rental Services')
+        string='Servicio alquilado relacionado')
 
     @api.one
     @api.constrains('rented_product_id', 'must_have_dates')
@@ -128,17 +128,17 @@ class SaleOrderLine(models.Model):
     rental = fields.Boolean(string='Rental')
     can_sell_rental = fields.Boolean(string='Can Sell from Rental')
     rental_type = fields.Selection([
-        ('new_rental', 'New Rental'),
-        ('rental_extension', 'Rental Extension'),
-        ], 'Rental Type',
+        ('new_rental', 'Nuevo Alquiler'),
+        ('rental_extension', 'Extensión de Alquiler'),
+        ], 'Tipo de Alquiler',
         readonly=True, states={'draft': [('readonly', False)]})
     extension_rental_id = fields.Many2one(
-        'sale.rental', string='Rental to Extend')
+        'sale.rental', string='Alquiler a extender')
     rental_qty = fields.Float(
-        string='Rental Quantity', digits=dp.get_precision('Product UoS'),
-        help="Indicate the number of items that will be rented.")
+        string='Cantidad a alquilar', digits=dp.get_precision('Product UoS'),
+        help="Indica las unidades a alquilar")
     sell_rental_id = fields.Many2one(
-        'sale.rental', string='Rental to Sell')
+        'sale.rental', string='Alquiler para Venta')
 
     @api.one
     @api.constrains(
