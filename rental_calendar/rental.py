@@ -30,9 +30,9 @@ class rental_calendar_sale_rental(osv.osv):
     def create(self, cr, uid, vals, context=None):
         if vals.get('start_order_line_id', False):
             line_obj = self.pool.get('sale.order.line')
-            line = line_obj.browse(cr, udi, vals['start_order_line_id'])
-            vals.update({'non_rel_sale_id': line.sale_id.id , 'non_rel_partner_id': line.sale_id.partner_id.id})
-        return super(rental_calendar_sale_rental, self).create(cr, uid, default, context=context)
+            line = line_obj.browse(cr, uid, vals['start_order_line_id'])
+            vals.update({'non_rel_sale_id': line.order_id.id , 'non_rel_partner_id': line.order_id.partner_id.id})
+        return super(rental_calendar_sale_rental, self).create(cr, uid, vals, context=context)
 
     _columns = {
                 'non_rel_partner_id': fields.many2one('res.partner','Partner', help="Non Related Partner Field"),
