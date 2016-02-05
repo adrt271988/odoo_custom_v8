@@ -20,6 +20,7 @@ class rental_invoice_missing(osv.osv_memory):
         }
 
     def onchange_partner(self, cr, uid, ids, partner_id, context=None):
+        #TODO: verificar la end_date en este análisis
         if context is None:
             context = {}
         rental_o2m = []
