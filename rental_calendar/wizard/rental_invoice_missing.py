@@ -15,18 +15,40 @@ class rental_invoice_missing(osv.osv_memory):
 
     _columns = {
             'description': fields.char('Descripción'),
+            'partner_id': fields.many2one('res.partner','Cliente',help="Seleccione el cliente a facturar"),
+            'wizard_line': fields.one2many('rental.invoicemissing.line','wizard_id','Alquileres no Retornados'),
         }
 
-    def get_order_by_rental(self, cr, uid, rental_ids, rental_brw, context = None):
-        sales = []
-        for rental in rental_brw:
-            if rental.state == "out" and rental.in_state != "cancel":
-                sale_id = rental.start_order_id
-                if sale_id not in sales:
-                    sales.append(sale_id)
-        return sales
+    def onchange_partner(self, cr, uid, ids, partner_id, context=None):
+        if context is None:
+            context = {}
+        rental_o2m = []
+        lines = []
+        if partner_id:
+            rental_obj = self.pool.get('sale.rental')
+            rental_ids = rental_obj.search(cr, uid, [('non_rel_partner_id','=',partner_id)])
+            if rental_ids:
+                for rental in rental_obj.browse(cr, uid, rental_ids):
+                    if rental.state == "out" and rental.in_state not in ["cancel","done"]:
+                        rental_o2m.append(rental)
+            # Tenemos los alquileres a mostrar en el wizard segun el cliente
+            # Realizamos las líneas
+            for r in rental_o2m:
+                vals = {
+                            'rental_id': r.id,
+                            'product_id': r.rented_product_id.id,
+                            'sale_id': r.start_order_id.id,
+                            'qty': r.rental_qty,
+                            'state': r.state,
+                            'in_state': r.in_state,
+                            'out_state': r.out_state,
+                            'end_date': r.end_date,
+                }
+                lines.append((0,0,vals))
+                
+        return {'value': {'wizard_line': lines}}
 
-    def _create_rental_missing_invoice(self, cr, uid, order, invoice_lines, context=None):
+    def _create_rental_missing_invoice(self, cr, uid, order, invoice_lines, origin, context=None):
         """Prepare the dict of values to create the new invoice for a
            sales order. This method may be overridden to implement custom
            invoice generation (making sure to call super() to establish
@@ -48,7 +70,7 @@ class rental_invoice_missing(osv.osv_memory):
                 _('Please define sales journal for this company: "%s" (id:%d).') % (order.company_id.name, order.company_id.id))
         invoice_vals = {
             'name': order.client_order_ref or '',
-            'origin': order.name,
+            'origin': origin,
             'type': 'out_invoice',
             'reference': order.client_order_ref or order.name,
             'account_id': order.partner_invoice_id.property_account_receivable.id,
@@ -62,7 +84,8 @@ class rental_invoice_missing(osv.osv_memory):
             'date_invoice': context.get('date_invoice', False),
             'company_id': order.company_id.id,
             'user_id': order.user_id and order.user_id.id or False,
-            'section_id' : order.section_id.id
+            'section_id' : order.section_id.id,
+            'comment': "Facturados productos no regresados por pedidos %s"%origin,
         }
         return invoice_obj.create(cr, uid, invoice_vals, context=context)
 
@@ -112,29 +135,57 @@ class rental_invoice_missing(osv.osv_memory):
     def generate_missing_invoice(self,cr,uid,ids,context=None):
         if context is None:
             context = {}
-        rental_ids = context.get("active_ids",False)
-        if rental_ids:
-            rental_obj = self.pool.get('sale.rental')
-            rental_brw = rental_obj.browse(cr,uid,rental_ids)
-            sales = self.get_order_by_rental(cr, uid, rental_ids, rental_brw, context = context)
-            if sales:
-                for sale in sales:
-                    inv_lines = []
-                    moves = []
-                    for rental in rental_brw:
-                        if rental.state == "out" and rental.in_state != "cancel":
-                            inv_line_vals = self._prepare_rental_missing_invoice_line(cr, uid, rental.start_order_line_id, context = context)
-                            inv_lines.append((0,0,inv_line_vals))
-                            moves.append(rental.in_move_id.id)
-                    if inv_lines:
-                        invoice_id = self._create_rental_missing_invoice(cr, uid, sale, inv_lines, context = context)
-                        if invoice_id:
-                            self.pool.get('stock.move').action_cancel(cr, uid, moves, context)
-        else:
-            raise osv.except_osv(_('Error'), _('Seleccione al menos un registro!'))
+        wizard = self.browse(cr, uid, ids[0], context=context)
+        inv_lines = []
+        moves = []
+        sales = []
+        for line in wizard.wizard_line:
+            invLine_vals = self._prepare_rental_missing_invoice_line(cr, uid, line.rental_id.start_order_line_id, context = context)
+            inv_lines.append((0,0,invLine_vals))
+            moves.append(line.rental_id.in_move_id.id)
+            if line.sale_id.name not in sales:
+                sales.append(line.sale_id.name)
+        if inv_lines:
+            origin = ', '.join(sales)
+            invoice_id = self._create_rental_missing_invoice(cr, uid, line.sale_id, inv_lines, origin, context = context)
+            if invoice_id:
+                self.pool.get('stock.move').action_cancel(cr, uid, moves, context)
 
         return {'type': 'ir.actions.act_window_close'}
 
     _defaults= {
-                    'description': "Genere las facturas de los productos seleccionados"
+                'description': "Genere las facturas de los productos seleccionados"
+    }
+
+class rental_invoicemissing_line(osv.osv_memory):
+    _name = "rental.invoicemissing.line"
+
+    _columns = {
+            'wizard_id': fields.many2one('rental.invoice.missing','Wizard'),
+            'rental_id': fields.many2one('sale.rental','Alquiler'),
+            'product_id': fields.many2one('product.product','Producto'),
+            'sale_id': fields.many2one('sale.order','Pedido'),
+            'qty': fields.integer('Cantidad alquilada'),
+            'state': fields.selection([
+                                        ('ordered', 'En Pedido'),
+                                        ('out', 'Alquilado'),
+                                        ('sell_progress', 'Venta en Progreso'),
+                                        ('sold', 'Vendido'),
+                                        ('in', 'Regresado'),
+                                        ], 'Estatus'),
+            'in_state': fields.selection([('draft', 'Nuevo'),
+                                   ('cancel', 'Cancelado'),
+                                   ('waiting', 'Esperando movimiento'),
+                                   ('confirmed', 'Esperando disponibilidad'),
+                                   ('assigned', 'Disponible'),
+                                   ('done', 'Realizado'),
+                                   ], 'Retorno'),
+            'out_state': fields.selection([('draft', 'Nuevo'),
+                                   ('cancel', 'Cancelado'),
+                                   ('waiting', 'Esperando movimiento'),
+                                   ('confirmed', 'Esperando disponibilidad'),
+                                   ('assigned', 'Disponible'),
+                                   ('done', 'Realizado'),
+                                   ], 'Salida'),
+            'end_date': fields.date('Fecha fin'),
     }

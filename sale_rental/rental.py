@@ -489,8 +489,8 @@ class SaleRental(models.Model):
         readonly=True,
         help="Fecha fin del alquiler, tomando en cuenta las extensiones realizadas por el cliente")
     state = fields.Selection([
-        ('ordered', 'Solicitado'),
-        ('out', 'Salida'),
+        ('ordered', 'En Pedido'),
+        ('out', 'Alquilado'),
         ('sell_progress', 'Venta en Progreso'),
         ('sold', 'Vendido'),
         ('in', 'Regresado'),

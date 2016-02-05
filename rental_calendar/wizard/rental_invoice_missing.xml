@@ -8,8 +8,23 @@
       <field name="type">form</field>
       <field name="arch" type="xml">
           <form string="Generar Facturas por Productos Perdidos">
-            <group col="2">
-                  <field name="description" nolabel="1" readonly="1"/>
+                <field name="description" nolabel="1" readonly="1"/>
+            <group>
+                  <field name="partner_id" required="1" on_change="onchange_partner(partner_id)" context="{'partner_id': partner_id}"/>
+            </group>
+            <group string="Alquileres no retornados">
+                  <field name="wizard_line" nolabel="1">
+                      <tree editable="bottom" create="false" edit="false">
+                            <field name="rental_id"/>
+                            <field name="sale_id"/>
+                            <field name="product_id"/>
+                            <field name="qty"/>
+                            <field name="end_date"/>
+                            <field name="out_state"/>
+                            <field name="in_state"/>
+                            <field name="state"/>
+                      </tree>
+                  </field>
             </group>
             <group col="2">
                 <button name="generate_missing_invoice" string="Generar"
@@ -20,15 +35,6 @@
       </field>
       </record>
 
-      <act_window id="rental_invoice_missing_wizard_action"
-            name="Facturar Productos Perdidos"
-            src_model="sale.rental"
-            res_model="rental.invoice.missing"
-            view_type="form" view_mode="form"
-            key2="client_action_multi" target="new"/>
-
-<!--  TODO: Aun no defino la mejor forma de hacerlo, por ahora lo realizo como wizard llamado
-            desde el tree de rentals
       <record id="rental_invoice_missing_action" model="ir.actions.act_window">
             <field name="name">Generar Facturas por Productos Perdidos</field>
             <field name="type">ir.actions.act_window</field>
@@ -41,13 +47,12 @@
 
       <menuitem
                 icon="STOCK_PRINT"
-                name="Facturar Pérdidas"
+                name="Facturar Productos Perdidos"
                 parent="base.menu_sales"
                 action="rental_invoice_missing_action"
                 id="rental_invoice_missing_menu"
                 sequence="100"
                />
--->
 
 </data>
 </openerp>
