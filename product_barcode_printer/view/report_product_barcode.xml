@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 <data>
-<template id="report_product_barcode_printer_document">
-    <t t-call="report.external_layout">
+<template id="report_product_barcode_document">
         <div class="page">
 
         </div>
-    </t>
 </template>
 
-<template id="report_product_barcode_printer">
+<template id="report_product_barcode">
     <t t-call="report.html_container">
         <t t-foreach="doc_ids" t-as="doc_id">
-            <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'product_barcode_printer.report_product_barcode')"/>
+            <t t-raw="translate_doc(doc_id, doc_model,'product_manager.lang','product_barcode_printer.report_product_barcode_document')"/>
         </t>
     </t>
 </template>
