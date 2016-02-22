@@ -7,7 +7,7 @@
         
         <template id="company_custom_external_layout_header" inherit_id="report.external_layout_header">
             <xpath expr="//div[@class='header']" position="replace">
-                <div class="header">
+                <div class="header" >
                     <div class="row">
                         <div align="right">
                             <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo"

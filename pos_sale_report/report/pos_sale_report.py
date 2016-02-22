@@ -22,6 +22,7 @@
 
 from openerp import models, fields
 from openerp import tools
+from openerp.tools.translate import _
 
 
 class pos_sale_report(models.Model):
@@ -36,10 +37,17 @@ class pos_sale_report(models.Model):
         'product.product', string='Product Variant', readonly=True)
     product_tmpl_id = fields.Many2one(
         'product.template', string='Product', readonly=True)
+    partner_id = fields.Many2one(
+        'res.partner', string='Partner', readonly=True)
+    category_id = fields.Many2one(
+        'product.category', string='Category', readonly=True)
     company_id = fields.Many2one(
         'res.company', string='Company', readonly=True)
+    location_id = fields.Many2one(
+        'stock.location', string='Almacén', readonly=True)
     origin = fields.Char(string='Origin', readonly=True)
     qty = fields.Float(string='Quantity', readonly=True)
+    amount = fields.Float(string='Total', readonly=True)
 
     # WARNING : this code doesn't handle uom conversion for the moment
     def _sale_order_select(self):
@@ -48,15 +56,21 @@ class pos_sale_report(models.Model):
             sol.product_id AS product_id,
             pp.product_tmpl_id AS product_tmpl_id,
             so.company_id AS company_id,
-            'Sale Order' AS origin,
-            sum(sol.product_uom_qty) AS qty
+            so.partner_id AS partner_id,
+            pt.categ_id AS category_id,
+            '%s' AS origin,
+            sum(sol.product_uom_qty) AS qty,
+            so.warehouse_id AS location_id,
+            so.amount_total AS amount
             FROM sale_order_line sol
             LEFT JOIN sale_order so ON so.id = sol.order_id
             LEFT JOIN product_product pp ON pp.id = sol.product_id
+            left JOIN product_template pt ON pt.id = pp.product_tmpl_id
+            LEFT JOIN product_category pc ON pc.id = pt.categ_id
             WHERE so.state NOT IN ('draft', 'sent', 'cancel')
             GROUP BY so.date_order, sol.product_id, pp.product_tmpl_id,
-            so.company_id
-        """
+            so.company_id,so.partner_id,so.amount_total,pt.categ_id,so.warehouse_id
+        """%(_("Sale Order"))
         return select
 
     def _pos_order_select(self):
@@ -65,15 +79,21 @@ class pos_sale_report(models.Model):
             pol.product_id AS product_id,
             pp.product_tmpl_id AS product_tmpl_id,
             po.company_id AS company_id,
-            'Point of Sale' AS origin,
-            sum(pol.qty) AS qty
+            po.partner_id AS partner_id,
+            pt.categ_id AS category_id,
+            '%s' AS origin,
+            sum(pol.qty) AS qty,
+            po.location_id AS location_id,
+            sum(pol.price_subtotal_incl) AS amount
             FROM pos_order_line pol
             LEFT JOIN pos_order po ON po.id = pol.order_id
             LEFT JOIN product_product pp ON pp.id = pol.product_id
+            LEFT JOIN product_template pt ON pt.id = pp.product_tmpl_id
+            LEFT JOIN product_category pc ON pc.id = pt.categ_id
             WHERE po.state IN ('paid', 'done', 'invoiced')
             GROUP BY po.date_order, pol.product_id, pp.product_tmpl_id,
-            po.company_id
-        """
+            po.company_id,partner_id,pt.categ_id,po.location_id
+        """%(_("Point of Sale"))
         return select
 
     def init(self, cr):

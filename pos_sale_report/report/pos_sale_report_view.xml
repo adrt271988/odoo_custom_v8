@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <openerp>
 <data>
 
@@ -20,6 +19,9 @@
                 <filter name="product_groupby" string="Product Variants" context="{'group_by': 'product_id'}"/>
                 <filter name="company_groupby" string="Company" context="{'group_by': 'company_id'}"/>
                 <filter name="origin_groupby" string="Origin" context="{'group_by': 'origin'}"/>
+                <filter name="partner_groupby" string="Partner" context="{'group_by': 'partner_id'}"/>
+                <filter name="category_groupby" string="Category" context="{'group_by': 'category_id'}"/>
+                <filter name="location_groupby" string="Tienda" context="{'group_by': 'location_id'}"/>
             </group>
         </search>
     </field>
@@ -32,7 +34,10 @@
         <graph string="POS orders and Sale Orders aggregated report" type="pivot">
             <field name="origin" type="col"/>
             <field name="date" type="row" interval="month"/>
+<!--
             <field name="qty" type="measure"/>
+-->
+            <field name="amount" type="measure"/>
         </graph>
     </field>
 </record>
@@ -43,11 +48,13 @@
     <field name="view_mode">graph</field>
 </record>
 
+<!--
 <menuitem id="pos_sale_report_title_menu" parent="base.menu_reporting"
     name="POS + Sales" sequence="9"/>
+-->
 
 <menuitem id="pos_sale_report_menu" action="pos_sale_report_action"
-    parent="pos_sale_report_title_menu" sequence="10"/>
+    parent="point_of_sale.menu_point_rep" sequence="10"/>
 
 </data>
 </openerp>

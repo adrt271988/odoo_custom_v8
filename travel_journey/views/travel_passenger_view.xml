@@ -1,0 +1,34 @@
+<?xml version = "1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <!-- Views -->
+    <record model="ir.ui.view" id="travel_passenger_form_view">
+      <field name="name">Travel Passenger Form View</field>
+      <field name="model">travel.passenger</field>
+      <field name="inherit_id" ref="travel.travel_passenger_form_view"/>
+      <field name="priority" eval="1.0"/>
+      <field name="arch" type="xml">
+        <notebook name="Info" position="inside">
+          <page string="Journeys">
+            <field name="journey_ids" context="{'default_departure': context.get('default_date_start', False), 'default_arrival': context.get('default_date_stop', False)}">
+              <tree>
+                <field name="origin"/>
+                <field name="destination"/>
+                <field name="departure"/>
+                <field name="arrival"/>
+                <field name="journey_type"/>
+              </tree>
+            </field>
+            <center>
+              <!-- Import from other passengers with widget TODO: filter by state='draft'? -->
+              <button string="Copy Journey from other Passengers"
+                      name="travel_journey.action_travel_journey_import"
+                      type="action"
+                      context="{'default_travel_id': travel_id, 'default_cur_passenger_id': id}"/>
+            </center>
+          </page>
+        </notebook>
+      </field>
+    </record>
+  </data>
+</openerp>

@@ -1,0 +1,118 @@
+<?xml version = "1.0" encoding="utf-8"?>
+<!DOCTYPE openerp SYSTEM "openerp.dtd">
+<openerp>
+  <data>
+
+    <!-- Views -->
+    <record model="ir.ui.view" id="travel_tree_view">
+      <field name="name">Travel Tree View</field>
+      <field name="model">travel.travel</field>
+      <field name="arch" type="xml">
+        <tree string="TravelsTree" version="7.0">
+          <field name="name"/>
+          <field name="city_ids"/>
+          <field name="date_start"/>
+          <field name="date_stop"/>
+          <field name="state"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="travel_form_view">
+      <field name="name">Travel Form View</field>
+      <field name="model">travel.travel</field>
+      <field name="arch" type="xml">
+        <form string="TravelsForm" version="7.0">
+          <header>
+            <button name="travel_open" string="Send to Travel Office" states="draft" type="object" class="oe_highlight" groups="travel.group_basic_travel_user,travel.group_travel_accountant"/>
+            <button name="travel_book" string="Book" states="open" type="object" class="oe_highlight" groups="travel.group_authorized_travel_user,travel.group_travel_manager"/>
+            <button name="travel_reserve" string="Reserve" states="booking" type="object" class="oe_highlight" groups="travel.group_authorized_travel_user,travel.group_travel_manager"/>
+            <button name="travel_confirm" string="Confirm" states="reserved" type="object" class="oe_highlight" groups="travel.group_authorized_travel_user,travel.group_travel_manager"/>
+            <button name="travel_close" string="Close" states="confirmed" type="object" class="oe_highlight" groups="travel.group_authorized_travel_user,travel.group_travel_manager"/>
+            <field name="state" widget="statusbar"
+                   statusbar_visible="draft,open,booking,reserved,confirmed,done"/>
+          </header>
+          <sheet string="Travels">
+            <group col="4">
+              <group colspan="4" name="Title">
+                <field name="name"/>
+              </group>
+              <group name="Details">
+                <group string="Cities">
+                  <field name="city_ids" nolabel="1">
+                    <tree version="7.0">
+                      <field name="city"/>
+                      <field name="country_id"/>
+                    </tree>
+                  </field>
+                </group>
+                <group string="Date">
+                  <field name="date_start"/>
+                  <field name="date_stop"/>
+                </group>
+              </group>
+            </group>
+            <notebook name="Info">
+              <page name="Passengers" string="Passengers">
+                <field name="passenger_ids" nolabel="1">
+                  <tree name="TravelPassengerTree" version="7.0" editable="bottom">
+                    <field name="partner_id" domain="[('is_company', '=', False)]"
+                           options="{'create': false, 'create_edit': false}" />
+                    <button name="action_passenger_form_view"
+                            type="object"
+                            icon="gtk-open"/>
+                  </tree>
+                </field>
+              </page>
+            </notebook>
+          </sheet>
+          <div class="oe_chatter">
+            <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+            <field name="message_ids" widget="mail_thread"/>
+          </div>
+        </form>
+
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="travel_calendar_view">
+      <field name="name">Travel Calendar View</field>
+      <field name="model">travel.travel</field>
+      <field name="arch" type="xml">
+        <calendar string="Travel Schedule" color="state" date_start="date_start" date_stop="date_stop">
+          <field name="name"/>
+        </calendar>
+      </field>
+    </record>
+
+    <!-- Actions -->
+    <record model="ir.actions.act_window" id="action_travels_tree_list">
+        <field name="name">Travels</field>
+        <field name="view_id" ref="travel_tree_view"/>
+        <field name="res_model">travel.travel</field>
+        <field name="view_mode">tree,form,calendar</field>
+    </record>
+
+    <!-- Menus -->
+    <menuitem name="Travel"
+              id="menu_top_travel"
+              groups="travel.group_basic_travel_user"/>
+
+    <menuitem name="Travel"
+              id="menu_travel_main_form"
+              groups="travel.group_basic_travel_user"
+              parent="menu_top_travel" />
+
+    <menuitem name="Travels"
+              id="menu_travels"
+              groups="travel.group_basic_travel_user"
+              parent="menu_travel_main_form"
+              action="action_travels_tree_list"/>
+
+    <menuitem id="menu_travel_report"
+              name="Reports"
+              parent="menu_top_travel"
+              groups="travel.group_basic_travel_user"/>
+
+  </data>
+</openerp>

@@ -1,0 +1,121 @@
+<?xml version = "1.0" encoding="utf-8"?>
+<!DOCTYPE openerp SYSTEM "openerp.dtd">
+<openerp>
+  <data>
+
+    <!-- Views -->
+    <record model="ir.ui.view" id="travel_journey_form_view">
+      <field name="name">Passenger Journey Form View</field>
+      <field name="model">travel.journey</field>
+      <field name="arch" type="xml">
+        <form string="Passenger Journeys" version="7.0">
+          <sheet string="Journeys">
+            <field name="passenger_id" required="0" invisible="1"/>
+            <group col="4">
+              <group col="4" colspan="4">
+                <field name="journey_type"/>
+                <field name="is_return" attrs="{'invisible': [('passenger_id', '!=', False)]}"/>
+              </group>
+              <group string="Cities" col="2" colspan="2">
+                <field name="origin"/>
+                <field name="destination"/>
+                <field name="return_origin"
+                       attrs="{'invisible': [('is_return', '=', False)]}"/>
+                <field name="return_destination"
+                       attrs="{'invisible': [('is_return', '=', False)]}"/>
+              </group>
+              <group string="Times" col="3" colspan="2">
+                <field name="departure"/>
+                <b>or</b>
+                <field name="arrival" colspan="3"/>
+                <field name="return_departure"
+                       attrs="{'invisible': [('is_return', '=', False)]}"/>
+                <b attrs="{'invisible': [('is_return', '=', False)]}">or</b>
+                <field name="return_arrival" colspan="3"
+                       attrs="{'invisible': [('is_return', '=', False)]}"/>
+              </group>
+
+              <separator string="Class and Baggage" colspan="4"/>
+              <field name="class_id"
+                     colspan="4"
+                     options="{'create': false, 'create_edit': false}"/>
+              <field name="baggage_qty"/>
+              <group col="3" colspan="2">
+                <label for="baggage_weight"/>
+                <field name="baggage_weight" nolabel="1"/>
+                <div style="width:25%%">
+                  <field name="baggage_weight_uom"
+                         nolabel='1'
+                         class="oe_inline"
+                         domain="[('category_id', '=', %(product.product_uom_categ_kgm)d)]"/>
+                </div>
+              </group>
+            </group>
+            <group string="Comments">
+              <field name="comment" nolabel="1"/>
+            </group>
+            <group name="Info" groups="travel.group_authorized_travel_user"/>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="travel_journey_list_view">
+      <field name="name">Travel Journey List View</field>
+      <field name="model">travel.journey</field>
+      <field name="arch" type="xml">
+        <tree string="Travel List" create="false">
+          <field name="origin"/>
+          <field name="destination"/>
+          <field name="departure"/>
+          <field name="arrival"/>
+          <field name="journey_type"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="travel_journey_gantt_view">
+      <field name="name">Travel Journey Gantt View</field>
+      <field name="model">travel.journey</field>
+      <field name="arch" type="xml">
+        <gantt string="Travel Gantt"
+               date_start="date_start"
+               date_stop="date_stop"
+               create="false"
+               default_group_by="travel"/>
+      </field>
+    </record>
+
+    <!-- Search -->
+    <record id="travel_journey_search" model="ir.ui.view">
+      <field name="name">Travel Journey Search</field>
+      <field name="model">travel.journey</field>
+      <field name="arch" type="xml">
+        <search string="Search Journeys">
+          <group string="Group by..." expand="1">
+            <filter name="travel_group" string="Travel" context="{'group_by': 'travel'}" />
+            <filter name="passenger_group" string="Passenger" context="{'group_by': 'passenger_id'}" />
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <!-- Actions -->
+    <record model="ir.actions.act_window" id="action_travels_journey_gantt_view">
+      <field name="name">Journeys</field>
+      <field name="view_id" ref="travel_journey_gantt_view"/>
+      <field name="res_model">travel.journey</field>
+      <field name="view_mode">gantt,tree</field>
+      <field name="search_view_id" ref="travel_journey_search" />
+      <field name="context">{'search_default_travel_group': 1, 'search_default_passenger_group': 1}</field>
+    </record>
+
+    <!-- Menus -->
+    <menuitem name="Journeys"
+              id="menu_journey"
+              groups="travel.group_basic_travel_user"
+              parent="travel.menu_travel_main_form"
+              action="action_travels_journey_gantt_view"/>
+
+  </data>
+</openerp>
