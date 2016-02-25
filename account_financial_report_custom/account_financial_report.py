@@ -67,6 +67,7 @@ class afr_custom_report_account_common(report_sxw.rml_parse, common_report_heade
                 vals['balance_cmp'] = self.pool.get('account.financial.report').browse(self.cr, self.uid, report.id, context=data['form']['comparison_context']).balance * report.sign or 0.0
             lines.append(vals)
             account_ids = []
+            #~ print 'account.financial.report name',report.name
             if report.display_detail == 'no_detail':
                 #the rest of the loop is used to display the details of the financial report, so it's not needed here.
                 continue
@@ -74,6 +75,7 @@ class afr_custom_report_account_common(report_sxw.rml_parse, common_report_heade
                 account_ids = account_obj._get_children_and_consol(self.cr, self.uid, [x.id for x in report.account_ids])
             elif report.type == 'account_type' and report.account_type_ids:
                 account_ids = account_obj.search(self.cr, self.uid, [('user_type','in', [x.id for x in report.account_type_ids])])
+                #~ print 'user_types',[x.name for x in report.account_type_ids]
             if account_ids:
                 for account in account_obj.browse(self.cr, self.uid, account_ids, context=data['form']['used_context']):
                     #if there are accounts to display, we add them to the lines with a level equals to their level in

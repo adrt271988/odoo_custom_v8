@@ -7,7 +7,7 @@
             <field name="inherit_id" ref="account.accounting_report_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='enable_filter']" position="after">
-                    <field name="show_zero"/>
+                    <field name="show_zero" invisible="1"/>
                 </xpath>
             </field>
         </record>
