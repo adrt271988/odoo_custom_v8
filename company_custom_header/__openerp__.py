@@ -24,14 +24,18 @@
 {
     'name': 'Company Custom Header',
     'version': '8.0.0.1.0',
+    'description': """
+        Company header customizations for invoices
+        """,
     'category': '',
     'license': '',
     'summary': 'Reports Header Customization',
     'author': 'Alexander Rodriguez',
     'website': '',
-    'depends': ['report'],
+    'depends': ['report','account'],
     'data': [
         'layouts.xml',
+        'report_invoice.xml',
     ],
     'installable': True,
 }
