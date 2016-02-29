@@ -22,14 +22,14 @@
 
 
 {
-    'name': 'Company Custom Header',
+    'name': 'Invoice Custom Header',
     'version': '8.0.0.1.0',
     'description': """
         Company header customizations for invoices
         """,
     'category': '',
     'license': '',
-    'summary': 'Reports Header Customization',
+    'summary': 'Invoice Header Customization',
     'author': 'Alexander Rodriguez',
     'website': '',
     'depends': ['report','account'],

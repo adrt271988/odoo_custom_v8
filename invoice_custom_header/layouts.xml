@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Creating new PaperFormat -->
+        <record id="invoice_custom_header_paperformat" model="report.paperformat">
+            <field name="name">Invoice Custom Paper Format</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">23</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <!-- Creating template for new vertical header -->
+        <template id="invoice_custom_layout_header">
+            <div style="float:right;right:0;position:absolute;width:20%;font-size:10px;margin-right:-2em;">
+                <div class="row">
+                        <img src="invoice_custom_header/static/src/img/vdmi.png"
+                                style="max-height: 150px; max-weight:80px"/>
+                </div>
+                <br/>
+                <div class="row">
+                        <div t-field="o.company_id.partner_id" 
+                            t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
+                </div>
+                <br/>
+                <div class="row">
+                    <span>Postadres:</span>
+                </div>
+                <br/>
+                <div class="row">
+                        <div t-field="o.company_id.phone"/>
+                        <div t-field="o.company_id.fax"/>
+                        <div t-field="o.company_id.email"/>
+                </div>
+                <br/>
+                <div class="row">
+                    <ul class="list-inline">
+                        <li>Page:</li>
+                        <li><span class="page"/></li>
+                        <li>/</li>
+                        <li><span class="topage"/></li>
+                    </ul>
+                </div>
+                <br/>
+                <div class="row">
+                    <span><strong>KVK</strong></span>
+                </div>
+                <br/>
+                <div class="row">
+                    <span><strong>BTW</strong></span>
+                </div>
+                <br/>
+                <div class="row">
+                    <span><strong>BANK</strong></span>
+                </div>
+                <br/>
+                <div class="row">
+                    <span><strong>BETALEN</strong></span>
+                </div>
+            </div>
+        </template>
+    </data>
+</openerp>
