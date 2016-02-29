@@ -35,7 +35,7 @@ Módulo Personalizado Sinsumos
     'website': '',
     'depends': ['base'],
     'data': [
-            
+            'data/res_country_state.xml',
     ],
     'demo': [],
     'test': [],
