@@ -1,0 +1,25 @@
+name,country_id/id,code
+Amazonas,base.ve,AMA
+Anzoategui,base.ve,ANZ
+Apure,base.ve,APU
+Aragua,base.ve,ARA
+Barinas,base.ve,BAR
+Bolivar,base.ve,BOL
+Carabobo,base.ve,CAR
+Cojedes,base.ve,COJ
+Delta Amacuro,base.ve,DAM
+Distrito Capital,base.ve,DC
+Falcon,base.ve,FAL
+Guarico,base.ve,GUA
+Lara,base.ve,LAR
+Merida,base.ve,MER
+Miranda,base.ve,MIR
+Monagas,base.ve,MON
+Nueva Esparta,base.ve,NVA
+Portuguesa,base.ve,POR
+Sucre,base.ve,SUC
+Tachira,base.ve,TAC
+Trujillo,base.ve,TRU
+Vargas,base.ve,VAR
+Yaracuy,base.ve,YAR
+Zulia,base.ve,ZUL
