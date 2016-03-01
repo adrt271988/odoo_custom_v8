@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data noupdate="0">
+    <data noupdate="1">
         <record id="ve_ama" model="res.country.state">
             <field name="name">Amazonas</field>
             <field name="code">AMA</field>

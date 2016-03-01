@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <record id="account.account_invoices" model="ir.actions.report.xml">
+        <field name="attachment_use" eval="False"/>
+    </record>
+
+    <template id="sinsumos_report_invoice_discount" inherit_id="sale_discount_total.report_invoice_document">
+        <xpath expr="//div[@class='col-xs-4']" position="replace"/>
+    </template>
+    
+    <template id="sinsumos_report_invoice_document" inherit_id="account.report_invoice_document">
+        <xpath expr="//t[@t-call='report.external_layout']" position="attributes">
+            <attribute name="t-call"></attribute>
+        </xpath>
+        <xpath expr="/t/t/div/div[@class='row']" position="replace"/>
+        <xpath expr="//h2" position="replace">
+            <h5 align="right" t-if="o.number">
+                <strong>
+                    FACTURA: <span t-field="o.number"/><br/>
+                    FORMA DE PAGO: <span t-field="o.payment_term.name"/>
+                </strong>
+            </h5>
+        </xpath>
+        <xpath expr="//div[@class='row mt32 mb32']" position="replace"/>
+        <xpath expr="//table[@class='table table-condensed']" position="before">
+            <div class="col-xs-12">
+                Razón Social: <span t-field="o.partner_id.name"/>
+            </div>
+            <br/><br/>
+            <div class="col-xs-12">
+                Domicilio Fiscal: <span t-field="o.partner_id.street"/> <span t-field="o.partner_id.street2"/>
+                                    <span t-field="o.partner_id.city"/> <span t-field="o.partner_id.state_id.name"/>
+                                    <span t-field="o.partner_id.country_id.name"/>
+            </div>
+            <br/><br/>
+            <div class="col-xs-4">
+                RIF / C.I.: <span t-field="o.partner_id.vat"/>
+            </div>
+            <div class="col-xs-4" t-if="o.partner_id.phone">
+                Teléfono: <span t-field="o.partner_id.phone"/>
+            </div>
+            <div class="col-xs-4">
+                Emisión: <span t-field="o.date_invoice"/>
+            </div>
+            <br/>
+            <div class="col-xs-4" t-if="o.partner_id.phone">
+                Documento Relacionado: <span t-field="o.origin"/>
+            </div>
+            <div class="col-xs-4"/>
+            <div class="col-xs-4">
+                Vence: <span t-field="o.date_due"/>
+            </div>
+            <br/><br/>
+        </xpath>
+        <xpath expr="/t/t/div/table[@class='table table-condensed']" position="replace">
+                <table class="table table-condensed">
+                        <thead>
+                        <tr>
+                            <th>Renglón</th>
+                            <th>Código</th>
+                            <th>Descripción</th>
+                            <th>Cantidad</th>
+                            <th class="text-right">Precio</th>
+                            <th class="text-right" groups="sale.group_discount_per_so_line">Descuento (%)</th>
+                            <th class="text-right">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody class="invoice_tbody">
+                        <tr t-foreach="o.invoice_line" t-as="l">
+                            <td><span t-esc="l_index+1"/></td>
+                            <td><span t-field="l.product_id.default_code"/></td>
+                            <td><span t-field="l.name"/></td>
+                            <td>
+                                <span t-field="l.quantity"/>
+                                <span t-field="l.uos_id"  groups="product.group_uom"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="l.price_unit"/>
+                            </td>
+                            <td class="text-right" groups="sale.group_discount_per_so_line"><span t-field="l.discount"/></td>
+                            <td class="text-right">
+                                <span t-field="l.price_subtotal" 
+                                    t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </xpath>
+    </template>
+
+</data>
+</openerp>
