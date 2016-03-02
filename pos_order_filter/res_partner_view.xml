@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <record id="pos_order_filter_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form.debt</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="pos_debt_notebook.view_partner_form_debt"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='debt']" position="replace">
+                <field name="debt" string="Deuda"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="pos_order_filter_partner_tree" model="ir.ui.view">
+        <field name="name">res.partner.tree.debt</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="pos_debt_notebook.view_tg_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='debt']" position="replace">
+                <field name="debt" string="Deuda"/>
+            </xpath>
+        </field>
+    </record>
+</data>
+</openerp>
