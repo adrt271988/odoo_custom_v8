@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <!-- Precio Mínimo -->
+        <record id="sinsumos_min" model="product.pricelist">
+            <field name="name">Precio Mínimo</field>
+            <field name="type">sale</field>
+        </record>
+        <record id="sinsumos_min_version" model="product.pricelist.version">
+            <field name="pricelist_id" ref="sinsumos_min"/>
+            <field name="name">Mínimo</field>
+        </record>
+        <record id="sinsumos_min_item" model="product.pricelist.item">
+            <field name="price_version_id" ref="sinsumos_min_version"/>
+            <field name="base" eval="2"/>
+            <field name="sequence">5</field>
+            <field name="name">Margen 30%</field>
+            <field name="price_discount" eval="0.30"/>
+        </record>
+        <!-- Precio Oferta -->
+        <record id="sinsumos_ofe" model="product.pricelist">
+            <field name="name">Precio Oferta</field>
+            <field name="type">sale</field>
+        </record>
+        <record id="sinsumos_ofe_version" model="product.pricelist.version">
+            <field name="pricelist_id" ref="sinsumos_ofe"/>
+            <field name="name">Oferta</field>
+        </record>
+        <record id="sinsumos_ofe_item" model="product.pricelist.item">
+            <field name="price_version_id" ref="sinsumos_ofe_version"/>
+            <field name="base" eval="2"/>
+            <field name="sequence">5</field>
+            <field name="name">Margen 50%</field>
+            <field name="price_discount" eval="0.50"/>
+        </record>
+        <!-- Precio Mayor -->
+        <record id="sinsumos_may" model="product.pricelist">
+            <field name="name">Precio Mayor</field>
+            <field name="type">sale</field>
+        </record>
+        <record id="sinsumos_may_version" model="product.pricelist.version">
+            <field name="pricelist_id" ref="sinsumos_may"/>
+            <field name="name">Mayor</field>
+        </record>
+        <record id="sinsumos_may_item" model="product.pricelist.item">
+            <field name="price_version_id" ref="sinsumos_may_version"/>
+            <field name="base" eval="2"/>
+            <field name="sequence">5</field>
+            <field name="name">Margen 55%</field>
+            <field name="price_discount" eval="0.55"/>
+        </record>
+        <!-- Precio Maximo -->
+        <record id="sinsumos_max" model="product.pricelist">
+            <field name="name">Precio Máximo</field>
+            <field name="type">sale</field>
+        </record>
+        <record id="sinsumos_max_version" model="product.pricelist.version">
+            <field name="pricelist_id" ref="sinsumos_max"/>
+            <field name="name">Máximo</field>
+        </record>
+        <record id="sinsumos_max_item" model="product.pricelist.item">
+            <field name="price_version_id" ref="sinsumos_max_version"/>
+            <field name="base" eval="2"/>
+            <field name="sequence">5</field>
+            <field name="name">Margen 60%</field>
+            <field name="price_discount" eval="0.60"/>
+        </record>
+    </data>
+</openerp>
+

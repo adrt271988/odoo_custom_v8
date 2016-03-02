@@ -28,7 +28,9 @@ Módulo Personalizado Sinsumos
 ====================================================================
 * Incluye las modificaciones para la empresa Sinsumos
 * Modificación de formatos de Facturas y Albaránes
-* Descuentos globales en facturas de venta
+* Descuentos globales en facturas de venta con la dependencia sale_discount_total
+* Carga de Estados venezolanos
+* Carga de Lista de Precios de Venta
 * Configuración sencilla de conceptos básicos de Nómina Venezolana
     """,
     'author': 'Alexander Rodriguez',
@@ -36,7 +38,10 @@ Módulo Personalizado Sinsumos
     'depends': ['base','account','sale_discount_total'],
     'data': [
             'data/res_country_state.xml',
+            'data/product_pricelist.xml',
             'views/report_invoice.xml',
+            'account_invoice_view.xml',
+            'sale_view.xml',
     ],
     'demo': [],
     'test': [],

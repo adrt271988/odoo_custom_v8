@@ -1,3 +1,4 @@
+from openerp.tools.translate import _
 from openerp import api, models, fields
 from openerp.osv import osv
 import openerp.addons.decimal_precision as dp
@@ -7,7 +8,7 @@ class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
     @api.one
-    @api.depends('invoice_line.price_subtotal', 'tax_line.amount')
+    @api.depends('invoice_line.price_subtotal', 'tax_line.amount','discount_rate')
     def _compute_amount(self):
         self.amount_untaxed = sum(line.price_subtotal for line in self.invoice_line)
         self.amount_tax = sum(line.amount for line in self.tax_line)
@@ -17,15 +18,15 @@ class AccountInvoice(models.Model):
             self.amount_discount = self.discount_rate
         self.amount_total = self.amount_untaxed + self.amount_tax - self.amount_discount
 
-    discount_type = fields.Selection([('percent', 'Percentage'), ('amount', 'Amount')], 'Discount Type', readonly=True,
+    discount_type = fields.Selection([('percent', 'Percentage'), ('amount', 'Amount')], _('Discount Type'), readonly=True,
                                      states={'draft': [('readonly', False)]})
-    discount_rate = fields.Float('Discount Rate', digits_compute=dp.get_precision('Account'), readonly=True,
+    discount_rate = fields.Float(_('Discount Rate'), digits_compute=dp.get_precision('Account'), readonly=True,
                                  states={'draft': [('readonly', False)]})
-    amount_discount = fields.Float(string='Discount', digits=dp.get_precision('Account'),
+    amount_discount = fields.Float(string=_('Discount'), digits=dp.get_precision('Account'),
                                    readonly=True, compute='_compute_amount')
     amount_untaxed = fields.Float(string='Subtotal', digits=dp.get_precision('Account'),
                                   readonly=True, compute='_compute_amount', track_visibility='always')
-    amount_tax = fields.Float(string='Tax', digits=dp.get_precision('Account'),
+    amount_tax = fields.Float(string=_('Tax'), digits=dp.get_precision('Account'),
                               readonly=True, compute='_compute_amount')
     amount_total = fields.Float(string='Total', digits=dp.get_precision('Account'),
                                 readonly=True, compute='_compute_amount')
@@ -75,7 +76,7 @@ class invoice_line(osv.Model):
             sign = -1
 
             res.append({
-                'name': 'Discount',
+                'name': '%'%_('Discount'),
                 'price_unit': sign * inv.amount_discount,
                 'quantity': 1,
                 'price': sign * inv.amount_discount,
