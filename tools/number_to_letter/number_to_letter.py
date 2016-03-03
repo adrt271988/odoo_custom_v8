@@ -82,7 +82,7 @@ UNITS = (
 
 MONEDAS = (
     {'country': u'Colombia', 'currency': 'COP', 'singular': u'PESO COLOMBIANO', 'plural': u'PESOS COLOMBIANOS', 'symbol': u'$'},
-    {'country': u'Venezuela', 'currency': 'VEF', 'singular': u'BOLIVAR', 'plural': u'BOLIVARES', 'symbol': u'Bs'},
+    {'country': u'Venezuela', 'currency': 'VEF', 'singular': u'BOLIVAR', 'plural': u'BOLIVARES', 'symbol': u'Bs','decimalsingular':u'Céntimo','decimalplural':u'Céntimos'},
     {'country': u'Estados Unidos', 'currency': 'USD', 'singular': u'DÓLAR', 'plural': u'DÓLARES', 'symbol': u'US$'},
     {'country': u'Europa', 'currency': 'EUR', 'singular': u'EURO', 'plural': u'EUROS', 'symbol': u'€', 'decimalsingular':u'Céntimo','decimalplural':u'Céntimos'},
     {'country': u'México', 'currency': 'MXN', 'singular': u'PESO MEXICANO', 'plural': u'PESOS MEXICANOS', 'symbol': u'$'},
@@ -175,7 +175,6 @@ def to_word(number, mi_moneda=None):
                     fraccion = moneda['decimalsingular']
                 else:
                     fraccion = moneda['decimalplural']
-
         except:
             return "Tipo de moneda inválida"
     else:
