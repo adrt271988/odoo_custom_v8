@@ -34,6 +34,7 @@ Filtrar Ordenes POS
     'website': '',
     'depends': ['base','pos_debt_notebook'],
     'data': [
+            'point_of_sale_view.xml',
             'res_partner_view.xml',
     ],
     'demo': [],

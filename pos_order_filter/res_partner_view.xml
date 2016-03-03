@@ -1,27 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-<data>
-    <record id="pos_order_filter_partner_action" model="ir.actions.act_window">
-        <field name="name">Órdenes PdV</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">pos.order</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_id" eval="False"/>
-<!--
-        <field name="context">{'search_default_partner_id': [active_id], 'default_partner_id': active_id}</field>
--->
-        <field name="domain">[('partner_id','=',active_id)]</field>
-        <field name="help" type="html">
-          <p class="oe_view_nocontent_create">
-            Click para crear una nueva orden
-          </p><p>
-            Use este menu para navegar entre las ordenes existentes. Para crear nuevas ordenes
-            , podría utilizar el menú <i>Su Sesión</i> para la interface táctil.
-          </p>
-        </field>
-    </record>
-    
+<data>    
     <record id="pos_order_filter_partner_form" model="ir.ui.view">
         <field name="name">res.partner.form.debt</field>
         <field name="model">res.partner</field>
