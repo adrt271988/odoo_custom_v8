@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_employee_form_inherit">
+            <field name="name">view.employee.form.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet" position="before">
+                    <header>
+                        <button name="prepare_payment" string="Prepare Payment" type="object" attrs="{'invisible':[('user_id','=',False)]}"/>
+                    </header>
+                </xpath>
+                <xpath expr="//page[@string='HR Settings']" position="after">
+                    <page string="Helpdesk Support Tickets">
+                        <field name="crm_helpdesk_ids" nolabel="1">
+                            <tree>
+                                <field name="name"/>
+                                <field name="partner_id"/>
+                                <field name="priority"/>
+                                <field name="date"/>
+                                <field name="date_deadline"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="hr_kanban_view_employees_inherit">
+            <field name="name">hr.kanban.view.employees.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
+            <field name="arch" type="xml">
+                <field name="last_login" position="before">
+                    <field name="crm_helpdesk_ids"/>
+                </field>
+                <xpath expr="//div[@class='oe_kanban_footer_left']" position="replace">
+                    <div class="oe_kanban_footer_left">
+                        <span title='Messages'><span class='oe_e'>9</span><t t-esc="record.message_ids.raw_value.length"/></span>
+                        <span title='Followers'><span class='oe_e'>+</span><t t-esc="record.message_follower_ids.raw_value.length"/></span>
+                        <span title='Support Tickets'><span class='oe_e'>+</span><t t-esc="record.crm_helpdesk_ids.raw_value.length"/></span>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

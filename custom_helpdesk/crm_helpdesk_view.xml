@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="inherit_crm_helpdesk_form">
+            <field name="name">inherit.crm.helpdesk.form</field>
+            <field name="model">crm.helpdesk</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="crm_helpdesk.crm_case_form_view_helpdesk"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='case_escalate']" position="after">
+                    <button name="create_invoice" string="Create Invoice" type="object" states="done"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
