@@ -76,7 +76,7 @@ class invoice_line(osv.Model):
             sign = -1
 
             res.append({
-                'name': '%'%_('Discount'),
+                'name': '%s'%_('Discount'),
                 'price_unit': sign * inv.amount_discount,
                 'quantity': 1,
                 'price': sign * inv.amount_discount,
