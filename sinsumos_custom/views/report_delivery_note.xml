@@ -1,50 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <template id="sinsumos_delivery_note">
+        <template id="report_delivery_note">
             <t t-call="report.html_container">
                 <t t-foreach="docs" t-as="o">
-                    <div class="page" style="font-size:10px">
-                        <h5 align="right" t-if="o.name">
-                            <strong>
-                                NOTA DE ENTREGA: <span t-field="o.name"/><br/>
-                            </strong>
-                        </h5>
-                        <br/><br/>
-                        <div class="col-xs-12">
-                            Razón Social: <span t-field="o.partner_id.name"/>
+                        <div class="page">
+                                <h5 align="right" t-if="o.picking_id">
+                                        <strong>
+                                            NOTA DE ENTREGA: <span t-field="o.picking_id"/><br/>
+                                        </strong>
+                                </h5>
                         </div>
-                        <br/><br/>
-                        <div class="col-xs-12">
-                            Domicilio Fiscal: <span t-field="o.partner_id.street"/> <span t-field="o.partner_id.street2"/>
-                                                <span t-field="o.partner_id.city"/> <span t-field="o.partner_id.state_id.name"/>
-                                                <span t-field="o.partner_id.country_id.name"/>
-                        </div>
-                        <br/><br/>
-                        <div class="col-xs-4">
-                            RIF / C.I.: <span t-field="o.partner_id.vat"/>
-                        </div>
-                        <div class="col-xs-4" t-if="o.partner_id.phone">
-                            Teléfono: <span t-field="o.partner_id.phone"/>
-                        </div>
-
-                        <div class="col-xs-4" t-if="o.sale_id">
-                            Emisión: <span t-field="o.sale_id.partner_invoice_id.name"/>
-                        </div>
-                        <br/>
-<!--
-                        <div class="col-xs-4" t-if="o.partner_id.phone">
-                            Documento Relacionado: <span t-field="o.origin"/>
-                        </div>
-                        <div class="col-xs-4"/>
-                        <div class="col-xs-4">
-                            Vence: <span t-field="o.date_due"/>
-                        </div>
--->
-                        <br/><br/>
-                        <br/><br/>
-                    </div>
-                 </t>
+                </t>
              </t>
         </template>
     </data>

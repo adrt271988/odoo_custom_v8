@@ -11,6 +11,7 @@
                 <xpath expr="//field[@name='date_invoice']" position="after">
                     <field name="items" invisible="1"/>
                     <field name="amount_total_string" invisible="1"/>
+                    <field name="picking_id"/>
                 </xpath>
             </field>
         </record>

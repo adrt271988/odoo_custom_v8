@@ -7,8 +7,8 @@
             id="sinsumos_account_delivery_note" 
             model="account.invoice" 
             report_type="qweb-pdf"
-            name="sinsumos_custom.sinsumos_delivery_note" 
-            file="sinsumos_custom.sinsumos_delivery_note" 
+            name="sinsumos_custom.report_delivery_note" 
+            file="sinsumos_custom.report_delivery_note" 
         />
     </data>
 </openerp>

@@ -13,9 +13,6 @@
         <xpath expr="//t[@t-call='report.external_layout']" position="attributes">
             <attribute name="t-call"></attribute>
         </xpath>
-        <xpath expr="//div[@class='page']" position="attributes">
-            <attribute name="style">font-size:12px</attribute>
-        </xpath>
         <xpath expr="/t/t/div/div[@class='row']" position="replace"/>
         <xpath expr="//h2" position="replace">
             <h5 align="right" t-if="o.number">
@@ -91,127 +88,69 @@
                 </tbody>
             </table>
         </xpath>
-        <xpath expr="/t/t/div/div/div[@class='col-xs-4 pull-right']" position="before">
-            <div class="col-xs-6" t-if="o.items &gt;= 10 and o.payment_ids" style="bottom:5px;left:10px;">
-                <strong>Detalle del Pago</strong>
-                <table class="table table-condensed">
-                    <thead>
+        <xpath expr="/t/t/div/div/div[@class='col-xs-4 pull-right']" position="replace"/>
+        <xpath expr="//div[@t-if='o.tax_line']" position="before">
+            <div class="col-xs-12" style="position:absolute;top:700px;widht:100%">
+                <div style="position:relative;left:0;float:left;width:50%;">
+                    <strong>Detalle del Pago</strong>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Ref. Pago</th>
+                                <th class="text-right">Método</th>
+                                <th class="text-right">Monto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.payment_ids" t-as="p">
+                                <td><span t-field="p.ref"/></td>
+                                <td class="text-right">
+                                    <span t-if="p.journal_id.type == 'cash'">Efectivo</span>
+                                    <span t-if="p.journal_id.type == 'bank'">Banco o Cheques</span>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="p.credit"
+                                        t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xs-12" style="position:relative;float:right;width:50%;right:0;">
+                    <table class="table table-condensed">
+                        <tr class="border-black">
+                            <td>Base Imponible</td>
+                            <td class="text-right">
+                                <span t-field="o.amount_untaxed" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                            </td>
+                        </tr>
                         <tr>
-                            <th>Ref. Pago</th>
-                            <th class="text-right">Método</th>
-                            <th class="text-right">Monto</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr t-foreach="o.payment_ids" t-as="p">
-                            <td><span t-field="p.ref"/></td>
+                            <td>Descuento <span t-field="o.discount_rate"/> (<span t-if="o.discount_type == 'percent'">%</span><span t-if="o.discount_type == 'amount'">Bs.</span>)</td>
                             <td class="text-right">
-                                <span t-if="p.journal_id.type == 'cash'">Efectivo</span>
-                                <span t-if="p.journal_id.type == 'bank'">Banco o Cheques</span>
-                            </td>
-                            <td class="text-right">
-                                <span t-field="p.credit"
-                                    t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                <span t-field="o.amount_discount" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
                             </td>
                         </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-xs-6" t-if="o.items &lt; 10 and o.payment_ids" style="bottom:-32em;">
-                <strong>Detalle del Pago</strong>
-                <table class="table table-condensed">
-                    <thead>
                         <tr>
-                            <th>Ref. Pago</th>
-                            <th class="text-right">Método</th>
-                            <th class="text-right">Monto</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr t-foreach="o.payment_ids" t-as="p">
-                            <td><span t-field="p.ref"/></td>
+                            <td>Monto IVA</td>
                             <td class="text-right">
-                                <span t-if="p.journal_id.type == 'cash'">Efectivo</span>
-                                <span t-if="p.journal_id.type == 'bank'">Banco o Cheques</span>
-                            </td>
-                            <td class="text-right">
-                                <span t-field="p.credit"
-                                    t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                <span t-field="o.amount_tax" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
                             </td>
                         </tr>
-                    </tbody>
-                </table>
-            </div>
-        </xpath>
-        <xpath expr="/t/t/div/div/div[@class='col-xs-4 pull-right']" position="replace">
-            <div class="col-xs-4 pull-right" t-if="o.items &gt;= 10" style="bottom:5px;right:10px;">
-                <table class="table table-condensed">
-                    <tr class="border-black">
-                        <td>Base Imponible</td>
-                        <td class="text-right">
-                            <span t-field="o.amount_untaxed" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Descuento <span t-field="o.discount_rate"/> (<span t-if="o.discount_type == 'percent'">%</span><span t-if="o.discount_type == 'amount'">Bs.</span>)</td>
-                        <td class="text-right">
-                            <span t-field="o.amount_discount" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Monto IVA</td>
-                        <td class="text-right">
-                            <span t-field="o.amount_tax" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-                        </td>
-                    </tr>
-                    <tr class="border-black">
-                        <td><strong>Total Operación</strong></td>
-                        <td class="text-right">
-                             <span t-field="o.amount_total" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-                        </td>
-                    </tr>
-                </table>
-                <div class="row col-xs-12">
-                    Son <span t-field="o.amount_total_string"/>
+                        <tr class="border-black">
+                            <td><strong>Total Operación</strong></td>
+                            <td class="text-right">
+                                 <span t-field="o.amount_total" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
-                <div class="row col-xs-12" t-if="o.comment">
-                    <br/>
-                    <p t-field="o.comment"/>
-                </div>
-            </div>
-            <div class="col-xs-4 pull-right" t-if="o.items &lt; 10" style="bottom:-32em;">
-                <table class="table table-condensed">
-                    <tr class="border-black">
-                        <td>Base Imponible</td>
-                        <td class="text-right">
-                            <span t-field="o.amount_untaxed" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Descuento <span t-field="o.discount_rate"/> (<span t-if="o.discount_type == 'percent'">%</span><span t-if="o.discount_type == 'amount'">Bs.</span>)</td>
-                        <td class="text-right">
-                            <span t-field="o.amount_discount" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Monto IVA</td>
-                        <td class="text-right">
-                            <span t-field="o.amount_tax" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-                        </td>
-                    </tr>
-                    <tr class="border-black">
-                        <td><strong>Total Operación</strong></td>
-                        <td class="text-right">
-                             <span t-field="o.amount_total" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-                        </td>
-                    </tr>
-                </table>
-                <div class="row col-xs-12">
-                    Son <span t-field="o.amount_total_string"/>
-                </div>
-                <div class="row col-xs-12" t-if="o.comment">
-                    <br/>
-                    <p t-field="o.comment"/>
+                <div style="position:relative;left:0;width:100%;float:left">
+                    <div>
+                        Son <span t-field="o.amount_total_string"/>
+                    </div>
+                    <div class="row col-xs-12" t-if="o.comment">
+                        <p t-field="o.comment"/>
+                    </div>
                 </div>
             </div>
         </xpath>
