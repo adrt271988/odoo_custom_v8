@@ -14,7 +14,7 @@
             <attribute name="t-call"></attribute>
         </xpath>
         <xpath expr="//div[@class='page']" position="attributes">
-            <attribute name="style">font-size:10px</attribute>
+            <attribute name="style">font-size:12px</attribute>
         </xpath>
         <xpath expr="/t/t/div/div[@class='row']" position="replace"/>
         <xpath expr="//h2" position="replace">
@@ -117,7 +117,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-xs-6" t-if="o.items &lt; 10 and o.payment_ids" style="bottom:-40em;">
+            <div class="col-xs-6" t-if="o.items &lt; 10 and o.payment_ids" style="bottom:-32em;">
                 <strong>Detalle del Pago</strong>
                 <table class="table table-condensed">
                     <thead>
@@ -179,7 +179,7 @@
                     <p t-field="o.comment"/>
                 </div>
             </div>
-            <div class="col-xs-4 pull-right" t-if="o.items &lt; 10" style="bottom:-40em;">
+            <div class="col-xs-4 pull-right" t-if="o.items &lt; 10" style="bottom:-32em;">
                 <table class="table table-condensed">
                     <tr class="border-black">
                         <td>Base Imponible</td>
