@@ -21,21 +21,21 @@
 
 
 {
-    'name': 'Filtrar Ordenes PdV',
+    'name': 'Enviar Sesión PdV',
     'version': '0.1',
     'description': """
-Filtrar Ordenes PdV
+Enviar Sesión PdV
 ========================================================================
-* Incluye botón en ficha del cliente para ver las oŕdenes de PdV propias
-* Traducir a español de campo Debt en ficha del cliente
+* Enviar sesión o cierre de caja al usuario Administrador
+* Agrega botón el cual envia el formato de cierre de sesión o caja
     """,
     'category': 'Point of Sale',
     'author': 'Alexander Rodriguez',
     'website': '',
-    'depends': ['base','pos_debt_notebook'],
+    'depends': ['base','point_of_sale'],
     'data': [
+            'email_template.xml',
             'point_of_sale_view.xml',
-            'res_partner_view.xml',
     ],
     'demo': [],
     'test': [],

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data noupdate="0">
+        <record id="email_template_send_session" model="email.template">
+            <field name="name">Enviar Cierre de Caja PdV</field>
+            <field name="email_from">${object.user_id.email}</field>
+            <field name="subject">Cierre de Caja ${object.name}</field>
+            <field name="email_to">${object.company_id and object.company_id.email or ''}</field>
+            <field name="model_id" ref="point_of_sale.model_pos_session"/>
+            <field name="report_template" ref="point_of_sale.action_report_pos_session_summary"/>
+            <field name="report_name">Cierre ${object.name}</field>
+            <field name="lang">${object.lang}</field>
+            <field name="body_html"><![CDATA[
+                <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+                <p>Se adjunta Cierre de Caja ${object.name} del terminal ${object.config_id.name}
+                    con fecha y hora de cierre para ${object.stop_at}
+                </p>
+
+                <p>
+                    Nota: Este mensaje a sido generado automáticamente, favor no responderlo.
+                </p>
+
+                <p>
+                    ${object.company_id.name} 
+                </p>
+            </div>
+            ]]></field>
+        </record>
+  </data>
+</openerp>

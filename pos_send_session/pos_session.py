@@ -19,28 +19,12 @@
 #
 ##############################################################################
 
+from openerp.osv import fields,osv
 
-{
-    'name': 'Filtrar Ordenes PdV',
-    'version': '0.1',
-    'description': """
-Filtrar Ordenes PdV
-========================================================================
-* Incluye botón en ficha del cliente para ver las oŕdenes de PdV propias
-* Traducir a español de campo Debt en ficha del cliente
-    """,
-    'category': 'Point of Sale',
-    'author': 'Alexander Rodriguez',
-    'website': '',
-    'depends': ['base','pos_debt_notebook'],
-    'data': [
-            'point_of_sale_view.xml',
-            'res_partner_view.xml',
-    ],
-    'demo': [],
-    'test': [],
-    'installable': True,
-    'auto_install': False,
-}
+class pos_session_inherit(osv.osv):
+    _inherit = 'pos.session'
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+    def send_session_by_email(self, cr, uid, ids, context=None):
+        ref = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'pos_send_session', 'email_template_send_session')
+        return ref and self.pool.get('email.template').send_mail(cr, uid, ref[1], ids[0] , force_send=True) or False
+

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <record id="inherit_view_pos_session_form" model="ir.ui.view">
+        <field name="name">inherit.view.pos.session.form</field>
+        <field name="model">pos.session</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_session_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='close']" position="after">
+                <button name="send_session_by_email" type="object" string="Enviar Cierre"
+                    attrs="{'invisible' : [('state', '!=', 'closed')]}" class="oe_highlight"/>
+            </xpath>
+        </field>
+    </record>
+</data>
+</openerp>
