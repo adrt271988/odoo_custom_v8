@@ -10,6 +10,9 @@
                 <button name="send_session_by_email" type="object" string="Enviar Cierre"
                     attrs="{'invisible' : [('state', '!=', 'closed')]}" class="oe_highlight"/>
             </xpath>
+            <xpath expr="//field[@name='config_id']" position="after">
+                <field name="company_id"/>
+            </xpath>
         </field>
     </record>
 </data>

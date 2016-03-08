@@ -24,7 +24,20 @@ from openerp.osv import fields,osv
 class pos_session_inherit(osv.osv):
     _inherit = 'pos.session'
 
+    def _get_default_company(self, cr, uid, context=None):
+        company_id = self.pool.get('res.users')._get_company(cr, uid, context=context)
+        if not company_id:
+            raise osv.except_osv(_('Error!'), _('No existe compañía por defecto!'))
+        return company_id
+
     def send_session_by_email(self, cr, uid, ids, context=None):
         ref = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'pos_send_session', 'email_template_send_session')
         return ref and self.pool.get('email.template').send_mail(cr, uid, ref[1], ids[0] , force_send=True) or False
 
+    _columns = {
+                    'company_id': fields.many2one('res.company', 'Company'),
+    }
+
+    _defaults = {
+                    'company_id': _get_default_company,
+    }

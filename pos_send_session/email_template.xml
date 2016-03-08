@@ -13,12 +13,12 @@
             <field name="body_html"><![CDATA[
                 <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
 
-                <p>Se adjunta Cierre de Caja ${object.name} del terminal ${object.config_id.name}
-                    con fecha y hora de cierre para ${object.stop_at}
+                <p>Se adjunta Cierre de Caja <strong>${object.name}</strong> del terminal <strong>${object.config_id.name}</strong>
+                    con fecha y hora de cierre para <strong>${object.stop_at}</strong>
                 </p>
 
                 <p>
-                    Nota: Este mensaje a sido generado automáticamente, favor no responderlo.
+                    Nota: Este mensaje ha sido generado automáticamente, favor no responderlo.
                 </p>
 
                 <p>
