@@ -24,19 +24,22 @@ from openerp.osv import fields,osv
 class calendar_event_inherit(osv.osv):
     _inherit = 'calendar.event'
 
-    def _get_partner_ids(self, cr, uid, ids, field_name, arg, context=None):
-        res = {}
-        lawyers = []
-        clients = []
-        employees = []
-        for calendar in self.browse(cr, uid, ids, context=context):
-            if calendar.lawyer_ids:
-                lawyers = [x.id for x in calendar.lawyer_ids]
-            if calendar.client_ids:
-                clients = [x.id for x in calendar.client_ids]
-            if calendar.lawyer_ids:
-                employees = [x.id for x in calendar.employee_ids]
-            res[calendar.id] = lawyers + clients + employees
+    #~ def _get_partner_ids(self, cr, uid, ids, field_name, arg, context=None):
+        #~ res = {}
+        #~ lawyers = []
+        #~ clients = []
+        #~ employees = []
+        #~ for calendar in self.browse(cr, uid, ids, context=context):
+            #~ if calendar.lawyer_ids:
+                #~ lawyers = [x.id for x in calendar.lawyer_ids]
+            #~ if calendar.client_ids:
+                #~ clients = [x.id for x in calendar.client_ids]
+            #~ if calendar.lawyer_ids:
+                #~ employees = [x.id for x in calendar.employee_ids]
+            #~ res[calendar.id] = lawyers + clients + employees
+        #~ return res
+    def onchange_partner_ids(self, cr, uid, ids, value, context=None):
+        res = super(calendar_event_inherit, self).onchange_partner_ids(cr, uid, ids, value, context=context)
         return res
 
     _columns = {
