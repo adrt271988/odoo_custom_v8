@@ -7,18 +7,24 @@
         <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
         <field name="arch" type="xml">
             <xpath expr="//h1" position="after">
-                <label for="lawyer_ids" string="Lawyers" class="oe_edit_only"/>
+                <label for="lawyer_ids" string="Lawyers"/>
                 <h2>
-                    <field name="lawyer_ids" widget="many2many_tags"  class="oe_inline"/>
+                    <field name="lawyer_ids" widget="many2many_tags"  class="oe_inline"
+                            on_change="onchange_attendee_ids(lawyer_ids, client_ids, employee_ids)"/>
                 </h2>
-                <label for="client_ids" string="Clients" class="oe_edit_only"/>
+                <label for="client_ids" string="Clients"/>
                 <h2>
-                    <field name="client_ids" widget="many2many_tags"  class="oe_inline"/>
+                    <field name="client_ids" widget="many2many_tags"  class="oe_inline"
+                        on_change="onchange_attendee_ids(lawyer_ids, client_ids, employee_ids)"/>
                 </h2>
-                <label for="employee_ids" string="Employees" class="oe_edit_only"/>
+                <label for="employee_ids" string="Employees"/>
                 <h2>
-                    <field name="employee_ids" widget="many2many_tags"  class="oe_inline"/>
+                    <field name="employee_ids" widget="many2many_tags"  class="oe_inline"
+                        on_change="onchange_attendee_ids(lawyer_ids, client_ids, employee_ids)" />
                 </h2>
+            </xpath>
+            <xpath expr="//label[@for='partner_ids']" position="replace">
+                <label for="partner_ids" string="Total Attendees"/>
             </xpath>
         </field>
     </record>

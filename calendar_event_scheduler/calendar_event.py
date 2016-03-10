@@ -24,28 +24,29 @@ from openerp.osv import fields,osv
 class calendar_event_inherit(osv.osv):
     _inherit = 'calendar.event'
 
-    #~ def _get_partner_ids(self, cr, uid, ids, field_name, arg, context=None):
-        #~ res = {}
-        #~ lawyers = []
-        #~ clients = []
-        #~ employees = []
-        #~ for calendar in self.browse(cr, uid, ids, context=context):
-            #~ if calendar.lawyer_ids:
-                #~ lawyers = [x.id for x in calendar.lawyer_ids]
-            #~ if calendar.client_ids:
-                #~ clients = [x.id for x in calendar.client_ids]
-            #~ if calendar.lawyer_ids:
-                #~ employees = [x.id for x in calendar.employee_ids]
-            #~ res[calendar.id] = lawyers + clients + employees
-        #~ return res
-    def onchange_partner_ids(self, cr, uid, ids, value, context=None):
-        res = super(calendar_event_inherit, self).onchange_partner_ids(cr, uid, ids, value, context=context)
+    def check_partners_availability(self, cr, uid, partner_ids, context=None):
+        partner_obj = self.pool.get('res.partner')
+        return True
+    
+    def onchange_attendee_ids(self, cr, uid, ids, lawyers, clients, employees, context=None):
+        res = {'value': {}}
+        if not lawyers and not clients and not employees:
+            return
+        attendees = []
+        if lawyers and lawyers[0][2]:
+            attendees+=lawyers[0][2]
+        if clients and clients[0][2]:
+            attendees+=clients[0][2]
+        if employees and employees[0][2]:
+            attendees+=employees[0][2]
+        res['value'] = {'partner_ids':[(6,0,attendees)]}
         return res
 
     _columns = {
-        'lawyer_ids': fields.many2many('res.partner', 'calendar_event_res_partner_lawyer_rel', string='Lawyers', states={'done': [('readonly', True)]}),
-        'client_ids': fields.many2many('res.partner', 'calendar_event_res_partner_client_rel', string='Clients', states={'done': [('readonly', True)]}),
-        'employee_ids': fields.many2many('res.partner', 'calendar_event_res_partner_employee_rel', string='Employees', states={'done': [('readonly', True)]}),
-        #~ 'partner_ids': fields.function(_get_partner_ids, type='many2many', relation="res.partner", string="Attendees", store=True),
-
+        'lawyer_ids': fields.many2many('res.partner', 'calendar_event_res_partner_lawyer_rel',
+                                            string='Lawyers', states={'done': [('readonly', True)]}),
+        'client_ids': fields.many2many('res.partner', 'calendar_event_res_partner_client_rel',
+                                            string='Clients', states={'done': [('readonly', True)]}),
+        'employee_ids': fields.many2many('res.partner', 'calendar_event_res_partner_employee_rel',
+                                            string='Employees', states={'done': [('readonly', True)]}),
     }
