@@ -31,6 +31,35 @@ from openerp.tools.translate import _
 class calendar_event_inherit(osv.osv):
     _inherit = 'calendar.event'
 
+    def toDatetime(self, cr, uid, dateString, context=None):
+        if len(dateString) == 10:
+            dateString+=" 00:00:00"
+        return datetime.strptime(dateString, DEFAULT_SERVER_DATETIME_FORMAT)
+
+#  
+#  name: calendar_event_inherit.check_availability
+#  @param: recibe lista de partners a verificar en otros eventos, fecha inicio y fecha fin
+#  @return: regresa un diccionario con elementos de warning de onchange o diccionario vacio
+#  
+    def check_availability(self, cr, uid, partners, start, end, context = None):
+        warning = {}
+        calendar_ids = self.search(cr, uid, [])
+        calendar_brw = self.browse(cr, uid, calendar_ids, context)
+        flag = False
+        for calendar in calendar_brw:
+            att = [x.id for x in calendar.partner_ids]
+            match = [x for x in partners if x in att]
+            if match:
+                if start:
+                    if self.toDatetime(cr, uid, calendar.start) == self.toDatetime(cr, uid, start):
+                        flag = True
+                if end:
+                    if self.toDatetime(cr, uid, calendar.stop) == self.toDatetime(cr, uid, end):
+                        flag = True
+        if flag:
+            warning.update({'message': _("At least one attendee of the list is already booked for that date or time!"),'title': _('Attendee already booked')})
+        return warning
+        
     def onchange_dates(self, cr, uid, ids, fromtype, partner_ids = False, start=False, end=False, checkallday=False, allday=False, context=None):
         """Returns duration and end date based on values passed
         @param ids: List of calendar event's IDs.
@@ -41,10 +70,10 @@ class calendar_event_inherit(osv.osv):
             return value
 
         if partner_ids and partner_ids[0][2]:
-            calendar_ids = self.search(cr, uid, [])
-            calendar_brw = self.browse(cr, uid, calendar_ids, context)
-            for calendar in calendar_brw:
-                att = [x.id for x in calendar.partner_ids]
+            warning = self.check_availability(cr, uid, partner_ids[0][2], start, end, context = context)
+            if warning:
+                value.update({'warning':warning})
+                return value
 
         value['allday'] = checkallday  # Force to be rewrited
 
@@ -93,3 +122,10 @@ class calendar_event_inherit(osv.osv):
         'employee_ids': fields.many2many('res.partner', 'calendar_event_res_partner_employee_rel',
                                             string='Employees', states={'done': [('readonly', True)]}),
     }
+
+    def create(self, cr, uid, vals, context=None):
+        if 'partner_ids' in vals and 'start' in vals and 'stop' in vals:
+            warning = self.check_availability(cr, uid, vals['partner_ids'][0][2], vals['start'], vals['stop'], context = context)
+            if warning:
+                raise osv.except_osv(warning['title'],warning['message'])
+        return super(calendar_event_inherit, self).create(cr, uid, vals, context = context)
