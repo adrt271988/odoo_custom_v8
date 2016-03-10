@@ -20,13 +20,56 @@
 ##############################################################################
 
 from openerp.osv import fields,osv
+from datetime import datetime, timedelta
+from dateutil import parser
+from dateutil import rrule
+from dateutil.relativedelta import relativedelta
+from openerp import tools, SUPERUSER_ID
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
+from openerp.tools.translate import _
 
 class calendar_event_inherit(osv.osv):
     _inherit = 'calendar.event'
 
-    def check_partners_availability(self, cr, uid, partner_ids, context=None):
-        partner_obj = self.pool.get('res.partner')
-        return True
+    def onchange_dates(self, cr, uid, ids, fromtype, partner_ids = False, start=False, end=False, checkallday=False, allday=False, context=None):
+        """Returns duration and end date based on values passed
+        @param ids: List of calendar event's IDs.
+        """
+        value = {}
+
+        if checkallday != allday:
+            return value
+
+        if partner_ids and partner_ids[0][2]:
+            calendar_ids = self.search(cr, uid, [])
+            calendar_brw = self.browse(cr, uid, calendar_ids, context)
+            for calendar in calendar_brw:
+                att = [x.id for x in calendar.partner_ids]
+
+        value['allday'] = checkallday  # Force to be rewrited
+
+        if allday:
+            if fromtype == 'start' and start:
+                start = datetime.strptime(start, DEFAULT_SERVER_DATE_FORMAT)
+                value['start_datetime'] = datetime.strftime(start, DEFAULT_SERVER_DATETIME_FORMAT)
+                value['start'] = datetime.strftime(start, DEFAULT_SERVER_DATETIME_FORMAT)
+
+            if fromtype == 'stop' and end:
+                end = datetime.strptime(end, DEFAULT_SERVER_DATE_FORMAT)
+                value['stop_datetime'] = datetime.strftime(end, DEFAULT_SERVER_DATETIME_FORMAT)
+                value['stop'] = datetime.strftime(end, DEFAULT_SERVER_DATETIME_FORMAT)
+
+        else:
+            if fromtype == 'start' and start:
+                start = datetime.strptime(start, DEFAULT_SERVER_DATETIME_FORMAT)
+                value['start_date'] = datetime.strftime(start, DEFAULT_SERVER_DATE_FORMAT)
+                value['start'] = datetime.strftime(start, DEFAULT_SERVER_DATETIME_FORMAT)
+            if fromtype == 'stop' and end:
+                end = datetime.strptime(end, DEFAULT_SERVER_DATETIME_FORMAT)
+                value['stop_date'] = datetime.strftime(end, DEFAULT_SERVER_DATE_FORMAT)
+                value['stop'] = datetime.strftime(end, DEFAULT_SERVER_DATETIME_FORMAT)
+
+        return {'value': value}
     
     def onchange_attendee_ids(self, cr, uid, ids, lawyers, clients, employees, context=None):
         res = {'value': {}}

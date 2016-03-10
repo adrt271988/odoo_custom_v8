@@ -26,6 +26,24 @@
             <xpath expr="//label[@for='partner_ids']" position="replace">
                 <label for="partner_ids" string="Total Attendees"/>
             </xpath>
+            <xpath expr="//field[@name='start_date']" position="replace">
+                <field name="start_date" string="Starting at" on_change="onchange_dates('start', partner_ids, start_date, stop_date, allday, True)"
+                        attrs="{'invisible': [('allday','=',False)]}"/>
+            </xpath>
+            <xpath expr="//field[@name='stop_date']" position="replace">
+                <field name="stop_date" string="Ending at" on_change="onchange_dates('stop', partner_ids, start_date, stop_date, allday, True)"
+                        attrs="{'invisible': [('allday','=',False)]}"/>
+            </xpath>
+            <xpath expr="//field[@name='start_datetime']" position="replace">
+                <field name="start_datetime" string="Starting at"
+                    on_change="onchange_dates('start', partner_ids, start_datetime, stop_datetime, allday, False)"
+                    attrs="{'invisible': [('allday','=',True)]}"/>
+            </xpath>
+            <xpath expr="//field[@name='stop_datetime']" position="replace">
+                <field name="stop_datetime" string="Ending at"
+                    on_change="onchange_dates('stop', partner_ids, start_datetime, stop_datetime, allday, False)"
+                    attrs="{'invisible': [('allday','=',True)]}"/>
+            </xpath>
         </field>
     </record>
 </data>
