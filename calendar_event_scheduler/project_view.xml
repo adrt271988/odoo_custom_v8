@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <record id="inherit_view_task_form2" model="ir.ui.view">
+        <field name="name">inherit.view.task.form2</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='categ_ids']" position="after">
+                <field name="event_id"/>
+            </xpath>
+        </field>
+    </record>
+</data>
+</openerp>

@@ -124,8 +124,17 @@ class calendar_event_inherit(osv.osv):
     }
 
     def create(self, cr, uid, vals, context=None):
-        if 'partner_ids' in vals and 'start' in vals and 'stop' in vals:
-            warning = self.check_availability(cr, uid, vals['partner_ids'][0][2], vals['start'], vals['stop'], context = context)
-            if warning:
-                raise osv.except_osv(warning['title'],warning['message'])
-        return super(calendar_event_inherit, self).create(cr, uid, vals, context = context)
+        #~ if 'partner_ids' in vals and 'start' in vals and 'stop' in vals:
+            #~ warning = self.check_availability(cr, uid, vals['partner_ids'][0][2], vals['start'], vals['stop'], context = context)
+            #~ if warning:
+                #~ raise osv.except_osv(warning['title'],warning['message'])
+        event_id = super(calendar_event_inherit, self).create(cr, uid, vals, context = context)
+        task_vals = {
+            'name': 'Confirm Attendees: %s'%vals['name'],
+            'user_id': vals['user_id'],
+            'priority': "2",
+            'description': 'Confirm attendance of Lawyers, Clients and Employees of Meeting associated in this document',
+            'event_id': event_id,
+        }
+        self.pool.get('project.task').create(cr, uid, task_vals, context = context)
+        return event_id

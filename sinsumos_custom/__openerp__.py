@@ -35,7 +35,7 @@ Módulo Personalizado Sinsumos
     """,
     'author': 'Alexander Rodriguez',
     'website': '',
-    'depends': ['base','account','sale_discount_total'],
+    'depends': ['base','base_vat','account','sale_discount_total'],
     'data': [
             'data/res_country_state.xml',
             'data/product_pricelist.xml',
@@ -44,6 +44,7 @@ Módulo Personalizado Sinsumos
             'account_report.xml',
             'account_invoice_view.xml',
             'sale_view.xml',
+            'partner_view.xml',
     ],
     'demo': [],
     'test': [],

@@ -34,6 +34,7 @@ Calendar Appointment Scheduler
     'depends': ['base','calendar'],
     'data': [
                 'calendar_event_view.xml',
+                'project_view.xml',
     ],
     'demo': [],
     'test': [],
