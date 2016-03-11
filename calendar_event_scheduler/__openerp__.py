@@ -27,6 +27,10 @@
 Calendar Appointment Scheduler
 ========================================================================
 * Customizations for Calendar Event
+* Adding fields Lawyers, Clients and Employees
+* Checking date availability of total attendees
+* Send confirmation emails to attendees
+* Creating task for meeting owner
     """,
     'category': 'CRM',
     'author': 'Alexander Rodriguez',
