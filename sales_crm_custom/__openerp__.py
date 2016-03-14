@@ -33,10 +33,11 @@ Modificaciones para Ventas y CRM
     'category': 'CRM',
     'author': 'Alexander Rodriguez',
     'website': '',
-    'depends': ['base','crm','sale'],
+    'depends': ['base','sale_crm'],
     'data': [
             'crm_view.xml',
             'sale_view.xml',
+            'views/report_saleorder.xml',
     ],
     'demo': [],
     'test': [],

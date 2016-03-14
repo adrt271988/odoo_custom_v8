@@ -32,12 +32,13 @@ class inherit_sale_order(osv.osv):
     def _get_field_by_lead(self, cr, uid, context=None):
         if context is None:
             context = {}
+        default = {'berths': 0, 'arrival_date': False, 'departure_date': False}
         lead_obj = self.pool.get('crm.lead')
         active_id = context and context.get('active_id', False) or False
         if not active_id:
-            return False
+            return default
         lead = lead_obj.read(cr, uid, [active_id], ['arrival_date','departure_date','berths'], context=context)
-        return lead and lead[0] or False
+        return lead and lead[0] or default
 
     _columns = {
         'arrival_date': fields.datetime('Fecha de LLegada', help="Fecha de LLegada"),

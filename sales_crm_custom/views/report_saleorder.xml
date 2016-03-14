@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <template id="sales_crm_custom_report_saleorder_document" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//div[@id='informations']" position="replace">
+            <div class="row mt32 mb32" id="informations">
+                <div t-if="o.arrival_date" class="col-xs-3">
+                    <strong>Fecha de Llegada:</strong>
+                    <p t-field="o.arrival_date"/>
+                </div>
+
+                <div t-if="o.departure_date" class="col-xs-3">
+                    <strong>Fecha de Salida:</strong>
+                    <p t-field="o.departure_date"/>
+                </div>
+                
+                <div t-if="o.berths" class="col-xs-3">
+                    <strong>Cantidad de Plazas:</strong>
+                    <p t-field="o.berths"/>
+                </div>
+                
+                <div t-if="o.client_order_ref" class="col-xs-3">
+                    <strong>Your Reference:</strong>
+                    <p t-field="o.client_order_ref"/>
+                </div>
+                <div t-if="o.date_order" class="col-xs-3">
+                    <strong t-if="o.state not in ['draft','sent']">Date Ordered:</strong>
+                    <strong t-if="o.state in ['draft','sent']">Quotation Date:</strong>
+                    <p t-field="o.date_order"/>
+                </div>
+                <div t-if="o.user_id.name" class="col-xs-3">
+                    <strong>Salesperson:</strong>
+                    <p t-field="o.user_id.name"/>
+                </div>
+                <div t-if="o.payment_term" class="col-xs-3">
+                    <strong>Payment Term:</strong>
+                    <p t-field="o.payment_term"/>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</data>
+</openerp>

@@ -13,5 +13,18 @@
             </xpath>
         </field>
     </record>
+    
+    <record id="inherit_crm_case_form_view_oppor" model="ir.ui.view">
+        <field name="name">inherit.crm.case.form.view.oppor</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='priority']" position="after">
+                <field name="arrival_date"/>
+                <field name="departure_date"/>
+                <field name="berths"/>
+            </xpath>
+        </field>
+    </record>
 </data>
 </openerp>
