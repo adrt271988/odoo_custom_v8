@@ -2,7 +2,7 @@
 from openerp import models, fields
 class RegistroViajeros(models.Model):
 	_name = 'registro_viajeros'
-	id_numero = fields.Char('Número de Documento de Identidad', size=14,required=True)
+	id_numero = fields.Char('Número de Documento de Identidadd', size=14,required=True)
 	id_tipo = fields.Selection(
 	[('D','DNI Españoles'),
 	('P','Pasaportes'),
