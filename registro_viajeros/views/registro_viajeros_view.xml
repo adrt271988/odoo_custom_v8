@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+	<!-- Form View 		-->
+		<record id="view_form_registro_viajero" model="ir.ui.view">
+			<field name="name">Formulario de Registro de Viajeros</field>
+			<field name="model">registro.viajeros</field>
+			<field name="arch" type="xml">
+				<form string="Registro de Viajero" class="form-horizontal">
+					<header>
+						<button name="do_imprimir" type="object" string="Imprimir" class="oe_highlight" />
+					</header>				
+					<sheet>
+						
+						<legend>Datos del Establecimiento</legend>
+						<div class="row">
+						  <div class="col-md-3"><strong>CIF:</strong></div>
+						  <div class="col-md-5">B10163608</div>
+						  <div class="col-md-2"><strong>Parte nº:</strong></div>
+						  <div class="col-md-2">001</div>
+						</div>
+						<div class="row">
+						  <div class="col-md-3"><strong>Nombre del establecimiento:</strong></div>
+						  <div class="col-md-5">Lalita Devi Escuela de Vida S.L</div>
+						</div>
+						<div class="row">
+						  <div class="col-md-3"><strong>Municipio:</strong></div>
+						  <div class="col-md-5">Acebo</div>
+						</div>
+						<div class="row">
+						  <div class="col-md-3"><strong>Provincia:</strong></div>
+						  <div class="col-md-5">Cáceres</div>
+						</div>
+						<br/>
+						<legend>Datos del Viajero</legend>
+						<group>
+						<field name="id_numero"/>
+						<field name="id_tipo"/>
+						<field name="fecha_expedicion"/>
+						<field name="primer_apellido"/>
+						<field name="segundo_apellido"/>
+						<field name="nombre"/>
+						<field name="sexo"/>
+						<field name="fecha_nacimiento"/>
+						<field name="nacionalidad"/>
+						<field name="fecha_entrada"/>
+						<filed name="enviado"/>
+					</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<!-- List & Search View 	-->
+		<record id="view_tree_registro_viajeros" model="ir.ui.view">
+			<field name="name">Registro de Viajeros</field>
+			<field name="model">registro.viajeros</field>
+			<field name="arch" type="xml">
+				<tree colors="gray:enviado==True">
+					<field name="fecha_entrada"/>
+					<field name="primer_apellido"/>
+					<field name="segundo_apellido"/>
+					<field name="nombre"/>
+					<field name="id_numero"/>
+					<field name="enviado"/>
+				</tree>
+			</field>
+		</record>
+			
+		<!-- Action to open To-do Task list -->
+		<act_window id="action_registro_viajero"
+		 name="Registro Viajero"
+		 res_model="registro.viajeros"
+		 view_mode="tree,form" />
+
+       <!-- Menu item to open To-do Task list -->
+		<menuitem id="menu _registro_viajero"
+		  name="Registro Viajeros"
+		  parent="mail.mail_feeds"
+		  sequence="21"
+		  action="action_registro_viajero" />
+	</data>
+</openerp>

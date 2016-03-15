@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+	<!-- Form View Reservas-->
+		<record id="view_form_reservas" model="ir.ui.view">
+			<field name="name">Formulario de Reservas</field>
+			<field name="model">reservas</field>
+			<field name="arch" type="xml">
+				<form string="Reservas" class="form-horizontal">
+					<header>
+						<button name="do_imprimir" type="object" string="Imprimir" class="oe_highlight" />
+					</header>				
+					<sheet>
+						<legend>Reservas</legend>
+						<group>
+						<field name="partner_id"/>
+						<field name="tarifa_id"/>
+						<field name="fecha_entrada"/>
+						<field name="fecha_salida"/>
+						<field name="ocupacion_dias"/>
+						<field name="plazas"/>
+						<field name="state"/>
+						<field name="observaciones"/>
+						<field name="estimacion_ingresos"/>
+						<field name="huespedes_ids" widget='many2many'/>
+						<field name="rooms_ids" widget='many2many'/>
+					<!--	<field name="quotations_ids" widget='many2many'/> -->
+					</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<!-- List & Search View  Reservas -->
+		<record id="view_tree_reservas" model="ir.ui.view">
+			<field name="name">Reservas</field>
+			<field name="model">reservas</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="partner_id"/>
+					<field name="tarifa_id"/>
+					<field name="fecha_entrada"/>
+					<field name="fecha_salida"/>
+					<field name="ocupacion_dias"/>
+					<field name="plazas"/>
+					<field name="state"/>
+					<field name="observaciones"/>
+					<field name="estimacion_ingresos"/>
+				</tree>
+			</field>
+		</record>
+		
+		<!-- Form View Rooms -->
+			<record id="view_form_room" model="ir.ui.view">
+				<field name="name">Formulario de Habitaciones</field>
+				<field name="model">room</field>
+				<field name="arch" type="xml">
+					<form>
+						<sheet>
+							<legend>Room</legend>
+							<group>
+							<field name="nombre"/>
+							<field name="plazas"/>
+							<field name="beds" widget='one2many'/>
+						</group>
+						</sheet>
+					</form>
+				</field>
+			</record>
+
+			<!-- List & Search View Rooms -->
+			<record id="view_tree_room" model="ir.ui.view">
+				<field name="name">Habitaciones</field>
+				<field name="model">room</field>
+				<field name="arch" type="xml">
+					<tree>
+						<field name="nombre"/>
+						<field name="plazas"/>
+					</tree>
+				</field>
+			</record>
+		
+		<!-- Form View Beds -->
+			<record id="view_form_bed" model="ir.ui.view">
+				<field name="name">Formulario de Camas</field>
+				<field name="model">bed</field>
+				<field name="arch" type="xml">
+					<form>
+						<sheet>
+							<legend>Cama</legend>
+							<group>
+								<field name="nombre"/>
+								<field name="tipo"/>
+
+							</group>
+						</sheet>
+					</form>
+				</field>
+			</record>
+
+			<!-- List & Search View Beds-->
+			<record id="view_tree_bed" model="ir.ui.view">
+				<field name="name">Camas</field>
+				<field name="model">bed</field>
+				<field name="arch" type="xml">
+					<tree>
+						<field name="nombre"/>
+						<field name="tipo"/>
+
+					</tree>
+				</field>
+			</record>
+			
+		<!-- Menú Structure Lalita-->
+			<menuitem id="root_reservas" name="Reservas" sequence="20" />
+			<menuitem id="reservas" name="Reservas" parent="root_reservas" sequence="10" />
+			<menuitem id="reservas_conf" name="Configuracion" parent="root_reservas" sequence="10" />
+
+		<!-- Action to open Reservas -->
+		
+		<record id="action_reservas" model="ir.actions.act_window">
+		    <field name="name">Reservas</field>
+		    <field name="res_model">reservas</field>
+		    <field name="view_mode">tree,form</field>
+		</record>
+
+       <!-- Menu item to Reservas -->
+		<menuitem id="_reservas"
+		  name="Reservas"
+		  parent="reservas"
+		  sequence="10"
+		  action="action_reservas" />
+		
+		<!-- Action to open Beds -->
+		
+		<record id="action_bed" model="ir.actions.act_window">
+		    <field name="name">Beds</field>
+		    <field name="res_model">bed</field>
+		    <field name="view_mode">tree,form</field>
+		</record>
+		
+
+       <!-- Menu item to open Beds -->
+		<menuitem id="_beds"
+		  name="Beds"
+		  parent="reservas_conf"
+		  sequence="10"
+		  action="action_bed" />
+		
+		<!-- Action to open Room -->
+		
+		<record id="action_room" model="ir.actions.act_window">
+		    <field name="name">Rooms</field>
+		    <field name="res_model">room</field>
+		    <field name="view_mode">tree,form</field>
+		</record>
+		
+	 <!-- Menu item to open Rooms -->
+		<menuitem id="_rooms"
+		  name="Rooms"
+		  parent="reservas_conf"
+		  sequence="20"
+		  action="action_room" />
+
+	</data>
+</openerp>
