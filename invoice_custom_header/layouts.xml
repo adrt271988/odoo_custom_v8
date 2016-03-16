@@ -23,20 +23,20 @@
                         <img src="invoice_custom_header/static/src/img/vdmi.png"
                                 style="max-height: 150px; max-weight:80px"/>
                 </div>
-                <br/>
+                <br/><br/>
                 <div class="row">
                         <div t-field="o.company_id.partner_id" 
                             t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
                 </div>
                 <br/>
                 <div class="row">
-                    <span>Postadres:</span>
+                    <span>Post Address:</span>
                 </div>
                 <br/>
                 <div class="row">
-                        <div t-field="o.company_id.phone"/>
-                        <div t-field="o.company_id.fax"/>
-                        <div t-field="o.company_id.email"/>
+                    <div t-if="o.company_id.phone">Phone: <span t-field="o.company_id.phone"/></div>
+                    <div t-if="o.company_id.fax">Fax: <span t-field="o.company_id.fax"/></div>
+                    <div t-if="o.company_id.email">E-mail: <span t-field="o.company_id.email"/></div>
                 </div>
                 <br/>
                 <div class="row">
@@ -53,7 +53,7 @@
                 </div>
                 <br/>
                 <div class="row">
-                    <span><strong>BTW</strong></span>
+                    <span><strong>VAT</strong></span>
                 </div>
                 <br/>
                 <div class="row">
@@ -61,7 +61,7 @@
                 </div>
                 <br/>
                 <div class="row">
-                    <span><strong>BETALEN</strong></span>
+                    <span><strong>PAY</strong></span>
                 </div>
             </div>
         </template>

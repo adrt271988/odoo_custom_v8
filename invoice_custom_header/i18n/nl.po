@@ -1,0 +1,192 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* invoice_custom_header
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-16 13:43+0000\n"
+"PO-Revision-Date: 2016-03-16 13:43+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "Amount"
+msgstr "Bedrag"
+
+#. module: invoice_custom_header
+#: view:website:invoice_custom_header.invoice_custom_layout_header
+msgid "BANK"
+msgstr "BANK"
+
+#. module: invoice_custom_header
+#: view:website:invoice_custom_header.invoice_custom_layout_header
+msgid "BETALEN"
+msgstr "BETALEN"
+
+#. module: invoice_custom_header
+#: view:website:invoice_custom_header.invoice_custom_layout_header
+msgid "BTW"
+msgstr "BTW"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "Base"
+msgstr "Grondslag"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "Cancelled Invoice"
+msgstr "Geannuleerde factuur"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "Comment:"
+msgstr "Opmerking"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "Customer Code:"
+msgstr "Klant code:"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "Description"
+msgstr "Omschrijving"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "Description:"
+msgstr "Omschrijving:"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "Discount (%)"
+msgstr "Korting (%)"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "Draft Invoice"
+msgstr "Concept factuur"
+
+#. module: invoice_custom_header
+#: view:website:invoice_custom_header.invoice_custom_layout_header
+msgid "E-mail:"
+msgstr "E-mail:"
+
+#. module: invoice_custom_header
+#: view:website:invoice_custom_header.invoice_custom_layout_header
+msgid "Fax:"
+msgstr "Fax:"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "Fiscal Position Remark:"
+msgstr "Opmerking fiscale positie"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "Invoice"
+msgstr "Factuur"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "Invoice Date:"
+msgstr "Factuurdatum:"
+
+#. module: invoice_custom_header
+#: view:website:invoice_custom_header.invoice_custom_layout_header
+msgid "KVK"
+msgstr "KVK"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "PRO-FORMA"
+msgstr "PROFORMA"
+
+#. module: invoice_custom_header
+#: view:website:invoice_custom_header.invoice_custom_layout_header
+msgid "Page:"
+msgstr "Pagina:"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "Payment Term:"
+msgstr "Betalingsconditie:"
+
+#. module: invoice_custom_header
+#: view:website:invoice_custom_header.invoice_custom_layout_header
+msgid "Postadres:"
+msgstr "Postadres:"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "Quantity"
+msgstr "Hoeveelheid"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "Reference:"
+msgstr "Referentie:"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "Refund"
+msgstr "Credit factuur"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "Source:"
+msgstr "Bron:"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "Supplier Invoice"
+msgstr "Inkoopfactuur"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "Supplier Refund"
+msgstr "Credit inkoopfactuur"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "TIN:"
+msgstr "TIN:"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "Tax"
+msgstr "Belasting"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "Taxes"
+msgstr "Belastingen"
+
+#. module: invoice_custom_header
+#: view:website:invoice_custom_header.invoice_custom_layout_header
+msgid "Tel.:"
+msgstr "Tel.:"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "Total"
+msgstr "Totaal"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "Total Without Taxes"
+msgstr "Totaal excl. belastingen"
+
+#. module: invoice_custom_header
+#: view:website:account.report_invoice_document
+msgid "Unit Price"
+msgstr "Prijs"
+
