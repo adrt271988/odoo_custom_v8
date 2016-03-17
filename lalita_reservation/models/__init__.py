@@ -1,2 +1,3 @@
-from . import reservas_model
+import lalita_reservation
+import traveler_register
 
