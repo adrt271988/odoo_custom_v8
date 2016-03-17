@@ -2,167 +2,189 @@
 <openerp>
     <data>
 
-        <!-- Menú Structure Lalita-->
-        <menuitem id="menu_root_reservation" name="Reservas" sequence="20" />
-        <menuitem id="menu_reservation" name="Reservas" parent="root_reservation" sequence="10" />
-        <menuitem id="menu_reservation_config" name="Configuración" parent="root_reservation" sequence="10" />
-        
-        <!-- Form View Reservas-->
-        <record id="view_form_lalita_reservation" model="ir.ui.view">
-            <field name="name">view.form.lalita.reservation</field>
-            <field name="model">lalita.reservation</field>
-            <field name="arch" type="xml">
-                <form string="Reservas" class="form-horizontal">
-                    <header>
-                        <button name="print_reservation" type="object" string="Imprimir" class="oe_highlight" />
-                    </header>
-                    <sheet>
-                        <legend>Reservas</legend>
+    <!-- Menú Structure Lalita-->
+    <menuitem id="menu_root_reservation" name="Reservas" sequence="20" />
+    <menuitem id="menu_reservation" name="Reservas" parent="menu_root_reservation" sequence="10" />
+    <menuitem id="menu_reservation_config" name="Configuración" parent="menu_root_reservation" sequence="10" />
+    
+    <!-- Form View Reservas-->
+    <record id="view_form_lalita_reservation" model="ir.ui.view">
+        <field name="name">view.form.lalita.reservation</field>
+        <field name="model">lalita.reservation</field>
+        <field name="arch" type="xml">
+            <form string="Reservas" class="form-horizontal">
+                <header>
+                    <button name="print_reservation" type="object" string="Imprimir" class="oe_highlight" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,done"/>
+                </header>
+                <sheet>
+                    
+                    <legend>Reservas</legend>
+                    <div class="oe_title oe_left">
+                        <div class="oe_edit_only">
+                            <label for="name"/>
+                        </div>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <div class="oe_right oe_button_box" name="buttons"> </div>
+                    <group>
                         <group>
                             <field name="partner_id"/>
                             <field name="pricelist_id"/>
+                            
+                            <field name="ocupation_days"/>
+                            <field name="expected_income"/>
+                        </group>
+                        <group>
                             <field name="arrival_date"/>
                             <field name="out_date"/>
-                            <field name="ocupation_days"/>
                             <field name="berths"/>
-                            <field name="state"/>
+                            <!--<field name="state"/>-->
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Huéspedes">
+                                <field name="client_ids" nolabel="1" widget='many2many'/>
+                            </page>
+                            <page string="Habitaciones">
+                                <field name="room_ids" nolabel="1" widget='many2many'/>
+                            </page>
+                        </notebook>
+                        <group colspan="4">
                             <field name="notes"/>
-                            <field name="expected_income"/>
-                            <field name="client_ids" widget='many2many'/>
-                            <field name="room_ids" widget='many2many'/>
-                        <!--<field name="quotations_ids" widget='many2many'/> -->
                         </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-        
-        <!-- List & Search View  Reservas -->
-        <record id="view_tree_lalita_reservation" model="ir.ui.view">
-            <field name="name">view.tree.lalita.reservation</field>
-            <field name="model">lalita.reservation</field>
-            <field name="arch" type="xml">
-                <tree>
-                    <field name="partner_id"/>
-                    <field name="pricelist_id"/>
-                    <field name="arrival_date"/>
-                    <field name="out_date"/>
-                    <field name="ocupation_days"/>
-                    <field name="berths"/>
-                    <field name="state"/>
-                    <field name="notes"/>
-                    <field name="expected_income"/>
-                </tree>
-            </field>
-        </record>
+                    <!--<field name="quotations_ids" widget='many2many'/> -->
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- List & Search View  Reservas -->
+    <record id="view_tree_lalita_reservation" model="ir.ui.view">
+        <field name="name">view.tree.lalita.reservation</field>
+        <field name="model">lalita.reservation</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="partner_id"/>
+                <field name="pricelist_id"/>
+                <field name="arrival_date"/>
+                <field name="out_date"/>
+                <field name="ocupation_days"/>
+                <field name="berths"/>
+                <field name="state"/>
+                <field name="notes"/>
+                <field name="expected_income"/>
+            </tree>
+        </field>
+    </record>
 
-        <!-- Action to open Reservas -->
-        <record id="action_lalita_reservation" model="ir.actions.act_window">
-            <field name="name">Reservas</field>
-            <field name="res_model">lalita.reservation</field>
-            <field name="view_mode">tree,form</field>
-        </record>
+    <!-- Action to open Reservas -->
+    <record id="action_lalita_reservation" model="ir.actions.act_window">
+        <field name="name">Reservas</field>
+        <field name="res_model">lalita.reservation</field>
+        <field name="view_mode">tree,form</field>
+    </record>
 
-       <!-- Menu item to Reservas -->
-        <menuitem id="menu_lalita_reservation"
-          name="Reservas"
-          parent="menu_reservation"
-          sequence="10"
-          action="action_lalita_reservation" />
-        
-        <!-- Form View Rooms -->
-            <record id="view_form_room" model="ir.ui.view">
-                <field name="name">Formulario de Habitaciones</field>
-                <field name="model">room</field>
-                <field name="arch" type="xml">
-                    <form>
-                        <sheet>
-                            <legend>Room</legend>
-                            <group>
-                            <field name="nombre"/>
-                            <field name="plazas"/>
-                            <field name="beds" widget='one2many'/>
+    <!-- Menu item to Reservas -->
+    <menuitem id="menu_lalita_reservation"
+      name="Reservas"
+      parent="menu_reservation"
+      sequence="10"
+      action="action_lalita_reservation" />
+    
+    <!-- Form View Rooms -->
+    <record id="view_form_lalita_room" model="ir.ui.view">
+        <field name="name">view.form.lalita.room</field>
+        <field name="model">lalita.room</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <legend>Habitación</legend>
+                    <group>
+                        <group colspan="4">
+                            <field name="name" class="oe_inline"/>
+                            <field name="bed_count"/>
                         </group>
-                        </sheet>
-                    </form>
-                </field>
-            </record>
+                        <group string="Camas" colspan="4">
+                            <field name="bed_ids" nolabel="1" widget='one2many'/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
 
-            <!-- List & Search View Rooms -->
-            <record id="view_tree_room" model="ir.ui.view">
-                <field name="name">Habitaciones</field>
-                <field name="model">room</field>
-                <field name="arch" type="xml">
-                    <tree>
-                        <field name="nombre"/>
-                        <field name="plazas"/>
-                    </tree>
-                </field>
-            </record>
-        
-        <!-- Form View Beds -->
-            <record id="view_form_bed" model="ir.ui.view">
-                <field name="name">Formulario de Camas</field>
-                <field name="model">bed</field>
-                <field name="arch" type="xml">
-                    <form>
-                        <sheet>
-                            <legend>Cama</legend>
-                            <group>
-                                <field name="nombre"/>
-                                <field name="tipo"/>
+        <!-- List & Search View Rooms -->
+    <record id="view_tree_lalita_room" model="ir.ui.view">
+        <field name="name">view.tree.lalita.room</field>
+        <field name="model">lalita.room</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="bed_count"/>
+            </tree>
+        </field>
+    </record>
 
-                            </group>
-                        </sheet>
-                    </form>
-                </field>
-            </record>
-
-            <!-- List & Search View Beds-->
-            <record id="view_tree_bed" model="ir.ui.view">
-                <field name="name">Camas</field>
-                <field name="model">bed</field>
-                <field name="arch" type="xml">
-                    <tree>
-                        <field name="nombre"/>
-                        <field name="tipo"/>
-
-                    </tree>
-                </field>
-            </record>
-
-        
-        
-        <!-- Action to open Beds -->
-        
-        <record id="action_bed" model="ir.actions.act_window">
-            <field name="name">Beds</field>
-            <field name="res_model">bed</field>
-            <field name="view_mode">tree,form</field>
-        </record>
-        
-
-       <!-- Menu item to open Beds -->
-        <menuitem id="_beds"
-          name="Beds"
-          parent="reservas_conf"
+    <!-- Action to open Room -->
+    
+    <record id="action_lalita_room" model="ir.actions.act_window">
+        <field name="name">Habitaciones</field>
+        <field name="res_model">lalita.room</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+ <!-- Menu item to open Rooms -->
+    <menuitem id="menu_lalita_room"
+          name="Habitaciones"
+          parent="menu_reservation_config"
           sequence="10"
-          action="action_bed" />
-        
-        <!-- Action to open Room -->
-        
-        <record id="action_room" model="ir.actions.act_window">
-            <field name="name">Rooms</field>
-            <field name="res_model">room</field>
-            <field name="view_mode">tree,form</field>
-        </record>
-        
-     <!-- Menu item to open Rooms -->
-        <menuitem id="_rooms"
-          name="Rooms"
-          parent="reservas_conf"
+          action="action_lalita_room" />
+    
+    <!-- Form View Beds -->
+    <record id="view_form_lalita_bed" model="ir.ui.view">
+        <field name="name">view.form.lalita.bed</field>
+        <field name="model">lalita.bed</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <legend>Camas</legend>
+                    <group>
+                        <field name="name"/>
+                        <field name="type"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- List & Search View Beds-->
+    <record id="view_tree_lalita_bed" model="ir.ui.view">
+        <field name="name">view.tree.lalita.bed</field>
+        <field name="model">lalita.bed</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="type"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action to open Beds -->
+    <record id="action_lalita_bed" model="ir.actions.act_window">
+        <field name="name">Camas</field>
+        <field name="res_model">lalita.bed</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+
+   <!-- Menu item to open Beds -->
+    <menuitem id="menu_lalita_beds"
+          name="Camas"
+          parent="menu_reservation_config"
           sequence="20"
-          action="action_room" />
-
+          action="action_lalita_bed"/>
     </data>
 </openerp>

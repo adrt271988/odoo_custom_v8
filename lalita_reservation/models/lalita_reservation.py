@@ -34,7 +34,7 @@ class LalitaBed(models.Model):
         'Tipo de Cama')
     room_id = fields.Many2one('lalita.room', 'Habitación') 
 
-    class LalitaRoom(models.Model):
+class LalitaRoom(models.Model):
     _name = 'lalita.room'
     _description = "Rooms"
     _order = "id desc"
@@ -45,7 +45,7 @@ class LalitaBed(models.Model):
     bed_ids = fields.One2many('lalita.bed', 'room_id', 'Camas en esta habitacion') 
 
 
-    class LalitaReservation(models.Model):
+class LalitaReservation(models.Model):
     _name = 'lalita.reservation'
     _description = "Reservations"
     _order = "id desc"
@@ -53,6 +53,8 @@ class LalitaBed(models.Model):
 
     name = fields.Char(string="Código de Reserva")
     partner_id = fields.Many2one('res.partner', string='Cliente')
+    company_id = fields.Many2one('res.company', string='Compañia')
+    user_id = fields.Many2one('res.users', string='Responsable')
     pricelist_id = fields.Many2one('product.pricelist', string='Tarifa')
     arrival_date = fields.Date( string='Fecha de Entrada', required=True)
     out_date = fields.Date( string='Fecha de Salida', required=True)
@@ -70,7 +72,7 @@ class LalitaBed(models.Model):
         string='Estimación de Ingresos',
         compute='_get_expected_income')
     client_ids = fields.Many2many('res.partner', 'lalita_reservation_res_partner_rel',string="Huéspedes")
-    room_ids = fields.Many2many('lalita.room', 'lalita_reservation_lalita_room_rel')
+    room_ids = fields.Many2many('lalita.room', 'lalita_reservation_lalita_room_rel',string="Habitaciones")
     #	quotations_ids = fields.Many2many('sale.order', 'group_quotations')
 
     @api.one

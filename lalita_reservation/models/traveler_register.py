@@ -44,3 +44,5 @@ class TravelerRegister(models.Model):
     birth_country = fields.Char('Pais de Nacionalidad', size=21, required=True)
     entry_date = fields.Date('Fecha de Entrada', required=True)
     sent = fields.Boolean('Enviado?', default=False)
+    company_id = fields.Many2one('res.company', string='Compañia')
+    user_id = fields.Many2one('res.users', string='Responsable')
