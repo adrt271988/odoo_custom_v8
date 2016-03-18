@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_traveler_register_document">
+    <div class="page">
+        <h2>Registro de Viajero </h2>
+        <h3 align="center"><u>Datos del Establecimiento</u></h3>
+        <br/>
+        <div class="row mt32 mb32">
+            <div class="col-xs-6">
+                <div>NIF: &#160;<span t-field="o.company_id.vat"/></div>
+                <div>Nombre del Establecimiento: &#160;<span t-field="o.company_id.name"/></div>
+                <div>Municipio: &#160;<span t-field="o.company_id.city"/></div>
+                <div>Parroquia: &#160;<span t-field="o.company_id.street2"/></div>
+            </div>
+            <div class="col-xs-6">
+                <div>Parte n°: &#160;<span t-field="o.company_id.company_registry"/></div>
+                <div>&#160;</div>
+                <div>&#160;</div>
+                <div>&#160;</div>
+                <div>Sello del Establecimiento</div>
+            </div>
+        </div>
+        <br/>
+        <h4><strong><i>DATOS DEL VIAJERO</i></strong></h4>
+        <div class="row mt32 mb32">
+            <div class="col-xs-6">
+                <div>
+                    Num de documento de identidad: &#160;<span t-field="o.doc_number"/>
+                </div>
+                <div>
+                    Tipo de documento: &#160;<span t-field="o.doc_type"/>
+                </div>
+                <div>
+                    Fecha de expedición de documento: &#160;<span t-field="o.document_date" 
+                       t-field-options="{&quot;format&quot;: &quot;yyyy-MM-dd&quot;}"  />
+                </div>
+                <div>
+                    Primer Apellido: &#160;<span t-field="o.last_name1"/>
+                </div>
+                <div>
+                    Segundo Apellido: &#160;<span t-field="o.last_name2"/>
+                </div>
+                <div>
+                    Nombre: &#160;<span t-field="o.first_name"/>
+                </div>
+                <div>
+                    Sexo: &#160;<span t-field="o.gender"/>
+                </div>
+                <div>
+                    Fecha de nacimiento: &#160;<span t-field="o.birth_date" 
+                        t-field-options="{&quot;format&quot;: &quot;yyyy-MM-dd&quot;}" />
+                </div>
+                <div>
+                    País de nacionalidad: &#160;<span t-field="o.birth_country"/>
+                </div>
+                <div>
+                    Fecha de entrada: &#160;<span t-field="o.entry_date" 
+                        t-field-options="{&quot;format&quot;: &quot;yyyy-MM-dd&quot;}" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row" align="center">
+            <p>__________________,____ de ___________ de 20___</p>
+            <p>Firma del viajero</p>
+        </div>
+
+        <br/><br/>
+        <div class="row" align="justify" style="font-size:9px">
+            <p>
+                La recogida y tratamiento se hará de acuerdo con
+                la Ley Orgánica 15/1999, de 13 de diciembre, de
+                Protección de Datos de Carácter Personal y al
+                amparo de lo dispuesto en el artículo 12.1 de
+                la Ley Orgánica 1/1992, de 21 de febrero, sobre
+                Proteción de la Seguridad Ciudadana
+            </p>
+        </div>
+    </div>
+</template>
+
+<template id="report_traveler_register">
+    <t t-call="report.html_container">
+        <t t-foreach="doc_ids" t-as="doc_id">
+            <t t-raw="translate_doc(doc_id, doc_model, 'user_id.lang', 'lalita_reservation.report_traveler_register_document')"/>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

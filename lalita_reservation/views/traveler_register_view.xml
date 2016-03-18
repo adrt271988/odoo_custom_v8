@@ -8,43 +8,34 @@
 			<field name="arch" type="xml">
 				<form string="Registro de Viajeros" class="form-horizontal">
 					<header>
-						<button name="print_register" type="object" string="Imprimir" class="oe_highlight" />
+<!--
+						<button name="print_register" type="object"
+                            attrs="{'invisible':[('state', '!=', 'draft')]}"
+                            string="Imprimir" class="oe_highlight"/>
+-->
+						<button name="print_register" type="object"
+                            string="Imprimir" class="oe_highlight"/>
 					</header>
 					<sheet>
-<!--
-                        <legend>Datos del Establecimiento</legend>
-                        <div class="row">
-                          <div class="col-md-3"><strong>CIF:</strong></div>
-                          <div class="col-md-5">B10163608</div>
-                          <div class="col-md-2"><strong>Parte nº:</strong></div>
-                          <div class="col-md-2">001</div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-3"><strong>Nombre del establecimiento:</strong></div>
-                          <div class="col-md-5">Lalita Devi Escuela de Vida S.L</div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-3"><strong>Municipio:</strong></div>
-                          <div class="col-md-5">Acebo</div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-3"><strong>Provincia:</strong></div>
-                          <div class="col-md-5">Cáceres</div>
-                        </div>
--->
                         <legend>Datos del Viajero</legend>
                         <group>
-                            <field name="doc_number"/>
-                            <field name="doc_type"/>
-                            <field name="date_due"/>
-                            <field name="last_name1"/>
-                            <field name="last_name2"/>
-                            <field name="first_name"/>
-                            <field name="gender"/>
-                            <field name="birth_date"/>
-                            <field name="birth_country"/>
-                            <field name="entry_date"/>
-                            <filed name="sent"/>
+                            <group>
+                                <field name="doc_number"/>
+                                <field name="doc_type"/>
+                                <field name="document_date"/>
+                                <field name="last_name1"/>
+                                <field name="last_name2"/>
+                                <field name="first_name"/>
+                                <field name="user_id"/>
+                            </group>
+                            <group>
+                                <field name="gender"/>
+                                <field name="birth_date"/>
+                                <field name="birth_country"/>
+                                <field name="entry_date"/>
+                                <field name="sent"/>
+                                <field name="company_id"/>
+                            </group>
                         </group>
 					</sheet>
 				</form>

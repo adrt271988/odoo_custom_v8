@@ -31,5 +31,7 @@
     'data':[
                 'views/lalita_reservation_view.xml',
                 'views/traveler_register_view.xml',
+                'report/report_traveler_register.xml',
+                'lalita_reservation_report.xml',
             ],
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report 
+            id="lalita_traveler_register"
+            model="traveler.register"
+            string="Registro de Viajero"
+            report_type="qweb-pdf"
+            name="lalita_reservation.report_traveler_register"
+            file="account.report_traveler_register"
+        />
+    </data>
+</openerp>

@@ -18,14 +18,19 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields
+from openerp import models, fields, api
 
 class TravelerRegister(models.Model):
     _name = 'traveler.register'
     _description = "Traveler Registration"
     _order = "id desc"
     _rec_name = "doc_number"
-    
+
+    @api.multi
+    def print_register(self):
+        assert len(self) == 1, 'This option should only be used for a single id at a time.'
+        return self.env['report'].get_action(self, 'lalita_reservation.report_traveler_register')
+
     doc_number = fields.Char('Documento Identificación', size=14,required=True,help="Número de Documento de Identidad")
     doc_type = fields.Selection(
             [('D','DNI Españoles'),
@@ -35,7 +40,7 @@ class TravelerRegister(models.Model):
             ('X','Permiso de residencia UE'),
             ('N','Permiso de residencia español')],
             'Tipo de Documento', size=1, required=True)
-    date_due = fields.Date('Fecha de Expedición', required=True)
+    document_date = fields.Date('Fecha de Expedición', required=True)
     last_name1 = fields.Char('Primer Apellido', size=30, required=True)
     last_name2 = fields.Char('Segundo Apellido', size=30, required=True)
     first_name = fields.Char('Nombre', size=30, required=True)
@@ -44,5 +49,9 @@ class TravelerRegister(models.Model):
     birth_country = fields.Char('Pais de Nacionalidad', size=21, required=True)
     entry_date = fields.Date('Fecha de Entrada', required=True)
     sent = fields.Boolean('Enviado?', default=False)
-    company_id = fields.Many2one('res.company', string='Compañia')
-    user_id = fields.Many2one('res.users', string='Responsable')
+    reservation_id = fields.Many2one('lalita.reservation', string='Cliente')
+    user_id = fields.Many2one('res.users', string='Responsable', track_visibility='onchange',
+            default=lambda self: self.env.user)
+    company_id = fields.Many2one('res.company', string='Compañía',
+            required=True, change_default=True, readonly=True,
+            default=lambda self: self.env['res.company']._company_default_get('traveler.register'))

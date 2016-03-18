@@ -53,16 +53,20 @@ class LalitaReservation(models.Model):
 
     name = fields.Char(string="Código de Reserva")
     partner_id = fields.Many2one('res.partner', string='Cliente')
-    company_id = fields.Many2one('res.company', string='Compañia')
-    user_id = fields.Many2one('res.users', string='Responsable')
-    pricelist_id = fields.Many2one('product.pricelist', string='Tarifa')
+    user_id = fields.Many2one('res.users', string='Responsable', track_visibility='onchange',
+            default=lambda self: self.env.user)
+    company_id = fields.Many2one('res.company', string='Compañía',
+            required=True, change_default=True, readonly=True,
+            default=lambda self: self.env['res.company']._company_default_get('lalita.reservation'))
+    pricelist_id = fields.Many2one('product.pricelist', string='Tarifa',domain="[('type','=','sale')]")
     arrival_date = fields.Date( string='Fecha de Entrada', required=True)
     out_date = fields.Date( string='Fecha de Salida', required=True)
     state = fields.Selection(
         [('draft','Nuevo'),
         ('open','Abierto'),
         ('done','Cerrado')],
-        'Estado de la Reserva')
+        string='Estado de la Reserva',index=True, default='draft',
+        track_visibility='onchange', copy=False)
     notes = fields.Text(string='Observaciones')
     ocupation_days = fields.Integer(
         string='Total Días de Ocupacion',
@@ -73,6 +77,7 @@ class LalitaReservation(models.Model):
         compute='_get_expected_income')
     client_ids = fields.Many2many('res.partner', 'lalita_reservation_res_partner_rel',string="Huéspedes")
     room_ids = fields.Many2many('lalita.room', 'lalita_reservation_lalita_room_rel',string="Habitaciones")
+    register_ids = fields.One2many('traveler.register','reservation_id',string="Registros de Viajeros")
     #	quotations_ids = fields.Many2many('sale.order', 'group_quotations')
 
     @api.one

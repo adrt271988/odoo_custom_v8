@@ -33,7 +33,6 @@
                         <group>
                             <field name="partner_id"/>
                             <field name="pricelist_id"/>
-                            
                             <field name="ocupation_days"/>
                             <field name="expected_income"/>
                         </group>
@@ -41,6 +40,8 @@
                             <field name="arrival_date"/>
                             <field name="out_date"/>
                             <field name="berths"/>
+                            <field name="user_id"/>
+                            <field name="company_id"/>
                             <!--<field name="state"/>-->
                         </group>
                         <notebook colspan="4">
@@ -50,11 +51,13 @@
                             <page string="Habitaciones">
                                 <field name="room_ids" nolabel="1" widget='many2many'/>
                             </page>
+                            <page string="Registros">
+                                <field name="register_ids" nolabel="1" widget='one2many'/>
+                            </page>
                         </notebook>
                         <group colspan="4">
                             <field name="notes"/>
                         </group>
-                    <!--<field name="quotations_ids" widget='many2many'/> -->
                     </group>
                 </sheet>
             </form>
