@@ -18,7 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api
+from openerp import models, fields, api, _
 
 MAGIC_COLUMNS = ('id', 'create_uid', 'create_date', 'write_uid', 'write_date')
 
@@ -33,14 +33,14 @@ class TravelerRegister(models.Model):
     def print_register(self):
         assert len(self) == 1, 'This option should only be used for a single id at a time.'
         return self.env['report'].get_action(self, 'lalita_reservation.report_traveler_register')
-
+        
     @api.model
     def create(self, values):
         if not values.get('code'):
             values['code'] = self.env['ir.sequence'].get('traveler.register')
-            register_id = super(TravelerRegister, self).create(values)
-            #~ self.write({'state':'open'})
-        return register_id
+        record_id = super(TravelerRegister, self).create(values)
+        self.message_post(body=_("Registro de viajeros %s creado"%values["code"]))
+        return record_id
 
     code = fields.Char('Código', size=4, help="Código de Identificación del Registro", select=True, readonly=True)
     doc_number = fields.Char('Documento Identificación', size=14,required=True,help="Número de Documento de Identidad")

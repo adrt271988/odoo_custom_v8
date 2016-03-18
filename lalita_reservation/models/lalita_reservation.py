@@ -20,13 +20,13 @@
 ##############################################################################
 
 from datetime import datetime
-from openerp import models, fields, api
+from openerp import models, fields, api, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
 
 MAGIC_COLUMNS = ('id', 'create_uid', 'create_date', 'write_uid', 'write_date')
 
 class LalitaBed(models.Model):
     _name = 'lalita.bed'
-    _inherit = ['mail.thread']
     _description = "Beds"
     _order = "id desc"
     _rec_name = "name"
@@ -51,6 +51,7 @@ class LalitaRoom(models.Model):
 class LalitaReservation(models.Model):
     _name = 'lalita.reservation'
     _description = "Reservations"
+    _inherit = ['mail.thread']
     _order = "id desc"
     _rec_name = "name"
 
@@ -83,15 +84,31 @@ class LalitaReservation(models.Model):
     register_ids = fields.One2many('traveler.register','reservation_id',string="Registros de Viajeros")
     #	quotations_ids = fields.Many2many('sale.order', 'group_quotations')
 
-    @api.one
-    def _get_ocupation_days(self):
+    def get_days(self,from_date,to_date):
         fmt = '%Y-%m-%d'
-        from_date = self.arrival_date
-        to_date = self.out_date
         d1 = datetime.strptime(from_date, fmt)
         d2 = datetime.strptime(to_date, fmt)
-        self.ocupation_days = str((d2-d1).days)
+        return (d2-d1).days
+    
+    @api.one
+    @api.depends('arrival_date', 'out_date')
+    def _get_ocupation_days(self):
+        from_date = self.arrival_date
+        to_date = self.out_date
+        if from_date and to_date:
+            days = self.get_days(from_date,to_date)
+            if days < 0:
+                raise except_orm(_('Advertencia!'), _("La fecha de salida no puede ser menor a la fecha de entrada"))
+            self.ocupation_days = str(days)
         
     @api.one
     def _get_expected_income(self):
         self.expected_income = self.ocupation_days * self.berths * 45
+
+    @api.model
+    def create(self, values):
+        if 'arrival_date' in values and 'out_date' in values:
+            if self.get_days(values['arrival_date'],values['out_date']) < 0:
+                raise except_orm(_('Advertencia!'), _("La fecha de salida no puede ser menor a la fecha de entrada"))
+        self.message_post(body=_("Reserva %s creada"%values["name"]))
+        return super(LalitaReservation, self).create(values)

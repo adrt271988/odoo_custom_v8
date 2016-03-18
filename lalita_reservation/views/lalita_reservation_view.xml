@@ -88,6 +88,11 @@
         <field name="name">Reservas</field>
         <field name="res_model">lalita.reservation</field>
         <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Presione para crear nuevas Reservaciones
+          </p>
+        </field>
     </record>
 
     <!-- Menu item to Reservas -->
