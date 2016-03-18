@@ -22,8 +22,11 @@
 from datetime import datetime
 from openerp import models, fields, api
 
+MAGIC_COLUMNS = ('id', 'create_uid', 'create_date', 'write_uid', 'write_date')
+
 class LalitaBed(models.Model):
     _name = 'lalita.bed'
+    _inherit = ['mail.thread']
     _description = "Beds"
     _order = "id desc"
     _rec_name = "name"

@@ -20,17 +20,29 @@
 ##############################################################################
 from openerp import models, fields, api
 
+MAGIC_COLUMNS = ('id', 'create_uid', 'create_date', 'write_uid', 'write_date')
+
 class TravelerRegister(models.Model):
     _name = 'traveler.register'
     _description = "Traveler Registration"
+    _inherit = ['mail.thread']
     _order = "id desc"
-    _rec_name = "doc_number"
+    _rec_name = "code"
 
     @api.multi
     def print_register(self):
         assert len(self) == 1, 'This option should only be used for a single id at a time.'
         return self.env['report'].get_action(self, 'lalita_reservation.report_traveler_register')
 
+    @api.model
+    def create(self, values):
+        if not values.get('code'):
+            values['code'] = self.env['ir.sequence'].get('traveler.register')
+            register_id = super(TravelerRegister, self).create(values)
+            #~ self.write({'state':'open'})
+        return register_id
+
+    code = fields.Char('Código', size=4, help="Código de Identificación del Registro", select=True, readonly=True)
     doc_number = fields.Char('Documento Identificación', size=14,required=True,help="Número de Documento de Identidad")
     doc_type = fields.Selection(
             [('D','DNI Españoles'),
@@ -47,7 +59,7 @@ class TravelerRegister(models.Model):
     gender = fields.Selection([('F','Femenino'),('M','Masculino')],'Sexo',size=1,required=True)
     birth_date = fields.Date('Fecha de Nacimiento', required=True)
     birth_country = fields.Char('Pais de Nacionalidad', size=21, required=True)
-    entry_date = fields.Date('Fecha de Entrada', required=True)
+    entry_date = fields.Date('Fecha de Entrada', required=True, default = lambda self: fields.Date.context_today(self))
     sent = fields.Boolean('Enviado?', default=False)
     reservation_id = fields.Many2one('lalita.reservation', string='Cliente')
     user_id = fields.Many2one('res.users', string='Responsable', track_visibility='onchange',
@@ -55,3 +67,10 @@ class TravelerRegister(models.Model):
     company_id = fields.Many2one('res.company', string='Compañía',
             required=True, change_default=True, readonly=True,
             default=lambda self: self.env['res.company']._company_default_get('traveler.register'))
+    state = fields.Selection(
+        [('draft','Nuevo'),
+        ('sent','Enviado'),
+        ('open','Abierto'),
+        ('closed','Cerrado')],
+        string='Estado del Registro',index=True, default='draft',
+        track_visibility='onchange', copy=False)

@@ -14,7 +14,7 @@
                 <div>Parroquia: &#160;<span t-field="o.company_id.street2"/></div>
             </div>
             <div class="col-xs-6">
-                <div>Parte n°: &#160;<span t-field="o.company_id.company_registry"/></div>
+                <div>Parte n°: &#160;<span t-field="o.code"/></div>
                 <div>&#160;</div>
                 <div>&#160;</div>
                 <div>&#160;</div>

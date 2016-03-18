@@ -29,6 +29,7 @@
     'application': True,
     'installable': True,
     'data':[
+                'lalita_reservation_sequence.xml',
                 'views/lalita_reservation_view.xml',
                 'views/traveler_register_view.xml',
                 'report/report_traveler_register.xml',
