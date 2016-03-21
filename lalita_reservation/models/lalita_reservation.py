@@ -25,6 +25,14 @@ from openerp.exceptions import except_orm, Warning, RedirectWarning
 
 MAGIC_COLUMNS = ('id', 'create_uid', 'create_date', 'write_uid', 'write_date')
 
+class LalitaFloor(models.Model):
+    _name = 'lalita.floor'
+    _description = "Floors"
+    _order = "id desc"
+    _rec_name = "name"
+
+    name = fields.Char('Nombre', size=30, required=True)
+
 class LalitaBed(models.Model):
     _name = 'lalita.bed'
     _description = "Beds"
@@ -33,9 +41,9 @@ class LalitaBed(models.Model):
 
     name = fields.Char('Nombre', size=30, required=True)
     type = fields.Selection(
-        [('1','Sencilla'), ('2','Doble')],
+        [('1','Sencilla'), ('2','Doble'),('3','Supletoria')],
         'Tipo de Cama')
-    room_id = fields.Many2one('lalita.room', 'Habitación') 
+    room_id = fields.Many2one('lalita.room', 'Habitación')
 
 class LalitaRoom(models.Model):
     _name = 'lalita.room'
@@ -45,6 +53,7 @@ class LalitaRoom(models.Model):
 
     name = fields.Char('Nombre',  size=30, required=True)
     bed_count = fields.Integer('N° de Camas')
+    floor_id = fields.Many2one('lalita.floor', 'Piso',help="Piso/Planta de la Habitación")
     bed_ids = fields.One2many('lalita.bed', 'room_id', 'Camas en esta habitacion') 
 
 
@@ -82,7 +91,8 @@ class LalitaReservation(models.Model):
     client_ids = fields.Many2many('res.partner', 'lalita_reservation_res_partner_rel',string="Huéspedes")
     room_ids = fields.Many2many('lalita.room', 'lalita_reservation_lalita_room_rel',string="Habitaciones")
     register_ids = fields.One2many('traveler.register','reservation_id',string="Registros de Viajeros")
-    #	quotations_ids = fields.Many2many('sale.order', 'group_quotations')
+    sale_ids = fields.One2many('sale.order','reservation_id',string="Ofertas")
+    invoice_ids = fields.One2many('account.invoice','reservation_id',string="Facturas")
 
     def get_days(self,from_date,to_date):
         fmt = '%Y-%m-%d'

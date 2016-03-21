@@ -25,14 +25,16 @@
     'summary': 'Registro para Viajeros',
     'description': 'Gestión del Registro de Viajeros y envío de los partes a la Guardia Civil',
     'author': 'Jeronimo Spotorno, Alexander Rodriguez <adtr271988@gmail.com>',
-    'depends': ['base','product'],
+    #~ 'depends': ['base','document','mail','sales_crm_custom'],
+    'depends': ['base','document','mail','product','account','sale'],
     'application': True,
     'installable': True,
     'data':[
-                'lalita_reservation_sequence.xml',
+                'data/lalita_reservation_sequence.xml',
                 'views/lalita_reservation_view.xml',
                 'views/traveler_register_view.xml',
                 'report/report_traveler_register.xml',
                 'lalita_reservation_report.xml',
+                'data/email_template.xml',
             ],
 }

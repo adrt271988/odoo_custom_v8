@@ -8,13 +8,14 @@
 			<field name="arch" type="xml">
 				<form string="Registro de Viajeros" class="form-horizontal">
 					<header>
-<!--
 						<button name="print_register" type="object"
-                            attrs="{'invisible':[('state', '=', 'draft')]}"
+                            attrs="{'invisible':[('state', '!=', 'draft')]}"
                             string="Imprimir" class="oe_highlight"/>
--->
-						<button name="print_register" type="object"
-                            string="Imprimir" class="oe_highlight"/>
+						<button name="send_register" type="object"
+                            attrs="{'invisible':[('state', '!=', 'printed')]}"
+                            string="Enviar Registro" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,printed,sent"
+                            statusbar_colors='{"draft":"blue","printed":"blue","sent":"blue"}'/>
 					</header>
 					<sheet>
                         <div class="oe_title oe_left">
@@ -38,9 +39,7 @@
                                 <field name="birth_date"/>
                                 <field name="birth_country"/>
                                 <field name="entry_date"/>
-                                <field name="sent"/>
                                 <field name="company_id" string="Establecimiento"/>
-                                <field name="state" invisible="1"/>
                             </group>
                         </group>
 					</sheet>
@@ -57,13 +56,13 @@
 			<field name="name">view.tree.traveler.register</field>
 			<field name="model">traveler.register</field>
 			<field name="arch" type="xml">
-				<tree colors="gray:sent==True">
+				<tree colors="blue:state == 'draft';">
 					<field name="entry_date"/>
 					<field name="last_name1"/>
 					<field name="last_name2"/>
 					<field name="first_name"/>
 					<field name="doc_number"/>
-					<field name="sent"/>
+					<field name="state"/>
 				</tree>
 			</field>
 		</record>
