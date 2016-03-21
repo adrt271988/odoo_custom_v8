@@ -63,9 +63,9 @@ class TravelerRegister(models.Model):
     def create(self, values):
         if not values.get('code'):
             values['code'] = self.env['ir.sequence'].get('traveler.register')
-        self.env['mail.thread'].message_post(body=_("Registro de viajeros %s creado"%values["code"]))
-        self.message_post(body=_("Registro de viajeros %s creado"%values["code"]))
-        return super(TravelerRegister, self).create(values)
+        register = super(TravelerRegister, self).create(values)
+        register.message_post(body=_("Registro de viajeros %s creado"%values["code"]))
+        return register
 
     code = fields.Char('Código', size=4, help="Código de Identificación del Registro", select=True, readonly=True)
     doc_number = fields.Char('Documento Identificación', size=14,required=True,help="Número de Documento de Identidad")

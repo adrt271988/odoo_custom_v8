@@ -34,6 +34,7 @@
                             <field name="pricelist_id"/>
                             <field name="ocupation_days"/>
                             <field name="expected_income"/>
+                            <field name="sale_id"/>
                         </group>
                         <group>
                             <field name="arrival_date"/>
@@ -49,7 +50,11 @@
                                         <field name="name"/>
                                         <field name="phone"/>
                                         <field name="email"/>
+                                        <field name="room_id"/>
+                                        <field name="arrival_date"/>
+                                        <field name="out_date"/>
                                         <field name="guest_state"/>
+                                        <field name="register_state"/>
                                     </tree>
                                 </field>
                             </page>
@@ -58,9 +63,6 @@
                             </page>
                             <page string="Registros">
                                 <field name="register_ids" nolabel="1" widget='one2many'/>
-                            </page>
-                            <page string="Ofertas">
-                                <field name="sale_ids" nolabel="1" widget='one2many'/>
                             </page>
                             <page string="Facturas">
                                 <field name="invoice_ids" nolabel="1" widget='one2many'/>

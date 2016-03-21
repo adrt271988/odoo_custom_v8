@@ -33,3 +33,14 @@ class LalitaResPartner(models.Model):
         ('check_out','Check out'),],
         string='Estado del Huesped', index=True, default='draft',
         track_visibility='onchange', copy=False)
+    arrival_date = fields.Date( string='Fecha de Entrada')
+    out_date = fields.Date( string='Fecha de Salida')
+    room_id = fields.Many2one('lalita.room',string="Habitación")
+    register_state = fields.Selection(
+        [('not_sent','No enviado'),
+        ('sent','Enviado'),
+        ('filled','Registro llenado'),
+        ('signed','Firmado e Impreso'),],
+        string='Estado Registro Viajero', index=True, default='not_sent',
+        track_visibility='onchange', copy=False)
+

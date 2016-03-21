@@ -91,7 +91,8 @@ class LalitaReservation(models.Model):
     client_ids = fields.Many2many('res.partner', 'lalita_reservation_res_partner_rel',string="Huéspedes")
     room_ids = fields.Many2many('lalita.room', 'lalita_reservation_lalita_room_rel',string="Habitaciones")
     register_ids = fields.One2many('traveler.register','reservation_id',string="Registros de Viajeros")
-    sale_ids = fields.One2many('sale.order','reservation_id',string="Ofertas")
+    sale_id = fields.Many2one('sale.order',string="Pedido",help="Pedido de Ventas Asociado",
+        domain="[('state','=','progress')]")
     invoice_ids = fields.One2many('account.invoice','reservation_id',string="Facturas")
 
     def get_days(self,from_date,to_date):
