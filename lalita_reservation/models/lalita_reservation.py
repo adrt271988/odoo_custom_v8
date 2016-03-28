@@ -68,31 +68,7 @@ class LalitaReservation(models.Model):
     def send_online_form(self):
         if self.client_ids:
             for client in self.client_ids:
-                if client.check:
-                    client.write({'register_state':'sent'})
-
-    #~ @api.multi
-    #~ def check_in(self):
-        #~ view_form = self.env.ref('lalita_reservation.view_form_traveler_register', False)
-        #~ ctx = dict(
-            #~ default_model='traveler.register',
-            #~ default_res_id=self.id,
-            #~ default_use_template=bool(template),
-            #~ default_template_id=template.id,
-            #~ default_composition_mode='comment',
-            #~ mark_register_as_sent = True,
-        #~ )
-        #~ return {
-            #~ 'name': _('Compose Email'),
-            #~ 'type': 'ir.actions.act_window',
-            #~ 'view_type': 'form',
-            #~ 'view_mode': 'form',
-            #~ 'res_model': 'traveler.register',
-            #~ 'views': [(view_form.id, 'form')],
-            #~ 'view_id': view_form.id,
-            #~ 'target': 'new',
-            #~ 'context': ctx,
-        #~ }
+                client.write({'register_state':'sent'})
 
     name = fields.Char(string="Código de Reserva",size=7,select=True, readonly=True)
     partner_id = fields.Many2one('res.partner', string='Cliente')
@@ -165,6 +141,27 @@ class LalitaGuest(models.Model):
     _name = 'lalita.guest'
     _description = "Guests"
     _order = "id desc"
+
+    @api.multi
+    def call_traveler_form(self):
+        view_form = self.env.ref('lalita_reservation.view_form_traveler_register', False)
+        ctx = dict(
+            default_guest_id = self.id,
+            default_birth_country = self.partner_id.country_id and self.partner_id.country_id.id or False,
+            default_first_name = self.partner_id.name,
+            default_entry_date = self.arrival_date,
+        )
+        return {
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'traveler.register',
+            'views': [(view_form.id, 'form')],
+            'view_id': view_form.id,
+            'target': 'new',
+            'flags': {'form': {'action_buttons': True}},
+            'context': ctx,
+        }
 
     partner_id = fields.Many2one('res.partner',string="Huésped")
     reservation_id = fields.Many2one('lalita.reservation',string="Reservación")

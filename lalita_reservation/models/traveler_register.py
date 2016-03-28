@@ -29,6 +29,15 @@ class TravelerRegister(models.Model):
     _order = "id desc"
     _rec_name = "code"
 
+    #~ @api.model
+    #~ def default_get(self, fields):
+        #~ if self._context is None: self._context = {}
+        #~ res = super(TravelerRegister, self).default_get(fields)
+        #~ print '**********res',res
+        #~ register_id = self._context.get('active_id', False)
+        #~ active_model = self._context.get('active_model')
+        #~ res.update({'first_name':self._context.get('first_name','')})
+
     @api.multi
     def send_register(self):
         assert len(self) == 1, 'This option should only be used for a single id at a time.'
@@ -84,7 +93,8 @@ class TravelerRegister(models.Model):
     first_name = fields.Char('Nombre', size=30, required=True)
     gender = fields.Selection([('F','Femenino'),('M','Masculino')],'Sexo',size=1,required=True)
     birth_date = fields.Date('Fecha de Nacimiento', required=True)
-    birth_country = fields.Char('Pais de Nacionalidad', size=21, required=True)
+    birth_country = fields.Many2one('res.country','Pais de Nacionalidad',required=True)
+    guest_id = fields.Many2one('lalita.guest','Huésped',readonly=True)
     entry_date = fields.Date('Fecha de Entrada', required=True, default = lambda self: fields.Date.context_today(self))
     #~ sent = fields.Boolean('Enviado?', default=False)
     reservation_id = fields.Many2one('lalita.reservation', string='Cliente')

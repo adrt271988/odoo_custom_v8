@@ -68,7 +68,7 @@
 		</record>
         
 		<!-- Action to open To-do Task list -->
-         <record id="action_traveler_register" model="ir.actions.act_window">
+        <record id="action_traveler_register" model="ir.actions.act_window">
             <field name="name">Registro de Viajeros</field>
             <field name="res_model">traveler.register</field>
             <field name="view_type">form</field>
