@@ -53,7 +53,8 @@ class TravelerRegister(models.Model):
             'target': 'new',
             'context': ctx,
         }
-        
+
+    @api.multi
     def print_register(self):
         assert len(self) == 1, 'This option should only be used for a single id at a time.'
         self.write({'state':'printed'})

@@ -30,8 +30,8 @@
     'installable': True,
     'data':[
                 'data/lalita_reservation_sequence.xml',
-                'views/lalita_reservation_view.xml',
                 'views/traveler_register_view.xml',
+                'views/lalita_reservation_view.xml',
                 'report/report_traveler_register.xml',
                 'lalita_reservation_report.xml',
                 'data/email_template.xml',

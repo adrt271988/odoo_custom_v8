@@ -17,12 +17,9 @@
                     <button name="print_reservation" type="object" string="Imprimir" class="oe_highlight" />
                     <field name="state" widget="statusbar" statusbar_visible="draft,open,done"/>
                 </header>
-                <sheet>                    
+                <sheet>
                     <legend>Reservas</legend>
                     <div class="oe_title oe_left">
-                        <div class="oe_edit_only">
-                            <label for="name"/>
-                        </div>
                         <h1>
                             <field name="name"/>
                         </h1>
@@ -45,16 +42,19 @@
                         </group>
                         <notebook colspan="4">
                             <page string="Huéspedes">
-                                <field name="client_ids" nolabel="1" widget='many2many'>
+                                <button name="send_online_form" type="object" string="Enviar Formulario Online" class="oe_highlight"/>
+                                <button name="check_in" type="object" string="Check In" class="oe_highlight"/>
+                                <field name="client_ids" nolabel="1">
                                     <tree editable="bottom">
-                                        <field name="name"/>
+                                        <field name="check" nolabel="1"/>
+                                        <field name="partner_id"/>
                                         <field name="phone"/>
                                         <field name="email"/>
                                         <field name="room_id"/>
                                         <field name="arrival_date"/>
                                         <field name="out_date"/>
-                                        <field name="guest_state"/>
                                         <field name="register_state"/>
+                                        <field name="guest_state"/>
                                     </tree>
                                 </field>
                             </page>
@@ -73,6 +73,10 @@
                         </group>
                     </group>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
             </form>
         </field>
     </record>
@@ -83,15 +87,15 @@
         <field name="model">lalita.reservation</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="name"/>
                 <field name="partner_id"/>
                 <field name="pricelist_id"/>
                 <field name="arrival_date"/>
                 <field name="out_date"/>
                 <field name="ocupation_days"/>
                 <field name="berths"/>
-                <field name="state"/>
-                <field name="notes"/>
                 <field name="expected_income"/>
+                <field name="state"/>
             </tree>
         </field>
     </record>
@@ -138,7 +142,7 @@
         </field>
     </record>
 
-        <!-- List & Search View Rooms -->
+    <!-- List & Search View Rooms -->
     <record id="view_tree_lalita_room" model="ir.ui.view">
         <field name="name">view.tree.lalita.room</field>
         <field name="model">lalita.room</field>
@@ -151,7 +155,6 @@
     </record>
 
     <!-- Action to open Room -->
-    
     <record id="action_lalita_room" model="ir.actions.act_window">
         <field name="name">Habitaciones</field>
         <field name="res_model">lalita.room</field>
@@ -162,7 +165,7 @@
     <menuitem id="menu_lalita_room"
           name="Habitaciones"
           parent="menu_reservation_config"
-          sequence="10"
+          sequence="20"
           action="action_lalita_room" />
     
     <!-- Form View Beds -->
@@ -206,7 +209,7 @@
     <menuitem id="menu_lalita_beds"
           name="Camas"
           parent="menu_reservation_config"
-          sequence="20"
+          sequence="30"
           action="action_lalita_bed"/>
           
     <!-- Form View Floors -->
@@ -218,7 +221,7 @@
                 <sheet>
                     <legend>Plantas / Pisos</legend>
                     <group>
-                        <field name="name"/>
+                        <field name="name" class="oe_inline"/>
                     </group>
                 </sheet>
             </form>
@@ -231,7 +234,7 @@
         <field name="model">lalita.floor</field>
         <field name="arch" type="xml">
             <tree string="Pisos">
-                <field name="name" class="oe_inline"/>
+                <field name="name"/>
             </tree>
         </field>
     </record>
@@ -248,7 +251,51 @@
     <menuitem id="menu_lalita_floor"
           name="Pisos"
           parent="menu_reservation_config"
-          sequence="30"
+          sequence="40"
           action="action_lalita_floor"/>
+
+    <!-- Form View Guests -->
+    <record id="view_form_lalita_guest" model="ir.ui.view">
+        <field name="name">view.form.lalita.guest</field>
+        <field name="model">lalita.guest</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <legend>Huéspedes</legend>
+                    <group>
+                        <field name="partner_id" class="oe_inline"/>
+                        <field name="reservation_id" class="oe_inline"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- List & Search View Floors-->
+    <record id="view_tree_lalita_guest" model="ir.ui.view">
+        <field name="name">view.tree.lalita.guest</field>
+        <field name="model">lalita.guest</field>
+        <field name="arch" type="xml">
+            <tree string="Huéspedes">
+                <field name="partner_id"/>
+                <field name="reservation_id" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action to open Floor -->
+    <record id="action_lalita_guest" model="ir.actions.act_window">
+        <field name="name">Huéspedes</field>
+        <field name="res_model">lalita.guest</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+
+   <!-- Menu item to open Floor -->
+    <menuitem id="menu_lalita_guest"
+          name="Huéspedes"
+          parent="menu_reservation_config"
+          sequence="10"
+          action="action_lalita_guest"/>
     </data>
 </openerp>

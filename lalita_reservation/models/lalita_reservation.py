@@ -64,7 +64,37 @@ class LalitaReservation(models.Model):
     _order = "id desc"
     _rec_name = "name"
 
-    name = fields.Char(string="Código de Reserva")
+    @api.multi
+    def send_online_form(self):
+        if self.client_ids:
+            for client in self.client_ids:
+                if client.check:
+                    client.write({'register_state':'sent'})
+
+    #~ @api.multi
+    #~ def check_in(self):
+        #~ view_form = self.env.ref('lalita_reservation.view_form_traveler_register', False)
+        #~ ctx = dict(
+            #~ default_model='traveler.register',
+            #~ default_res_id=self.id,
+            #~ default_use_template=bool(template),
+            #~ default_template_id=template.id,
+            #~ default_composition_mode='comment',
+            #~ mark_register_as_sent = True,
+        #~ )
+        #~ return {
+            #~ 'name': _('Compose Email'),
+            #~ 'type': 'ir.actions.act_window',
+            #~ 'view_type': 'form',
+            #~ 'view_mode': 'form',
+            #~ 'res_model': 'traveler.register',
+            #~ 'views': [(view_form.id, 'form')],
+            #~ 'view_id': view_form.id,
+            #~ 'target': 'new',
+            #~ 'context': ctx,
+        #~ }
+
+    name = fields.Char(string="Código de Reserva",size=7,select=True, readonly=True)
     partner_id = fields.Many2one('res.partner', string='Cliente')
     user_id = fields.Many2one('res.users', string='Responsable', track_visibility='onchange',
             default=lambda self: self.env.user)
@@ -88,7 +118,8 @@ class LalitaReservation(models.Model):
     expected_income = fields.Integer(
         string='Estimación de Ingresos',
         compute='_get_expected_income')
-    client_ids = fields.Many2many('res.partner', 'lalita_reservation_res_partner_rel',string="Huéspedes")
+    #~ client_ids = fields.Many2many('lalita.guest', 'lalita_reservation_lalita_guest_rel',string="Huéspedes")
+    client_ids = fields.One2many('lalita.guest', 'reservation_id',string="Huéspedes")
     room_ids = fields.Many2many('lalita.room', 'lalita_reservation_lalita_room_rel',string="Habitaciones")
     register_ids = fields.One2many('traveler.register','reservation_id',string="Registros de Viajeros")
     sale_id = fields.Many2one('sale.order',string="Pedido",help="Pedido de Ventas Asociado",
@@ -121,5 +152,43 @@ class LalitaReservation(models.Model):
         if 'arrival_date' in values and 'out_date' in values:
             if self.get_days(values['arrival_date'],values['out_date']) < 0:
                 raise except_orm(_('Advertencia!'), _("La fecha de salida no puede ser menor a la fecha de entrada"))
-        self.message_post(body=_("Reserva %s creada"%values["name"]))
-        return super(LalitaReservation, self).create(values)
+        if not values.get('name'):
+            values['name'] = self.env['ir.sequence'].get('lalita.reservation')
+        reservation = super(LalitaReservation, self).create(values)
+        reservation.message_post(body=_("Reserva %s creada"%values["name"]))
+        return reservation
+
+#TO-DO: Crear un modelo nuevo Huespedes, asociarlos a lalita.reservation como many2many?
+
+
+class LalitaGuest(models.Model):
+    _name = 'lalita.guest'
+    _description = "Guests"
+    _order = "id desc"
+
+    partner_id = fields.Many2one('res.partner',string="Huésped")
+    reservation_id = fields.Many2one('lalita.reservation',string="Reservación")
+    name = fields.Char(string='Nombre',related="partner_id.name",readonly=True)
+    phone = fields.Char(string='Teléfono',related="partner_id.phone",readonly=True)
+    email = fields.Char(string='Correo',related="partner_id.email",readonly=True)
+    guest_state = fields.Selection(
+        [('draft','Nuevo'),
+        ('confirmed','Confirmado'),
+        ('canceled','Cancelado'),
+        ('no_show','No Show'),
+        ('check_in','Check in'),
+        ('early_leave','Salida Temprana'),
+        ('check_out','Check out'),],
+        string='Estado del Huesped', index=True, default='draft',
+        track_visibility='onchange', copy=False)
+    arrival_date = fields.Date( string='Fecha de Entrada')
+    out_date = fields.Date( string='Fecha de Salida')
+    room_id = fields.Many2one('lalita.room',string="Habitación")
+    register_state = fields.Selection(
+        [('not_sent','No enviado'),
+        ('sent','Enviado'),
+        ('filled','Registro llenado'),
+        ('signed','Firmado e Impreso'),],
+        string='Estado Registro Viajero', index=True, default='not_sent',
+        track_visibility='onchange', copy=False)
+    check = fields.Boolean(string="Seleccione",help="Seleccione para aplicar la acción")
