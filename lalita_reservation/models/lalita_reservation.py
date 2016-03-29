@@ -68,7 +68,8 @@ class LalitaReservation(models.Model):
     def send_online_form(self):
         if self.client_ids:
             for client in self.client_ids:
-                client.write({'register_state':'sent'})
+                if client.register_state == 'not_sent':
+                    client.write({'register_state':'sent'})
 
     name = fields.Char(string="Código de Reserva",size=7,select=True, readonly=True)
     partner_id = fields.Many2one('res.partner', string='Cliente')
@@ -187,5 +188,5 @@ class LalitaGuest(models.Model):
         ('filled','Registro llenado'),
         ('signed','Firmado e Impreso'),],
         string='Estado Registro Viajero', index=True, default='not_sent',
-        track_visibility='onchange', copy=False)
+        track_visibility='onchange', copy=False, readonly=True)
     check = fields.Boolean(string="Seleccione",help="Seleccione para aplicar la acción")

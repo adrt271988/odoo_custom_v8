@@ -57,11 +57,11 @@
 			<field name="model">traveler.register</field>
 			<field name="arch" type="xml">
 				<tree colors="blue:state == 'draft';">
+                                        <field name="doc_number"/>
 					<field name="entry_date"/>
 					<field name="last_name1"/>
 					<field name="last_name2"/>
 					<field name="first_name"/>
-					<field name="doc_number"/>
 					<field name="state"/>
 				</tree>
 			</field>

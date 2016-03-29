@@ -50,8 +50,8 @@
                                         <field name="phone"/>
                                         <field name="email"/>
                                         <field name="room_id"/>
-                                        <field name="arrival_date"/>
-                                        <field name="out_date"/>
+                                        <field name="arrival_date" required="1"/>
+                                        <field name="out_date" required="1"/>
                                         <field name="register_state"/>
                                         <field name="guest_state"/>
                                         <button name="call_traveler_form" attrs="{'invisible':[('register_state','!=','sent')]}" string="LLenar Formulario"

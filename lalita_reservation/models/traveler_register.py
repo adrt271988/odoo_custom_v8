@@ -61,6 +61,7 @@ class TravelerRegister(models.Model):
             'view_id': compose_form.id,
             'target': 'new',
             'context': ctx,
+            'no_destroy': True,
         }
 
     @api.multi
@@ -71,6 +72,13 @@ class TravelerRegister(models.Model):
         
     @api.model
     def create(self, values):
+        if self._context is None:
+            self._context = {}
+        ctx = self._context
+        if 'default_guest_id' in ctx:
+            values.update({'guest_id':ctx['default_guest_id']})
+            guest = self.env['lalita.guest'].browse(ctx['default_guest_id'])
+            guest.write({'register_state':'filled'})
         if not values.get('code'):
             values['code'] = self.env['ir.sequence'].get('traveler.register')
         register = super(TravelerRegister, self).create(values)
