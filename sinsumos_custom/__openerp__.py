@@ -31,7 +31,6 @@ Módulo Personalizado Sinsumos
 * Descuentos globales en facturas de venta con la dependencia sale_discount_total
 * Carga de Estados venezolanos
 * Carga de Lista de Precios de Venta
-* Configuración sencilla de conceptos básicos de Nómina Venezolana
     """,
     'author': 'Alexander Rodriguez',
     'website': '',
