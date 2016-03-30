@@ -22,7 +22,7 @@
 
 {
     'name': 'Nómina Venezolana',
-    'category': 'Human Resources', 
+    'category': 'Localization', 
     'version': '1.0',
     'description': """ 
 Nómina Venezolana
@@ -33,6 +33,7 @@ Nómina Venezolana
     'website': '',
     'depends': ['hr_payroll'],
     'data': [
+                'hr_payroll_data.xml',
     ],
     'demo': [],
     'test': [],
