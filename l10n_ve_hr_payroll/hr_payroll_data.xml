@@ -49,7 +49,7 @@
             <field name="code">SSO</field>
             <field name="category_id" ref="hr_payroll.DED"/>
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = contract.wage * 12 / 52 * 0.04 * 2</field>
+            <field name="amount_python_compute">result = contract.wage * 12 / 52 * 0.04 * payslip.mondays</field>
         </record>
         
         <record id="hr_rule_pf" model="hr.salary.rule">
@@ -57,7 +57,15 @@
             <field name="code">PF</field>
             <field name="category_id" ref="hr_payroll.DED"/>
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = contract.wage * 12 / 52 * 0.01 * 2</field>
+            <field name="amount_python_compute">result = contract.wage * 12 / 52 * 0.005 * payslip.mondays</field>
+        </record>
+        
+        <record id="hr_rule_lph" model="hr.salary.rule">
+            <field name="name">BANAVIH</field>
+            <field name="code">LPH</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = categories.GROSS * 0.01</field>
         </record>
 
         <!-- Salary Structure -->

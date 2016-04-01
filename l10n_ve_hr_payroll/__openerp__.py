@@ -33,6 +33,7 @@ Nómina Venezolana
     'website': '',
     'depends': ['hr_payroll'],
     'data': [
+                'hr_payslip_view.xml',
                 'hr_payroll_data.xml',
     ],
     'demo': [],

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+       <record model="ir.ui.view" id="inherit_view_hr_payslip_form">
+            <field name="name">inherit.view.hr.payslip.form</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='number']" position="before">
+                    <field name="mondays"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
