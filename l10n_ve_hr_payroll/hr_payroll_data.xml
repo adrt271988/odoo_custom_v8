@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data>
+    <data noupdate="0">
+        <!-- HR Sequence-->
+        <record id="hr_payroll.seq_salary_slip" model="ir.sequence">
+            <field name="prefix">RECIBO/</field>
+        </record>
+        
         <!-- Contribution Register-->
         <record id="hr_payroll.contrib_register_employees" model="hr.contribution.register">
             <field name="name">Empleados</field>
@@ -33,15 +38,15 @@
 
         <!-- Salary Rule-->
         <record id="hr_payroll.hr_rule_basic" model="hr.salary.rule">
-            <field name="name">Básico</field>
+            <field name="name">Sueldo</field>
         </record>
 
         <record id="hr_payroll.hr_rule_taxable" model="hr.salary.rule">
-            <field name="name">Bruto</field>
+            <field name="name">Total Asignaciones</field>
         </record>
 
         <record id="hr_payroll.hr_rule_net" model="hr.salary.rule">
-            <field name="name">Neto</field>
+            <field name="name">Neto a cobrar</field>
         </record>
         
         <record id="hr_rule_sso" model="hr.salary.rule">
@@ -49,7 +54,8 @@
             <field name="code">SSO</field>
             <field name="category_id" ref="hr_payroll.DED"/>
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = contract.wage * 12 / 52 * 0.04 * payslip.mondays</field>
+            <field name="sequence">150</field>
+            <field name="amount_python_compute">result = -1*(contract.wage * 12 / 52 * 0.04 * payslip.mondays)</field>
         </record>
         
         <record id="hr_rule_pf" model="hr.salary.rule">
@@ -57,7 +63,8 @@
             <field name="code">PF</field>
             <field name="category_id" ref="hr_payroll.DED"/>
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = contract.wage * 12 / 52 * 0.005 * payslip.mondays</field>
+            <field name="sequence">150</field>
+            <field name="amount_python_compute">result = -1*(contract.wage * 12 / 52 * 0.005 * payslip.mondays)</field>
         </record>
         
         <record id="hr_rule_lph" model="hr.salary.rule">
@@ -65,13 +72,22 @@
             <field name="code">LPH</field>
             <field name="category_id" ref="hr_payroll.DED"/>
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = categories.GROSS * 0.01</field>
+            <field name="sequence">150</field>
+            <field name="amount_python_compute">result = -1*((categories.BASIC + categories.ALW) * 0.01)</field>
         </record>
 
         <!-- Salary Structure -->
 
-         <record id="hr_payroll.structure_base" model="hr.payroll.structure">
+        <record id="hr_payroll.structure_base" model="hr.payroll.structure">
             <field name="name">Base para nueva estructura</field>
+        </record>
+        
+        <record id="ve_structure_deduction" model="hr.payroll.structure">
+            <field name="name">Retenciones</field>
+            <field name="code">VE_RET</field>
+            <field name="parent_id" ref="hr_payroll.structure_base"/>
+            <field eval="[(6, 0, [ref('hr_rule_sso'), ref('hr_rule_pf'),ref('hr_rule_lph')])]" name="rule_ids"/>
+            <field name="company_id" ref="base.main_company"/>
         </record>
 
     </data>
