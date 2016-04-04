@@ -79,6 +79,8 @@ class TravelerRegister(models.Model):
             values.update({'guest_id':ctx['default_guest_id']})
             guest = self.env['lalita.guest'].browse(ctx['default_guest_id'])
             guest.write({'register_state':'filled'})
+        if 'default_reservation_id' in ctx:
+            values.update({'reservation_id':ctx['default_reservation_id']})
         if not values.get('code'):
             values['code'] = self.env['ir.sequence'].get('traveler.register')
         register = super(TravelerRegister, self).create(values)
@@ -105,7 +107,7 @@ class TravelerRegister(models.Model):
     guest_id = fields.Many2one('lalita.guest','Huésped',readonly=True)
     entry_date = fields.Date('Fecha de Entrada', required=True, default = lambda self: fields.Date.context_today(self))
     #~ sent = fields.Boolean('Enviado?', default=False)
-    reservation_id = fields.Many2one('lalita.reservation', string='Cliente')
+    reservation_id = fields.Many2one('lalita.reservation', string='Grupo Reserva')
     user_id = fields.Many2one('res.users', string='Responsable', track_visibility='onchange',
             default=lambda self: self.env.user)
     company_id = fields.Many2one('res.company', string='Compañía',

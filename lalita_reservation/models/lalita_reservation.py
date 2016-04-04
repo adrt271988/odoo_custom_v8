@@ -36,7 +36,7 @@ class LalitaFloor(models.Model):
 class LalitaBed(models.Model):
     _name = 'lalita.bed'
     _description = "Beds"
-    _order = "id desc"
+    _order = "room_id desc"
     _rec_name = "name"
 
     name = fields.Char('Nombre', size=30, required=True)
@@ -45,14 +45,25 @@ class LalitaBed(models.Model):
         'Tipo de Cama')
     room_id = fields.Many2one('lalita.room', 'Habitación')
 
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)',
+            'El nombre de la cama ya existe!'),
+    ]
+
 class LalitaRoom(models.Model):
     _name = 'lalita.room'
     _description = "Rooms"
     _order = "id desc"
     _rec_name = "name"
 
+    @api.multi
+    @api.depends('bed_ids')
+    def _get_bed_count(self):
+        if self.bed_ids:
+            self.bed_count = sum([int(bed.type) for bed in self.bed_ids])
+
     name = fields.Char('Nombre',  size=30, required=True)
-    bed_count = fields.Integer('N° de Camas')
+    bed_count = fields.Integer('N° de Plazas', compute='_get_bed_count')
     floor_id = fields.Many2one('lalita.floor', 'Piso',help="Piso/Planta de la Habitación")
     bed_ids = fields.One2many('lalita.bed', 'room_id', 'Camas en esta habitacion') 
 
@@ -68,8 +79,9 @@ class LalitaReservation(models.Model):
     def send_online_form(self):
         if self.client_ids:
             for client in self.client_ids:
-                if client.register_state == 'not_sent':
-                    client.write({'register_state':'sent'})
+                if client.check:
+                    if client.register_state == 'not_sent':
+                        client.write({'register_state':'sent'})
 
     name = fields.Char(string="Código de Reserva",size=7,select=True, readonly=True)
     partner_id = fields.Many2one('res.partner', string='Cliente')
@@ -148,6 +160,7 @@ class LalitaGuest(models.Model):
         view_form = self.env.ref('lalita_reservation.view_form_traveler_register', False)
         ctx = dict(
             default_guest_id = self.id,
+            default_reservation_id = self.reservation_id and self.reservation_id.id or False,
             default_birth_country = self.partner_id.country_id and self.partner_id.country_id.id or False,
             default_first_name = self.partner_id.name,
             default_entry_date = self.arrival_date,

@@ -46,6 +46,7 @@
                                 <button name="check_in" type="object" string="Check In" class="oe_highlight"/>
                                 <field name="client_ids" nolabel="1">
                                     <tree editable="bottom">
+                                        <field name="check"/>
                                         <field name="partner_id"/>
                                         <field name="phone"/>
                                         <field name="email"/>
@@ -101,11 +102,23 @@
         </field>
     </record>
 
+    <record model="ir.ui.view" id="lalita_reservation_calendar_view">
+        <field name="name">Reservas</field>
+        <field name="model">lalita.reservation</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <calendar string="Reservas" date_start="arrival_date" date_stop="out_date" color="state">
+                <field name="name"/>
+                <field name="partner_id"/>
+            </calendar>
+        </field>
+    </record>
+
     <!-- Action to open Reservas -->
     <record id="action_lalita_reservation" model="ir.actions.act_window">
         <field name="name">Reservas</field>
         <field name="res_model">lalita.reservation</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">calendar,tree,form</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
             Presione para crear nuevas Reservaciones
@@ -135,7 +148,12 @@
                             <field name="bed_count"/>
                         </group>
                         <group string="Camas" colspan="4">
-                            <field name="bed_ids" nolabel="1" widget='one2many'/>
+                            <field name="bed_ids" nolabel="1" widget='one2many'>
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="type"/>
+                                </tree>
+                            </field>
                         </group>
                     </group>
                 </sheet>
@@ -150,6 +168,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name"/>
+                <field name="floor_id"/>
                 <field name="bed_count"/>
             </tree>
         </field>
@@ -194,6 +213,7 @@
             <tree>
                 <field name="name"/>
                 <field name="type"/>
+                <field name="room_id"/>
             </tree>
         </field>
     </record>
@@ -265,7 +285,7 @@
                     <legend>Huéspedes</legend>
                     <group>
                         <field name="partner_id" class="oe_inline"/>
-                        <field name="reservation_id" class="oe_inline"/>
+                        <field name="reservation_id" readonly="1" class="oe_inline"/>
                     </group>
                 </sheet>
             </form>
@@ -279,7 +299,7 @@
         <field name="arch" type="xml">
             <tree string="Huéspedes">
                 <field name="partner_id"/>
-                <field name="reservation_id" readonly="1"/>
+                <field name="reservation_id" string="Reserva"/>
             </tree>
         </field>
     </record>
