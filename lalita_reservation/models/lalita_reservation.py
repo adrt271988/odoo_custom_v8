@@ -59,8 +59,9 @@ class LalitaRoom(models.Model):
     @api.multi
     @api.depends('bed_ids')
     def _get_bed_count(self):
-        if self.bed_ids:
-            self.bed_count = sum([int(bed.type) for bed in self.bed_ids])
+        for room in self:
+            if room.bed_ids:
+                room.bed_count = sum([int(bed.type) for bed in room.bed_ids])
 
     name = fields.Char('Nombre',  size=30, required=True)
     bed_count = fields.Integer('N° de Plazas', compute='_get_bed_count')
@@ -90,7 +91,7 @@ class LalitaReservation(models.Model):
     company_id = fields.Many2one('res.company', string='Compañía',
             required=True, change_default=True, readonly=True,
             default=lambda self: self.env['res.company']._company_default_get('lalita.reservation'))
-    pricelist_id = fields.Many2one('product.pricelist', string='Tarifa',domain="[('type','=','sale')]")
+    pricelist_id = fields.Many2one('product.pricelist', string='Tarifa',domain="[('type','=','sale')]",readonly=True)
     arrival_date = fields.Date( string='Fecha de Entrada', required=True)
     out_date = fields.Date( string='Fecha de Salida', required=True)
     state = fields.Selection(
@@ -103,17 +104,23 @@ class LalitaReservation(models.Model):
     ocupation_days = fields.Integer(
         string='Total Días de Ocupacion',
         compute='_get_ocupation_days')
-    berths = fields.Integer('Plazas Reservadas')
-    expected_income = fields.Integer(
-        string='Estimación de Ingresos',
-        compute='_get_expected_income')
-    #~ client_ids = fields.Many2many('lalita.guest', 'lalita_reservation_lalita_guest_rel',string="Huéspedes")
+    berths = fields.Integer('Número de Plazas',readonly=True)
+    expected_income = fields.Float(
+        string='Estimación de Ingresos',readonly=True)
     client_ids = fields.One2many('lalita.guest', 'reservation_id',string="Huéspedes")
     room_ids = fields.Many2many('lalita.room', 'lalita_reservation_lalita_room_rel',string="Habitaciones")
     register_ids = fields.One2many('traveler.register','reservation_id',string="Registros de Viajeros")
     sale_id = fields.Many2one('sale.order',string="Pedido",help="Pedido de Ventas Asociado",
-        domain="[('state','=','progress')]")
+        domain="[('state','not in',['draft','sent','cancel','waiting_date'])]")
     invoice_ids = fields.One2many('account.invoice','reservation_id',string="Facturas")
+
+    @api.onchange('sale_id')
+    def onchange_sale_id(self):
+        sale_id = self.sale_id
+        if sale_id:
+            self.berths = sale_id.berths
+            self.pricelist_id = sale_id.pricelist_id
+            self.expected_income = sale_id.amount_total
 
     def get_days(self,from_date,to_date):
         fmt = '%Y-%m-%d'
@@ -131,10 +138,6 @@ class LalitaReservation(models.Model):
             if days < 0:
                 raise except_orm(_('Advertencia!'), _("La fecha de salida no puede ser menor a la fecha de entrada"))
             self.ocupation_days = str(days)
-        
-    @api.one
-    def _get_expected_income(self):
-        self.expected_income = self.ocupation_days * self.berths * 45
 
     @api.model
     def create(self, values):
@@ -162,7 +165,14 @@ class LalitaGuest(models.Model):
             default_guest_id = self.id,
             default_reservation_id = self.reservation_id and self.reservation_id.id or False,
             default_birth_country = self.partner_id.country_id and self.partner_id.country_id.id or False,
-            default_first_name = self.partner_id.name,
+            default_first_name = self.partner_id.first_name,
+            default_doc_number = self.partner_id.doc_number,
+            default_doc_type = self.partner_id.doc_type,
+            default_document_date = self.partner_id.document_date,
+            default_birth_date = self.partner_id.birth_date,
+            default_gender = self.partner_id.gender,
+            default_last_name1 = self.partner_id.last_name1,
+            default_last_name2 = self.partner_id.last_name2,
             default_entry_date = self.arrival_date,
         )
         return {

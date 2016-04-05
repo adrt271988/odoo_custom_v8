@@ -23,24 +23,19 @@ from openerp import models, fields, api, _
 class LalitaResPartner(models.Model):
     _inherit = 'res.partner'
 
-    guest_state = fields.Selection(
-        [('draft','Nuevo'),
-        ('confirmed','Confirmado'),
-        ('canceled','Cancelado'),
-        ('no_show','No Show'),
-        ('check_in','Check in'),
-        ('early_leave','Salida Temprana'),
-        ('check_out','Check out'),],
-        string='Estado del Huesped', index=True, default='draft',
-        track_visibility='onchange', copy=False)
-    arrival_date = fields.Date( string='Fecha de Entrada')
-    out_date = fields.Date( string='Fecha de Salida')
-    room_id = fields.Many2one('lalita.room',string="Habitación")
-    register_state = fields.Selection(
-        [('not_sent','No enviado'),
-        ('sent','Enviado'),
-        ('filled','Registro llenado'),
-        ('signed','Firmado e Impreso'),],
-        string='Estado Registro Viajero', index=True, default='not_sent',
-        track_visibility='onchange', copy=False)
+    doc_number = fields.Char('Documento Identificación', size=14,help="Número de Documento de Identidad")
+    doc_type = fields.Selection(
+            [('D','DNI Españoles'),
+            ('P','Pasaportes'),
+            ('C ','Permiso de conducir español'),
+            ('I','Carta o documento de identidad'),
+            ('X','Permiso de residencia UE'),
+            ('N','Permiso de residencia español')],
+            'Tipo de Documento', size=1)
+    document_date = fields.Date('Fecha de Expedición')
+    last_name1 = fields.Char('Primer Apellido', size=30)
+    last_name2 = fields.Char('Segundo Apellido', size=30)
+    first_name = fields.Char('Nombre', size=30)
+    gender = fields.Selection([('F','Femenino'),('M','Masculino')],'Sexo')
+    birth_date = fields.Date('Fecha de Nacimiento')
 

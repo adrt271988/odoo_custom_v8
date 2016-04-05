@@ -51,8 +51,8 @@
                                         <field name="phone"/>
                                         <field name="email"/>
                                         <field name="room_id"/>
-                                        <field name="arrival_date" required="1"/>
-                                        <field name="out_date" required="1"/>
+                                        <field name="arrival_date" readonly="1"/>
+                                        <field name="out_date" readonly="1"/>
                                         <field name="register_state"/>
                                         <field name="guest_state"/>
                                         <button name="call_traveler_form" attrs="{'invisible':[('register_state','!=','sent')]}" string="LLenar Formulario"
@@ -137,9 +137,6 @@
         <field name="name">Reservas</field>
         <field name="res_model">lalita.reservation</field>
         <field name="view_mode">calendar,tree,form</field>
-<!--
-        <field name="view_id" ref="lalita_reservation_calendar_view"/>
--->
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
             Presione para crear nuevas Reservaciones
@@ -321,11 +318,18 @@
         <field name="model">lalita.guest</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <field name="guest_state" widget="statusbar"
+                        statusbar_visible="draft,confirmed,canceled,no_show,check_in,early_leave,check_out"/>
+                </header>
                 <sheet>
                     <legend>Huéspedes</legend>
                     <group>
                         <field name="partner_id" class="oe_inline"/>
                         <field name="reservation_id" readonly="1" class="oe_inline"/>
+                        <field name="arrival_date"/>
+                        <field name="out_date"/>
+                        <field name="room_id" class="oe_inline"/>
                     </group>
                 </sheet>
             </form>
