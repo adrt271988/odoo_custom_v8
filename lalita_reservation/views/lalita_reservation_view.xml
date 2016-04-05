@@ -46,7 +46,7 @@
                                 <button name="check_in" type="object" string="Check In" class="oe_highlight"/>
                                 <field name="client_ids" nolabel="1">
                                     <tree editable="bottom">
-                                        <field name="check"/>
+                                        <field name="check" string=" "/>
                                         <field name="partner_id"/>
                                         <field name="phone"/>
                                         <field name="email"/>
@@ -102,12 +102,30 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="lalita_reservation_calendar_view">
-        <field name="name">Reservas</field>
+    <record model="ir.ui.view" id="view_calendar_reservation_form_popup">
+        <field name="name">view.calendar.reservation.form.popup</field>
         <field name="model">lalita.reservation</field>
         <field name="priority" eval="2"/>
         <field name="arch" type="xml">
-            <calendar string="Reservas" date_start="arrival_date" date_stop="out_date" color="state">
+            <form string="Reservas">
+                <group>
+                    <group>
+                        <field name="arrival_date"/>
+                        <field name="out_date"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="lalita_reservation_calendar_view">
+        <field name="name">Reservas</field>
+        <field name="model">lalita.reservation</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+            <calendar string="Reservas" date_start="arrival_date" date_stop="out_date" color="partner_id"
+                            avatar_model="res.partner" attendee="client_ids" quick_add = "false"
+                            display="[name]" event_open_popup="%(lalita_reservation.view_calendar_reservation_form_popup)s">
                 <field name="name"/>
                 <field name="partner_id"/>
             </calendar>
@@ -119,11 +137,33 @@
         <field name="name">Reservas</field>
         <field name="res_model">lalita.reservation</field>
         <field name="view_mode">calendar,tree,form</field>
+<!--
+        <field name="view_id" ref="lalita_reservation_calendar_view"/>
+-->
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
             Presione para crear nuevas Reservaciones
           </p>
         </field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_lalita_reservation_calendar">
+        <field name="act_window_id" ref="action_lalita_reservation"/>
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">calendar</field>
+        <field name="view_id" ref="lalita_reservation_calendar_view"/>
+    </record>
+    <record model="ir.actions.act_window.view" id="action_lalita_reservation_tree">
+        <field name="act_window_id" ref="action_lalita_reservation"/>
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_tree_lalita_reservation"/>
+    </record>
+    <record model="ir.actions.act_window.view" id="action_lalita_reservation_form">
+        <field name="act_window_id" ref="action_lalita_reservation"/>
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_form_lalita_reservation"/>
     </record>
 
     <!-- Menu item to Reservas -->
@@ -299,16 +339,48 @@
         <field name="arch" type="xml">
             <tree string="Huéspedes">
                 <field name="partner_id"/>
+                <field name="phone"/>
+                <field name="email"/>
                 <field name="reservation_id" string="Reserva"/>
+                <field name="arrival_date"/>
+                <field name="out_date"/>
+                <field name="room_id"/>
+                <field name="guest_state"/>
             </tree>
         </field>
     </record>
+
+    <record id="view_filter_lalita_guest" model="ir.ui.view">
+            <field name="name">view.filter.lalita.guest</field>
+            <field name="model">lalita.guest</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Huésped">
+                    <filter name="draft" string="Nuevo" domain="[('guest_state','=','draft')]" />
+                    <filter name="confirmed" string="Confirmado" domain="[('guest_state','=','confirmed')]" />
+                    <filter name="canceled" string="Cancelado" domain="[('guest_state','=','canceled')]"/>
+                    <filter name="no_show" string="No Show" domain="[('guest_state','=','no_show')]"/>
+                    <filter name="check_in" string="Check In" domain="[('guest_state','=','check_in')]"/>
+                    <filter name="early_leave" string="Salida Temprana" domain="[('guest_state','=','early_leave')]"/>
+                    <filter name="check_out" string="Check Out" domain="[('guest_state','=','check_out')]"/>
+                    <separator/>
+                    <field name="partner_id" operator="child_of"/>
+                    <separator/>
+                    <filter domain="[('user_id','=',uid)]" help="Mis Reservas"/>
+                    <group expand="0" string="Group By">
+                    	<filter name="group_by_reservation_id" string="Reservas" context="{'group_by':'reservation_id'}"/>
+                        <filter string="Estado del Huesped" context="{'group_by':'guest_state'}"/>
+                        <separator/>
+                    </group>
+               </search>
+            </field>
+        </record>
 
     <!-- Action to open Floor -->
     <record id="action_lalita_guest" model="ir.actions.act_window">
         <field name="name">Huéspedes</field>
         <field name="res_model">lalita.guest</field>
         <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_filter_lalita_guest"/>
     </record>
     
 
