@@ -44,6 +44,9 @@
                             <page string="Huéspedes">
                                 <button name="send_online_form" type="object" string="Enviar Formulario Online" class="oe_highlight"/>
                                 <button name="check_in" type="object" string="Check In" class="oe_highlight"/>
+                                <field name="change_guest_state" nolabel="1" class="oe_inline oe_edit_only"/>
+                                <button name="change_state" type="object" string="Cambiar"
+                                    class="oe_edit_only" help="Presione para cambiar el estado del o los huespedes seleccionados"/>
                                 <field name="client_ids" nolabel="1">
                                     <tree editable="bottom">
                                         <field name="check" string=" "/>
@@ -61,7 +64,12 @@
                                 </field>
                             </page>
                             <page string="Habitaciones">
-                                <field name="room_ids" nolabel="1" widget='many2many'/>
+                                <group>
+                                    <field name="total_berths"/>
+                                </group>
+                                <group string="Habitaciones">
+                                    <field name="room_ids" nolabel="1" widget='many2many'/>
+                                </group>
                             </page>
                             <page string="Registros">
                                 <field name="register_ids" nolabel="1" widget='one2many'/>

@@ -16,7 +16,7 @@
                             string="Enviar Registro" class="oe_highlight"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,printed,sent"
                             statusbar_colors='{"draft":"blue","printed":"blue","sent":"blue"}'/>
-					</header>
+                    </header>
 					<sheet>
                         <div class="oe_title oe_left">
                             <h1>
@@ -58,7 +58,7 @@
 			<field name="model">traveler.register</field>
 			<field name="arch" type="xml">
 				<tree colors="blue:state == 'draft';">
-                                        <field name="doc_number"/>
+                    <field name="doc_number"/>
 					<field name="entry_date"/>
 					<field name="last_name1"/>
 					<field name="last_name2"/>
