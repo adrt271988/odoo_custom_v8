@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <menuitem id="menu_root_electrocom_material" name="Gestión MR" sequence="50"/>
+        <menuitem id="menu_electrocom_material" name="Gestión Materiales" parent="menu_root_electrocom_material" sequence="10"/>
+
+        <record id="view_form_electrocom_material" model="ir.ui.view">
+            <field name="name">view.form.electrocom.material</field>
+            <field name="model">electrocom.material</field>
+            <field name="arch" type="xml">
+                <form string="Materiales">
+                    <sheet>
+                        <group>
+                            <field name="name" class="oe_inline"/>
+                            <field name="code" class="oe_inline"/>
+                            <field name="discipline" class="oe_inline"/>
+                            <field name="discipline_type" class="oe_inline"/>
+                            <field name="description" class="oe_inline"/>
+                            <field name="material_type_id" class="oe_inline"/>
+                            <field name="cost_center_id" class="oe_inline"/>
+                            <field name="manufacturer" class="oe_inline"/>
+                            <field name="account" class="oe_inline"/>
+                            <field name="piping" class="oe_inline"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- List & Search View Floors-->
+        <record id="view_tree_electrocom_material" model="ir.ui.view">
+            <field name="name">view.tree.electrocom.material</field>
+            <field name="model">electrocom.material</field>
+            <field name="arch" type="xml">
+                <tree string="Materiales">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="discipline"/>
+                    <field name="discipline_type"/>
+                    <field name="description" />
+                    <field name="material_type_id"/>
+                    <field name="cost_center_id"/>
+                    <field name="manufacturer"/>
+                    <field name="account"/>
+                    <field name="piping"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action to open Floor -->
+        <record id="action_electrocom_material" model="ir.actions.act_window">
+            <field name="name">Materiales</field>
+            <field name="res_model">electrocom.material</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+
+        <!-- Menu item to open Floor -->
+        <menuitem id="menu_electrocom_material_list"
+              name="Materiales"
+              parent="menu_electrocom_material"
+              sequence="10"
+              action="action_electrocom_material"/>
+              
+        </data>
+</openerp>
