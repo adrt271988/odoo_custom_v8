@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="lalita_report_invoice_external_layout_header" inherit_id="report.external_layout_header">
+            <xpath expr="//div[@class='header']" position="replace">
+                <div class="header">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" align="left" style="width: 244px"/>
+                        </div>
+                        <div class="col-xs-9 text-right" style="margin-top:20px;color:#7A7A7A;">YOU ARE THE SKY,<br/>EVERY THING ELSE IS JUST THE WEATHER!.<br/><i>Pema Chödrön</i></div>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+    </data>
+</openerp>
