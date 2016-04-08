@@ -25,7 +25,7 @@
     'summary': 'Registro para Viajeros',
     'description': 'Gestión del Registro de Viajeros y envío de los partes a la Guardia Civil',
     'author': 'Jeronimo Spotorno, Alexander Rodriguez <adtr271988@gmail.com>',
-    'depends': ['base','document','mail','sales_crm_custom'],
+    'depends': ['base','document','mail','sales_crm_custom','document_url'],
     'application': True,
     'installable': True,
     'data':[
