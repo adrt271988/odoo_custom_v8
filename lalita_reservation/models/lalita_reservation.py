@@ -112,9 +112,10 @@ class LalitaReservation(models.Model):
     arrival_date = fields.Date( string='Fecha de Entrada', required=True)
     out_date = fields.Date( string='Fecha de Salida', required=True)
     state = fields.Selection(
-        [('draft','Nuevo'),
-        ('open','Abierto'),
-        ('done','Cerrado')],
+        [('draft','Borrador'),
+        ('open','Confirmada'),
+        ('cancel','Cancelada'),
+        ('done','Finalizado')],
         string='Estado de la Reserva',index=True, default='draft',
         track_visibility='onchange', copy=False)
     notes = fields.Text(string='Observaciones')
@@ -137,7 +138,6 @@ class LalitaReservation(models.Model):
         ('confirmed','Confirmado'),
         ('canceled','Cancelado'),
         ('no_show','No Show'),
-        ('check_in','Check in'),
         ('early_leave','Salida Temprana'),
         ('check_out','Check out'),],
         string='Estado del Huesped', index=True, default='draft',
@@ -148,6 +148,9 @@ class LalitaReservation(models.Model):
     def onchange_sale_id(self):
         sale_id = self.sale_id
         if sale_id:
+            self.partner_id = sale_id.partner_id
+            self.arrival_date = sale_id.arrival_date
+            self.out_date = sale_id.departure_date
             self.berths = sale_id.berths
             self.pricelist_id = sale_id.pricelist_id
             self.expected_income = sale_id.amount_total

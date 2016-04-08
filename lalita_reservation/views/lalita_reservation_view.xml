@@ -14,8 +14,10 @@
         <field name="arch" type="xml">
             <form string="Reservas" class="form-horizontal">
                 <header>
+<!--
                     <button name="print_reservation" type="object" string="Imprimir" class="oe_highlight" />
-                    <field name="state" widget="statusbar" statusbar_visible="draft,open,done"/>
+-->
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,done,cancel"/>
                 </header>
                 <sheet>
                     <legend>Reservas</legend>
@@ -110,6 +112,7 @@
         </field>
     </record>
 
+<!--
     <record model="ir.ui.view" id="view_calendar_reservation_form_popup">
         <field name="name">view.calendar.reservation.form.popup</field>
         <field name="model">lalita.reservation</field>
@@ -125,6 +128,7 @@
             </form>
         </field>
     </record>
+-->
 
     <record model="ir.ui.view" id="lalita_reservation_calendar_view">
         <field name="name">Reservas</field>
@@ -133,7 +137,7 @@
         <field name="arch" type="xml">
             <calendar string="Reservas" date_start="arrival_date" date_stop="out_date" color="partner_id"
                             avatar_model="res.partner" attendee="client_ids" quick_add = "false"
-                            display="[name]" event_open_popup="%(lalita_reservation.view_calendar_reservation_form_popup)s">
+                            display="[name]">
                 <field name="name"/>
                 <field name="partner_id"/>
             </calendar>
