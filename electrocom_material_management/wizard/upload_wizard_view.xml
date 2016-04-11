@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <menuitem id="menu_electrocom_upload" name="Cargar Data"
+            parent="electrocom_material_management.menu_root_electrocom" sequence="20"/>
+
+        <record id="upload_material_form" model="ir.ui.view">
+            <field name="name">upload.material.form</field>
+            <field name="model">upload.material.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Cargar Materiales">
+                    <div class="oe_title">
+                        <label string="Seleccione el archivo .csv que desea importar"/>
+                    </div>
+                    <group col="4" colspan="4">
+                        <field name="csv_file" filename="csv_filename" nolabel="1"/>
+                        <field name="csv_filename" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button name="upload_data" string="Cargar"
+                            type="object" class="oe_highlight"/>
+                        <button special="cancel" string="Cancel" class="oe_link"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="upload_material_action" model="ir.actions.act_window">
+            <field name="name">Cargar Materiales</field>
+            <field name="res_model">upload.material.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_electrocom_material_upload"
+              name="Cargar Data de Materiales"
+              parent="menu_electrocom_upload"
+              sequence="10"
+              action="upload_material_action"/>
+    </data>
+</openerp>

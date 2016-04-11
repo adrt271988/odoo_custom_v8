@@ -19,26 +19,25 @@
 #
 ##############################################################################
 
+import os
 from datetime import datetime
 from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.exceptions import except_orm, Warning, RedirectWarning, ValidationError
 
-MAGIC_COLUMNS = ('id', 'create_uid', 'create_date', 'write_uid', 'write_date')
+class UploadMaterialWizard(models.TransientModel):
+    _name = 'upload.material.wizard'
 
-class ElectrocomMaterial(models.Model):
-    _name = 'electrocom.material'
-    _description = "Materiales"
-    _order = "id desc"
-    _rec_name = "name"
-
-    name = fields.Char(string='ID_ITEM', size=14, required=True)
-    code = fields.Char(string='CODIGO', size=4, required=True)
-    discipline = fields.Char(string='DISCIPLINA', size=3, required=True)
-    discipline_type = fields.Char(string='TIPO DE DISCIPLINA', size=5, required=True)
-    description = fields.Char(string='DESCRIPCIÓN', required=True)
-    material_type_id = fields.Char(string='ID-TIPO PRODUCTO', size=1, required=True)
-    cost_center_id = fields.Char(string='ID-CENTRO COSTO')
-    manufacturer = fields.Char(string="MANUF") 
-    account = fields.Char(string="CTA_CONTABLE")
-    piping = fields.Char(string="ID PIPING")
-    quantity = fields.Float(string="CANTIDAD")
+    def get_extension(self, filename):
+        ext = str(os.path.basename(filename)).split('.', 1)[1]
+        return '.' + ext if ext else None
+    
+    @api.one
+    def upload_data(self):
+        name = self.csv_filename
+        if self.get_extension(name) != '.csv':
+            raise ValidationError(_("La extensión del archivo debe ser .csv"))
+        return {'type': 'ir.actions.act_window_close'}
+        
+    csv_file = fields.Binary(string='Archivo', required=True, filters='*.csv',
+                    help="Seleccione un archivo de tipo csv para cargar los materiales")
+    csv_filename = fields.Char(string="Nombre")

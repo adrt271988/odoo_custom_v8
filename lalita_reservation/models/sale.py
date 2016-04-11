@@ -36,17 +36,17 @@ class LalitaSaleOrder(models.Model):
                 }
         reservation = self.env['lalita.reservation'].create(values)
         self.reservation_created = reservation and True or False
-        view_form = self.env.ref('lalita_reservation.view_form_lalita_reservation', False)
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'lalita.reservation',
-            'res_id': reservation.id,
-            'view_type': 'form',
-            'views': [(view_form.id, 'form')],
-            'view_mode': 'tree,form,calendar',
-            'view_id': view_form.id,
-            'target': 'current',
-        }
+        #~ view_form = self.env.ref('lalita_reservation.view_form_lalita_reservation', False)
+        #~ return {
+            #~ 'type': 'ir.actions.act_window',
+            #~ 'res_model': 'lalita.reservation',
+            #~ 'res_id': reservation.id,
+            #~ 'view_type': 'form',
+            #~ 'views': [(view_form.id, 'form')],
+            #~ 'view_mode': 'tree,form,calendar',
+            #~ 'view_id': view_form.id,
+            #~ 'target': 'current',
+        #~ }
 
     #~ reservation_id = fields.Many2one('lalita.reservation', 'Reserva')
     reservation_created = fields.Boolean(string='Reserva Creada?',default=False)

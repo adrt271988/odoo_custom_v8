@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
-        <menuitem id="menu_root_electrocom_material" name="Gestión MR" sequence="50"/>
-        <menuitem id="menu_electrocom_material" name="Gestión Materiales" parent="menu_root_electrocom_material" sequence="10"/>
+        <menuitem id="menu_root_electrocom" name="Gestión MR" sequence="50"/>
+        <menuitem id="menu_electrocom_material" name="Gestión Materiales" parent="menu_root_electrocom" sequence="10"/>
 
         <record id="view_form_electrocom_material" model="ir.ui.view">
             <field name="name">view.form.electrocom.material</field>
@@ -11,16 +11,21 @@
                 <form string="Materiales">
                     <sheet>
                         <group>
-                            <field name="name" class="oe_inline"/>
-                            <field name="code" class="oe_inline"/>
-                            <field name="discipline" class="oe_inline"/>
-                            <field name="discipline_type" class="oe_inline"/>
-                            <field name="description" class="oe_inline"/>
-                            <field name="material_type_id" class="oe_inline"/>
-                            <field name="cost_center_id" class="oe_inline"/>
-                            <field name="manufacturer" class="oe_inline"/>
-                            <field name="account" class="oe_inline"/>
-                            <field name="piping" class="oe_inline"/>
+                            <group>
+                                <field name="name" class="oe_inline"/>
+                                <field name="code" class="oe_inline"/>
+                                <field name="quantity" class="oe_inline"/>
+                                <field name="discipline" class="oe_inline"/>
+                                <field name="discipline_type" class="oe_inline"/>
+                                <field name="description" class="oe_inline"/>
+                            </group>
+                            <group>
+                                <field name="material_type_id" class="oe_inline"/>
+                                <field name="cost_center_id" class="oe_inline"/>
+                                <field name="manufacturer" class="oe_inline"/>
+                                <field name="account" class="oe_inline"/>
+                                <field name="piping" class="oe_inline"/>
+                            </group>
                         </group>
                     </sheet>
                 </form>
@@ -35,6 +40,7 @@
                 <tree string="Materiales">
                     <field name="name"/>
                     <field name="code"/>
+                    <field name="quantity"/>
                     <field name="discipline"/>
                     <field name="discipline_type"/>
                     <field name="description" />

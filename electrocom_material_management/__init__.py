@@ -1,1 +1,2 @@
 import electrocom_material
+import wizard

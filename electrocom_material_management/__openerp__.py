@@ -30,5 +30,6 @@
     'installable': True,
     'data':[
                 'electrocom_material_view.xml',
+                'wizard/upload_wizard_view.xml',
             ],
 }
