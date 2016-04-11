@@ -76,22 +76,45 @@ class LalitaReservation(models.Model):
     _order = "id desc"
     _rec_name = "name"
 
-    @api.multi
+    @api.one
     def send_online_form(self):
         if self.client_ids:
             for client in self.client_ids:
                 if client.check:
                     if client.register_state == 'not_sent':
                         client.register_state = 'sent'
-                        client.check = False
+                    client.check = False
+                        
+    @api.one
+    def check_in(self):
+        if self.client_ids:
+            for client in self.client_ids:
+                if client.check:
+                    if client.guest_state == 'confirmed':
+                        traveler_values = {
+                                    'doc_number': client.partner_id.doc_number and client.partner_id.doc_number or '',
+                                    'doc_type': client.partner_id.doc_type and client.partner_id.doc_type or '',
+                                    'last_name1': client.partner_id.last_name1 and client.partner_id.last_name1 or '',
+                                    'last_name2': client.partner_id.last_name2 and client.partner_id.last_name2 or '',
+                                    'first_name': client.partner_id.first_name and client.partner_id.first_name or '',
+                                    'gender': client.partner_id.gender and client.partner_id.gender or '',
+                                    'birth_date': client.partner_id.birth_date and client.partner_id.birth_date or '',
+                                    'birth_country': client.partner_id.country_id and client.partner_id.country_id.id or '',
+                                    'reservation_id': self.id
+                                        }
+                        self.env['traveler.register'].create(traveler_values)
+                        client.arrival_date = fields.Date.today()
+                        client.guest_state = 'check_in'
+                        client.register_state = 'filled'
+                    client.check = False
 
-    @api.multi
+    @api.one
     def change_state(self):
         if self.client_ids:
             for client in self.client_ids:
                 if client.check:
                     client.guest_state = self.change_guest_state
-                    client.check = False
+                client.check = False
 
     @api.multi
     @api.depends('room_ids')
@@ -154,6 +177,15 @@ class LalitaReservation(models.Model):
             self.berths = sale_id.berths
             self.pricelist_id = sale_id.pricelist_id
             self.expected_income = sale_id.amount_total
+
+    @api.onchange('client_ids')
+    @api.depends('total_berths')
+    def onchange_client_ids(self):
+        msg = {}
+        count = len([x.id for x in self.client_ids])
+        if count > self.total_berths:
+            msg = {'title': _('Advertencia!'), 'message' : 'Existen mas huéspedes que plazas disponibles en esta reserva'}
+        return {'warning': msg}
 
     def get_days(self,from_date,to_date):
         fmt = '%Y-%m-%d'

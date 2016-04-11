@@ -44,11 +44,13 @@
                         </group>
                         <notebook colspan="4">
                             <page string="Huéspedes">
-                                <button name="send_online_form" type="object" string="Enviar Formulario Online" class="oe_highlight"/>
-                                <button name="check_in" type="object" string="Check In" class="oe_highlight"/>
+                                <button name="send_online_form" type="object" string="Enviar Formulario Online" class="oe_highlight"
+                                    help="Presione para enviar el link del formulario de registro al huésped"/>
+                                <button name="check_in" type="object" string="Check In" class="oe_highlight"
+                                    help="Presione para realizar las acciones que conlleva el check in de un huésped"/>
                                 <field name="change_guest_state" nolabel="1" class="oe_inline oe_edit_only"/>
                                 <button name="change_state" type="object" string="Cambiar"
-                                    class="oe_edit_only" help="Presione para cambiar el estado del o los huespedes seleccionados"/>
+                                    class="oe_edit_only" help="Presione para cambiar el estado del o los huéspedes seleccionados"/>
                                 <field name="client_ids" nolabel="1">
                                     <tree editable="bottom">
                                         <field name="check" string=" "/>
@@ -74,7 +76,7 @@
                                 </group>
                             </page>
                             <page string="Registros">
-                                <field name="register_ids" nolabel="1" widget='one2many'/>
+                                <field name="register_ids" readonly="1" nolabel="1" widget='one2many'/>
                             </page>
                             <page string="Facturas">
                                 <field name="invoice_ids" nolabel="1" widget='one2many'/>

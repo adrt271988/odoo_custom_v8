@@ -23,4 +23,30 @@ from openerp import models, fields, api, _
 class LalitaSaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    reservation_id = fields.Many2one('lalita.reservation', 'Reserva')
+    @api.one
+    def create_reservation(self):
+        values = {
+                    'sale_id': self.id,
+                    'partner_id': self.partner_id.id,
+                    'expected_income': self.amount_total,
+                    'pricelist_id': self.pricelist_id and self.pricelist_id.id or False,
+                    'berths': self.berths,
+                    'arrival_date': self.arrival_date and self.arrival_date[0:10] or fields.Date.today(),
+                    'out_date': self.departure_date and self.departure_date[0:10] or fields.Date.today(),
+                }
+        reservation = self.env['lalita.reservation'].create(values)
+        self.reservation_created = reservation and True or False
+        view_form = self.env.ref('lalita_reservation.view_form_lalita_reservation', False)
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'lalita.reservation',
+            'res_id': reservation.id,
+            'view_type': 'form',
+            'views': [(view_form.id, 'form')],
+            'view_mode': 'tree,form,calendar',
+            'view_id': view_form.id,
+            'target': 'current',
+        }
+
+    #~ reservation_id = fields.Many2one('lalita.reservation', 'Reserva')
+    reservation_created = fields.Boolean(string='Reserva Creada?',default=False)

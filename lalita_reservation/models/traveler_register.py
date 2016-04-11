@@ -88,7 +88,7 @@ class TravelerRegister(models.Model):
         return register
 
     code = fields.Char('Código', size=4, help="Código de Identificación del Registro", select=True, readonly=True)
-    doc_number = fields.Char('Documento Identificación', size=14,required=True,help="Número de Documento de Identidad")
+    doc_number = fields.Char('Documento Identificación', size=14,help="Número de Documento de Identidad")
     doc_type = fields.Selection(
             [('D','DNI Españoles'),
             ('P','Pasaportes'),
@@ -96,22 +96,21 @@ class TravelerRegister(models.Model):
             ('I','Carta o documento de identidad'),
             ('X','Permiso de residencia UE'),
             ('N','Permiso de residencia español')],
-            'Tipo de Documento', size=1, required=True)
-    document_date = fields.Date('Fecha de Expedición', required=True)
-    last_name1 = fields.Char('Primer Apellido', size=30, required=True)
-    last_name2 = fields.Char('Segundo Apellido', size=30, required=True)
-    first_name = fields.Char('Nombre', size=30, required=True)
-    gender = fields.Selection([('F','Femenino'),('M','Masculino')],'Sexo',size=1,required=True)
-    birth_date = fields.Date('Fecha de Nacimiento', required=True)
-    birth_country = fields.Many2one('res.country','Pais de Nacionalidad',required=True)
-    guest_id = fields.Many2one('lalita.guest','Huésped',readonly=True)
-    entry_date = fields.Date('Fecha de Entrada', required=True, default = lambda self: fields.Date.context_today(self))
+            'Tipo de Documento', size=1)
+    document_date = fields.Date('Fecha de Expedición')
+    last_name1 = fields.Char('Primer Apellido', size=30)
+    last_name2 = fields.Char('Segundo Apellido', size=30)
+    first_name = fields.Char('Nombre', size=30)
+    gender = fields.Selection([('F','Femenino'),('M','Masculino')],'Sexo',size=1)
+    birth_date = fields.Date('Fecha de Nacimiento')
+    birth_country = fields.Many2one('res.country','Pais de Nacionalidad')
+    guest_id = fields.Many2one('lalita.guest','Huésped')
+    entry_date = fields.Date('Fecha de Entrada', default = lambda self: fields.Date.context_today(self))
     #~ sent = fields.Boolean('Enviado?', default=False)
     reservation_id = fields.Many2one('lalita.reservation', string='Grupo Reserva')
     user_id = fields.Many2one('res.users', string='Responsable', track_visibility='onchange',
             default=lambda self: self.env.user)
-    company_id = fields.Many2one('res.company', string='Compañía',
-            required=True, change_default=True, readonly=True,
+    company_id = fields.Many2one('res.company', string='Compañía', change_default=True, readonly=True,
             default=lambda self: self.env['res.company']._company_default_get('traveler.register'))
     state = fields.Selection(
         [('draft','Nuevo'),

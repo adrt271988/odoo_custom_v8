@@ -26,19 +26,19 @@
                         <legend>Datos del Viajero</legend>
                         <group>
                             <group>
-                                <field name="doc_number"/>
-                                <field name="doc_type"/>
-                                <field name="document_date"/>
-                                <field name="last_name1"/>
-                                <field name="last_name2"/>
-                                <field name="first_name"/>
+                                <field name="doc_number" required="1"/>
+                                <field name="doc_type" required="1"/>
+                                <field name="document_date" required="1"/>
+                                <field name="last_name1" required="1"/>
+                                <field name="last_name2" required="1"/>
+                                <field name="first_name" required="1"/>
                                 <field name="user_id"/>
                             </group>
                             <group>
-                                <field name="gender"/>
-                                <field name="birth_date"/>
-                                <field name="birth_country"/>
-                                <field name="entry_date"/>
+                                <field name="gender" required="1"/>
+                                <field name="birth_date" required="1"/>
+                                <field name="birth_country" required="1"/>
+                                <field name="entry_date" required="1"/>
                                 <field name="company_id" string="Establecimiento"/>
                                 <field name="reservation_id" readonly="1"/>
                             </group>
