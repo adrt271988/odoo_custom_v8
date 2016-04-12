@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
-        <menuitem id="menu_electrocom_upload" name="Cargar Data"
+        <menuitem id="menu_electrocom_upload" name="Importación"
             parent="electrocom_material_management.menu_root_electrocom" sequence="20"/>
 
         <record id="upload_material_form" model="ir.ui.view">
@@ -33,7 +33,7 @@
         </record>
 
         <menuitem id="menu_electrocom_material_upload"
-              name="Cargar Data de Materiales"
+              name="Importar Materiales"
               parent="menu_electrocom_upload"
               sequence="10"
               action="upload_material_action"/>

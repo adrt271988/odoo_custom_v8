@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record id="view_form_electrocom_mr" model="ir.ui.view">
+            <field name="name">view.form.electrocom.mr</field>
+            <field name="model">electrocom.mr</field>
+            <field name="arch" type="xml">
+                <form string="MR">
+                    <sheet>
+                        <group>
+                            <field name="name" class="oe_inline" required="1"/>
+                        </group>
+                        <group string="Líneas MR">
+                            <field name="mr_lines" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="material_id"/>
+                                    <field name="quantity"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group colspan="4">
+                            <field name="notes"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_tree_electrocom_mr" model="ir.ui.view">
+            <field name="name">view.tree.electrocom.mr</field>
+            <field name="model">electrocom.mr</field>
+            <field name="arch" type="xml">
+                <tree string="MRs">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action to open Floor -->
+        <record id="action_electrocom_mr" model="ir.actions.act_window">
+            <field name="name">MRs</field>
+            <field name="res_model">electrocom.mr</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+
+        <!-- Menu item to open Floor -->
+        <menuitem id="menu_electrocom_mr"
+              name="MR"
+              parent="menu_electrocom_material"
+              sequence="10"
+              action="action_electrocom_mr"/>
+              
+        </data>
+</openerp>

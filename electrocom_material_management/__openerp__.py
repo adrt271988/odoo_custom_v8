@@ -23,13 +23,13 @@
     'versiom': '8.0.0.1',
     'category': 'Mnufacturing',
     'summary': 'Gestión MR Electrocom',
-    'description': 'Gestión de materiales y requisiciones para empresa Electrocom',
     'author': 'Alexander Rodriguez <adtr271988@gmail.com>',
     'depends': ['base'],
     'application': True,
     'installable': True,
     'data':[
                 'electrocom_material_view.xml',
+                'electrocom_mr_view.xml',
                 'wizard/upload_wizard_view.xml',
             ],
 }

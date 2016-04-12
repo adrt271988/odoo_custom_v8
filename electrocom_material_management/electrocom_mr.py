@@ -25,22 +25,21 @@ from openerp.exceptions import except_orm, Warning, RedirectWarning
 
 MAGIC_COLUMNS = ('id', 'create_uid', 'create_date', 'write_uid', 'write_date')
 
-class ElectrocomMaterial(models.Model):
-    _name = 'electrocom.material'
-    _description = "Materiales"
+class ElectrocomMr(models.Model):
+    _name = 'electrocom.mr'
+    _description = "MRs"
     _order = "id asc"
     _rec_name = "name"
 
-    name = fields.Char(string='ID_ITEM', size=15)
-    code = fields.Char(string='CODIGO', size=4)
-    discipline = fields.Char(string='DISCIPLINA', size=3)
-    discipline_type = fields.Char(string='TIPO DE DISCIPLINA', size=6)
-    description = fields.Text(string='DESCRIPCIÓN')
-    material_type_id = fields.Char(string='ID-TIPO PRODUCTO', size=1)
-    cost_center_id = fields.Char(string='ID-CENTRO COSTO')
-    manuf = fields.Char(string="MANUF")
-    measurement_unit = fields.Char(string="MEASUREMENT_UNIT")
-    account = fields.Char(string="CTA_CONTABLE")
-    piping = fields.Char(string="ID PIPING")
-    quantity = fields.Float(string="CANTIDAD")
-    tipo_mr = fields.Float(string="TIPO MR")
+    name = fields.Char(string='Código')
+    notes = fields.Text(string='Notas')
+    mr_lines = fields.One2many('electrocom.mr.line','material_id',string="Líneas MR")
+
+class ElectrocomMrLine(models.Model):
+    _name = 'electrocom.mr.line'
+    _description = "Lineas MR"
+    _order = "id asc"
+
+    material_id = fields.Many2one('electrocom.material',string="Material")
+    mr_id = fields.Many2one('electrocom.mr',string="MR")
+    quantity= fields.Float(string="Cantidad")

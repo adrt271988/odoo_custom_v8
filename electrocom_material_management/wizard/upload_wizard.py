@@ -66,6 +66,7 @@ class UploadMaterialWizard(models.TransientModel):
                     manuf = line.get('MANUF',''),
                     measurement_unit = line.get('MEASUREMENT_UNIT',''),
                     piping = line.get('ID_PIPING',''),
+                    tipo_mr = line.get('TIPO_MR',''),
                     account = line.get('CTA_CONTABLE',''))
                 material_obj.create(values)
         return {'type': 'ir.actions.act_window_close'}

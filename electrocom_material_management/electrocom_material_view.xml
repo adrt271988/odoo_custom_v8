@@ -12,11 +12,12 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="name" class="oe_inline" required="1"/>
+                                <field name="name" placeholder="Ej: ELE-GNDCON-0001" class="oe_inline" required="1"/>
                                 <field name="code" class="oe_inline" required="1"/>
                                 <field name="quantity" class="oe_inline"/>
                                 <field name="discipline" class="oe_inline" required="1"/>
                                 <field name="discipline_type" class="oe_inline" required="1"/>
+                                <field name="tipo_mr" class="oe_inline" required="1"/>
                             </group>
                             <group>
                                 <field name="material_type_id" class="oe_inline"/>
@@ -28,14 +29,13 @@
                             </group>
                         </group>
                         <group colspan="4">
-                            <field name="description" class="oe_inline" required="1"/>
+                            <field name="description" required="1"/>
                         </group>
                     </sheet>
                 </form>
             </field>
         </record>
 
-        <!-- List & Search View Floors-->
         <record id="view_tree_electrocom_material" model="ir.ui.view">
             <field name="name">view.tree.electrocom.material</field>
             <field name="model">electrocom.material</field>
@@ -56,7 +56,6 @@
             </field>
         </record>
 
-        <!-- Action to open Floor -->
         <record id="action_electrocom_material" model="ir.actions.act_window">
             <field name="name">Materiales</field>
             <field name="res_model">electrocom.material</field>
@@ -64,7 +63,6 @@
         </record>
         
 
-        <!-- Menu item to open Floor -->
         <menuitem id="menu_electrocom_material_list"
               name="Materiales"
               parent="menu_electrocom_material"
