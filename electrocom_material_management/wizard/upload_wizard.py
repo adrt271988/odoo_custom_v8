@@ -20,6 +20,9 @@
 ##############################################################################
 
 import os
+import tempfile
+import base64
+import csv
 from datetime import datetime
 from openerp import models, fields, api, _
 from openerp.exceptions import except_orm, Warning, RedirectWarning, ValidationError
@@ -36,6 +39,35 @@ class UploadMaterialWizard(models.TransientModel):
         name = self.csv_filename
         if self.get_extension(name) != '.csv':
             raise ValidationError(_("La extensión del archivo debe ser .csv"))
+        data = base64.decodestring(self.csv_file)
+        fobj = tempfile.NamedTemporaryFile(delete=False)
+        fname = fobj.name
+        fobj.write(data)
+        fobj.close()
+        archive = csv.DictReader(open(fname))
+        values = {}
+        for line in archive:
+            idItem = line.get('ID_ITEM',False)
+            quantity = float(line.get('CANTIDAD',0.00))
+            material_obj = self.env['electrocom.material']
+            material = material_obj.search([('name','=',idItem)])
+            if material:
+                material.quantity += quantity
+            else:
+                values = dict(
+                    name = idItem and idItem or '',
+                    quantity = line.get('CANTIDAD',''),
+                    discipline = idItem and idItem.split("-")[0] or line.get('DISCIPLINA',''),
+                    discipline_type = idItem and idItem.split("-")[1] or line.get('TIPO_DISCIPLINA',''),
+                    code = idItem and idItem.split("-")[2] or line.get('CODIGO',''),
+                    description = line.get('DESCRIPCION',''),
+                    material_type_id = line.get('ID_TIPO_PRODUCTO',''),
+                    cost_center_id = line.get('ID_CENTRO_COSTO',''),
+                    manuf = line.get('MANUF',''),
+                    measurement_unit = line.get('MEASUREMENT_UNIT',''),
+                    piping = line.get('ID_PIPING',''),
+                    account = line.get('CTA_CONTABLE',''))
+                material_obj.create(values)
         return {'type': 'ir.actions.act_window_close'}
         
     csv_file = fields.Binary(string='Archivo', required=True, filters='*.csv',

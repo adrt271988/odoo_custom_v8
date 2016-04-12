@@ -12,20 +12,23 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="name" class="oe_inline"/>
-                                <field name="code" class="oe_inline"/>
+                                <field name="name" class="oe_inline" required="1"/>
+                                <field name="code" class="oe_inline" required="1"/>
                                 <field name="quantity" class="oe_inline"/>
-                                <field name="discipline" class="oe_inline"/>
-                                <field name="discipline_type" class="oe_inline"/>
-                                <field name="description" class="oe_inline"/>
+                                <field name="discipline" class="oe_inline" required="1"/>
+                                <field name="discipline_type" class="oe_inline" required="1"/>
                             </group>
                             <group>
                                 <field name="material_type_id" class="oe_inline"/>
                                 <field name="cost_center_id" class="oe_inline"/>
-                                <field name="manufacturer" class="oe_inline"/>
+                                <field name="manuf" class="oe_inline"/>
+                                <field name="measurement_unit" class="oe_inline"/>
                                 <field name="account" class="oe_inline"/>
                                 <field name="piping" class="oe_inline"/>
                             </group>
+                        </group>
+                        <group colspan="4">
+                            <field name="description" class="oe_inline" required="1"/>
                         </group>
                     </sheet>
                 </form>
@@ -43,10 +46,10 @@
                     <field name="quantity"/>
                     <field name="discipline"/>
                     <field name="discipline_type"/>
-                    <field name="description" />
                     <field name="material_type_id"/>
                     <field name="cost_center_id"/>
-                    <field name="manufacturer"/>
+                    <field name="manuf"/>
+                    <field name="measurement_unit"/>
                     <field name="account"/>
                     <field name="piping"/>
                 </tree>

@@ -28,17 +28,18 @@ MAGIC_COLUMNS = ('id', 'create_uid', 'create_date', 'write_uid', 'write_date')
 class ElectrocomMaterial(models.Model):
     _name = 'electrocom.material'
     _description = "Materiales"
-    _order = "id desc"
+    _order = "id asc"
     _rec_name = "name"
 
-    name = fields.Char(string='ID_ITEM', size=14, required=True)
-    code = fields.Char(string='CODIGO', size=4, required=True)
-    discipline = fields.Char(string='DISCIPLINA', size=3, required=True)
-    discipline_type = fields.Char(string='TIPO DE DISCIPLINA', size=5, required=True)
-    description = fields.Char(string='DESCRIPCIÓN', required=True)
-    material_type_id = fields.Char(string='ID-TIPO PRODUCTO', size=1, required=True)
+    name = fields.Char(string='ID_ITEM', size=15)
+    code = fields.Char(string='CODIGO', size=4)
+    discipline = fields.Char(string='DISCIPLINA', size=3)
+    discipline_type = fields.Char(string='TIPO DE DISCIPLINA', size=6)
+    description = fields.Text(string='DESCRIPCIÓN')
+    material_type_id = fields.Char(string='ID-TIPO PRODUCTO', size=1)
     cost_center_id = fields.Char(string='ID-CENTRO COSTO')
-    manufacturer = fields.Char(string="MANUF") 
+    manuf = fields.Char(string="MANUF")
+    measurement_unit = fields.Char(string="MEASUREMENT_UNIT")
     account = fields.Char(string="CTA_CONTABLE")
     piping = fields.Char(string="ID PIPING")
     quantity = fields.Float(string="CANTIDAD")
