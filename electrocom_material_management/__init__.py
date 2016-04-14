@@ -1,3 +1,4 @@
 import electrocom_material
+import electrocom_material_import
 import electrocom_mr
 import wizard
