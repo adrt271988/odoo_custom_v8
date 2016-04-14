@@ -77,6 +77,14 @@ class LalitaReservation(models.Model):
     _rec_name = "name"
 
     @api.one
+    def cancel_reservation(self):
+        self.state = "cancel"
+    
+    @api.one
+    def close_reservation(self):
+        self.state = "done"
+        
+    @api.one
     def send_online_form(self):
         if self.client_ids:
             for client in self.client_ids:
@@ -113,6 +121,8 @@ class LalitaReservation(models.Model):
         if self.client_ids:
             for client in self.client_ids:
                 if client.check:
+                    if self.change_guest_state == "check_out":
+                        client.out_date = fields.Date.today()
                     client.guest_state = self.change_guest_state
                 client.check = False
 
@@ -214,16 +224,6 @@ class LalitaReservation(models.Model):
         reservation = super(LalitaReservation, self).create(values)
         reservation.message_post(body=_("Reserva %s creada"%values["name"]))
         return reservation
-
-    #~ @api.multi
-    #~ def write(self, values):
-        #~ if 'client_ids' in values:
-            #~ for record in values['client_ids']:
-                #~ client = record[2]
-                #~ if 'check' in client:
-                    #~ if client['check'] is True:
-                        #~ client['check'] = False
-        #~ return super(LalitaReservation, self).write(values)
 
 class LalitaGuest(models.Model):
     _name = 'lalita.guest'

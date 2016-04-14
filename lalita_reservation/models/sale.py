@@ -23,6 +23,14 @@ from openerp import models, fields, api, _
 class LalitaSaleOrder(models.Model):
     _inherit = 'sale.order'
 
+    def action_button_confirm(self, cr, uid, ids, context=None):
+        if self.browse(cr, uid, ids[0]).reservation_created:
+            reservation = self.pool.get('lalita.reservation')
+            reservation_id = reservation.search(cr, uid, [('sale_id','=',ids[0])])
+            if reservation_id:
+                reservation.write(cr, uid, reservation_id, {'state':'open'})
+        return super(LalitaSaleOrder, self).action_button_confirm(cr, uid, ids, context=context)
+
     @api.one
     def create_reservation(self):
         values = {

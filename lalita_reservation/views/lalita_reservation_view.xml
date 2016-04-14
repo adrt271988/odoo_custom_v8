@@ -14,9 +14,8 @@
         <field name="arch" type="xml">
             <form string="Reservas" class="form-horizontal">
                 <header>
-<!--
-                    <button name="print_reservation" type="object" string="Imprimir" class="oe_highlight" />
--->
+                    <button name="cancel_reservation" states="draft,open" type="object" string="Cancelar"/>
+                    <button name="close_reservation" states="open" type="object" string="Cerrar"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,open,done,cancel"/>
                 </header>
                 <sheet>
@@ -62,7 +61,7 @@
                                         <field name="out_date" readonly="1"/>
                                         <field name="register_state"/>
                                         <field name="guest_state"/>
-                                        <button name="call_traveler_form" attrs="{'invisible':[('register_state','!=','sent')]}" string="LLenar Formulario"
+                                        <button name="call_traveler_form" attrs="{'invisible':[('register_state','not in',['sent','filled'])]}" string="LLenar Formulario"
                                             type="object" icon="gtk-edit" help="Llenar Formulario de Registro"/>
                                     </tree>
                                 </field>
