@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record id="leaving_motive_form" model="ir.ui.view">
+            <field name="name">leaving.motive.form</field>
+            <field name="model">leaving.motive</field>
+            <field name="arch" type="xml">
+                <form string="Motivo de Salida">
+                    <div class="oe_title">
+                        <label string="Ingrese el motivo de la salida del huésped"/>
+                    </div>
+                    <group col="4" colspan="4">
+                        <field name="motive"/>
+                    </group>
+                    <footer>
+                        <button name="set_motive" string="Aceptar"
+                            type="object" class="oe_highlight"/>
+                        <button special="cancel" string="Cancelar" class="oe_link"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="leaving_motive_action" model="ir.actions.act_window">
+            <field name="name">Motivo de Salida</field>
+            <field name="res_model">leaving.motive</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</openerp>

@@ -122,7 +122,7 @@ class LalitaReservation(models.Model):
             for client in self.client_ids:
                 if client.check:
                     if self.change_guest_state == "check_out":
-                        client.out_date = fields.Date.today()
+                        client.out_date = fields.Date.context_today(self)
                     client.guest_state = self.change_guest_state
                 client.check = False
 
@@ -231,6 +231,21 @@ class LalitaGuest(models.Model):
     _order = "id desc"
 
     @api.multi
+    def set_leaving_motive(self):
+        assert len(self) == 1, 'This option should only be used for a single id at a time.'
+        view_form = self.env.ref('lalita_reservation.leaving_motive_form', False)
+        return {
+            'name': _('Motivo de Salida'),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'leaving.motive',
+            'views': [(view_form.id, 'form')],
+            'view_id': view_form.id,
+            'target': 'new'
+        }
+
+    @api.multi
     def call_traveler_form(self):
         view_form = self.env.ref('lalita_reservation.view_form_traveler_register', False)
         ctx = dict(
@@ -285,3 +300,4 @@ class LalitaGuest(models.Model):
         string='Estado Registro Viajero', index=True, default='not_sent',
         track_visibility='onchange', copy=False, readonly=True)
     check = fields.Boolean(string="Seleccione",help="Seleccione para aplicar la acción",default=False)
+    leaving_motive = fields.Text(string="Motivo del Retiro", help="Motivo de la Salida del Huésped")

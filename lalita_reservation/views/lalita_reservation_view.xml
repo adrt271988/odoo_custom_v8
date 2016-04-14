@@ -61,8 +61,14 @@
                                         <field name="out_date" readonly="1"/>
                                         <field name="register_state"/>
                                         <field name="guest_state"/>
-                                        <button name="call_traveler_form" attrs="{'invisible':[('register_state','not in',['sent','filled'])]}" string="LLenar Formulario"
-                                            type="object" icon="gtk-edit" help="Llenar Formulario de Registro"/>
+                                        <button name="call_traveler_form"
+                                            attrs="{'invisible':[('register_state','not in',['sent','filled'])]}"
+                                            string="Formulario de Registro"
+                                            type="object" icon="gtk-edit" help="Formulario de Registro"/>
+                                        <button name="set_leaving_motive"
+                                            attrs="{'invisible':[('guest_state','not in',['early_leave'])]}"
+                                            string="Ingresar Motivo de Salida"
+                                            type="object" icon="gtk-help" help="Ingresar Motivo de Salida"/>
                                     </tree>
                                 </field>
                             </page>

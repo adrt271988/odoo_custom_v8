@@ -18,25 +18,19 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': 'Lalita Registro de Viajeros',
-    'versiom': '8.0.0.1',
-    'category': 'Travel',
-    'summary': 'Registro para Viajeros',
-    'description': 'Gestión del Registro de Viajeros y envío de los partes a la Guardia Civil',
-    'author': 'Jeronimo Spotorno, Alexander Rodriguez <adtr271988@gmail.com>',
-    'depends': ['base','document','mail','sales_crm_custom','document_url'],
-    'application': True,
-    'installable': True,
-    'data':[
-                'data/lalita_reservation_sequence.xml',
-                'wizard/leaving_motive_view.xml',
-                'views/res_partner_view.xml',
-                'views/sale_view.xml',
-                'views/lalita_reservation_view.xml',
-                'views/traveler_register_view.xml',
-                'report/report_traveler_register.xml',
-                'lalita_reservation_report.xml',
-                'data/email_template.xml',
-            ],
-}
+
+from datetime import datetime
+from openerp import models, fields, api, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning, ValidationError
+
+class LeavingMotive(models.TransientModel):
+    _name = 'leaving.motive'
+    
+    @api.one
+    def set_motive(self):
+        guest_id = self._context['active_id']
+        guest = self.env['lalita.guest'].browse(guest_id)
+        guest.leaving_motive = self.motive
+        return {'type': 'ir.actions.act_window_close'}
+        
+    motive = fields.Text(string="Motivo de Salida")
