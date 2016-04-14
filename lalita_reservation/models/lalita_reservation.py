@@ -274,7 +274,7 @@ class LalitaGuest(models.Model):
             'context': ctx,
         }
 
-    partner_id = fields.Many2one('res.partner',string="Huésped")
+    partner_id = fields.Many2one('res.partner',string="Nombre")
     reservation_id = fields.Many2one('lalita.reservation',string="Reservación")
     name = fields.Char(string='Nombre',related="partner_id.name",readonly=True)
     phone = fields.Char(string='Teléfono',related="partner_id.phone",readonly=True)

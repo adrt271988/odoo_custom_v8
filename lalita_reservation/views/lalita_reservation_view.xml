@@ -349,6 +349,7 @@
                         <field name="arrival_date"/>
                         <field name="out_date"/>
                         <field name="room_id" class="oe_inline"/>
+                        <field name="leaving_motive" attrs="{'invisible': [('guest_state','not in',['early_leave'])]}"/>
                     </group>
                 </sheet>
             </form>
