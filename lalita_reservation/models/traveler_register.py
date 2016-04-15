@@ -105,7 +105,7 @@ class TravelerRegister(models.Model):
     birth_date = fields.Date('Fecha de Nacimiento')
     birth_country = fields.Many2one('res.country','Pais de Nacionalidad')
     guest_id = fields.Many2one('lalita.guest','Huésped')
-    entry_date = fields.Date('Fecha de Entrada', default = lambda self: fields.Date.context_today(self))
+    entry_date = fields.Datetime('Fecha de Entrada', default = lambda self: fields.Date.context_today(self))
     #~ sent = fields.Boolean('Enviado?', default=False)
     reservation_id = fields.Many2one('lalita.reservation', string='Grupo Reserva')
     user_id = fields.Many2one('res.users', string='Responsable', track_visibility='onchange',

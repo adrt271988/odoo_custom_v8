@@ -28,7 +28,7 @@
                     <div class="oe_right oe_button_box" name="buttons"> </div>
                     <group>
                         <group>
-                            <field name="partner_id"/>
+                            <field name="partner_id" required="1"/>
                             <field name="pricelist_id"/>
                             <field name="ocupation_days"/>
                             <field name="expected_income"/>

@@ -111,7 +111,7 @@ class LalitaReservation(models.Model):
                                     'reservation_id': self.id
                                         }
                         self.env['traveler.register'].create(traveler_values)
-                        client.arrival_date = fields.Date.today()
+                        client.arrival_date = datetime.today()
                         client.guest_state = 'check_in'
                         client.register_state = 'filled'
                     client.check = False
@@ -142,8 +142,8 @@ class LalitaReservation(models.Model):
             default=lambda self: self.env['res.company']._company_default_get('lalita.reservation'))
     pricelist_id = fields.Many2one('product.pricelist', string='Tarifa',
                         domain="[('type','=','sale')]",readonly=True)
-    arrival_date = fields.Date( string='Fecha de Entrada', required=True)
-    out_date = fields.Date( string='Fecha de Salida', required=True)
+    arrival_date = fields.Datetime( string='Fecha de Entrada', required=True)
+    out_date = fields.Datetime( string='Fecha de Salida', required=True)
     state = fields.Selection(
         [('draft','Borrador'),
         ('open','Confirmada'),
@@ -289,8 +289,8 @@ class LalitaGuest(models.Model):
         ('check_out','Check out'),],
         string='Estado del Huesped', index=True, default='draft',
         track_visibility='onchange', copy=False, readonly=True)
-    arrival_date = fields.Date( string='Fecha de Entrada')
-    out_date = fields.Date( string='Fecha de Salida')
+    arrival_date = fields.Datetime( string='Fecha de Entrada')
+    out_date = fields.Datetime( string='Fecha de Salida')
     room_id = fields.Many2one('lalita.room',string="Habitación")
     register_state = fields.Selection(
         [('not_sent','No enviado'),
