@@ -21,7 +21,7 @@
 
 from datetime import datetime
 from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.exceptions import except_orm, Warning, RedirectWarning, ValidationError
 
 MAGIC_COLUMNS = ('id', 'create_uid', 'create_date', 'write_uid', 'write_date')
 
@@ -45,6 +45,43 @@ class ElectrocomMaterialImport(models.Model):
             'view_id': view_form.id,
             'target': 'new'
         }
+
+    @api.one
+    def update_master(self):
+        master_obj = self.env['electrocom.material']
+        record = False
+        for line in self.lines:
+            values = {}
+            master = master_obj.search([('name','=',line.name)])
+            if master:
+                master.quantity += line.quantity
+            else:
+                idItem = line.name
+                values = dict(
+                    name = idItem and idItem or '',
+                    quantity = line.quantity,
+                    description = line.description,
+                    tipo_mr = line.tipo_mr,
+                    discipline = idItem and idItem.split("-")[0] or '',
+                    discipline_type = idItem and idItem.split("-")[1] or '',
+                    code = idItem and idItem.split("-")[2] or '',
+                    import_id = self.id
+                )
+                record = master_obj.create(values)
+        if record:
+            self.state = 'done'
+        else:
+            ValidationError(_("Error al actualizar el maestro de materiales"))
+
+    @api.one
+    def validate(self):
+        if not self.lines:
+            raise ValidationError(_("No es posible confirmar debido a que no se ha realizado ninguna importación"))
+        self.state = 'open'
+
+    @api.one
+    def cancel_document(self):
+        self.state = 'cancel'
     
     @api.model
     def create(self, values):
@@ -74,4 +111,5 @@ class ElectrocomMaterialImportLine(models.Model):
     name = fields.Char(string='ID_ITEM', size=15)
     description = fields.Char(string='DESCRIPCIÓN')
     quantity = fields.Float(string="CANTIDAD")
+    tipo_mr = fields.Char(string="TIPO MR")
     import_id = fields.Many2one('electrocom.material.import')

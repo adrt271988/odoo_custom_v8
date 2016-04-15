@@ -45,30 +45,20 @@ class UploadMaterialWizard(models.TransientModel):
         fobj.write(data)
         fobj.close()
         archive = csv.DictReader(open(fname))
-        values = {}
+        mto = self.env['electrocom.material.import'].browse(self._context['active_id'])
+        lines = []
         for line in archive:
+            lineValues = {}
             idItem = line.get('ID_ITEM',False)
             quantity = float(line.get('CANTIDAD',0.00))
-            material_obj = self.env['electrocom.material']
-            material = material_obj.search([('name','=',idItem)])
-            if material:
-                material.quantity += quantity
-            else:
-                values = dict(
+            lineValues = dict(
                     name = idItem and idItem or '',
                     quantity = line.get('CANTIDAD',''),
-                    discipline = idItem and idItem.split("-")[0] or line.get('DISCIPLINA',''),
-                    discipline_type = idItem and idItem.split("-")[1] or line.get('TIPO_DISCIPLINA',''),
-                    code = idItem and idItem.split("-")[2] or line.get('CODIGO',''),
                     description = line.get('DESCRIPCION',''),
-                    material_type_id = line.get('ID_TIPO_PRODUCTO',''),
-                    cost_center_id = line.get('ID_CENTRO_COSTO',''),
-                    manuf = line.get('MANUF',''),
-                    measurement_unit = line.get('MEASUREMENT_UNIT',''),
-                    piping = line.get('ID_PIPING',''),
-                    tipo_mr = line.get('TIPO_MR',''),
-                    account = line.get('CTA_CONTABLE',''))
-                material_obj.create(values)
+                    tipo_mr = line.get('TIPO_MR','')
+                )
+            lines.append((0,0,lineValues))
+        mto.lines = lines
         return {'type': 'ir.actions.act_window_close'}
         
     csv_file = fields.Binary(string='Archivo', required=True, filters='*.csv',

@@ -13,8 +13,7 @@ Estructura del .csv para Materiales
 -----------------------------------------------------------------------------------------
 
 La estructura del archivo .csv de materiales debería contener las siguientes columnas:
-DISCIPLINA, TIPO_DISCIPLINA, CODIGO, ID_ITEM, DESCRIPCION, ID_TIPO_PRODUCTO, ID_CENTRO COSTO,
-MANUF, CTA_CONTABLE, MEASUREMENT_UNIT, ID_PIPING, CANTIDAD, TIPO_MR.
+ID_ITEM, DESCRIPCION, CANTIDAD, TIPO_MR.
 
 Cabe destacar que el orden y la existencia de todas las columnas no son obligatorias, lo
 que si debe ser obligatorio es el nombre con el cual se han presentado cada columna, sin

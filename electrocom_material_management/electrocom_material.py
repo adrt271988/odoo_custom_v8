@@ -43,4 +43,5 @@ class ElectrocomMaterial(models.Model):
     account = fields.Char(string="CTA_CONTABLE")
     piping = fields.Char(string="ID PIPING")
     quantity = fields.Float(string="CANTIDAD")
-    tipo_mr = fields.Float(string="TIPO MR")
+    tipo_mr = fields.Char(string="TIPO MR")
+    import_id = fields.Many2one('electrocom.material.import', string="Importación", readonly=True)

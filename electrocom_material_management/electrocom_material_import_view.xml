@@ -8,11 +8,13 @@
                 <form string="MTO">
                     <header>
                         <button name="upload_data" type="object" states="draft"
-                            string="Importar" help="Importar Listado de Materiales"/>
+                            class="oe_highlight" string="Importar" help="Importar Listado de Materiales"/>
+                        <button name="validate" type="object" states="draft"
+                            class="oe_highlight" string="Confirmar" help="Confirmar los datos importados"/>
                         <button name="update_master" type="object" states="open"
-                            string="Actualizar Maestro" help="Actualizar Maestro de Materiales"/>
-                        <button name="create_mr" type="object"
-                            attrs="{'invisible':['|',('state','!=','open'),('mr_exists','=',True)]}"
+                            class="oe_highlight" string="Actualizar Maestro" help="Actualizar Maestro de Materiales"/>
+                        <button name="create_mr" type="object" class="oe_highlight"
+                            attrs="{'invisible':['|',('state','in',['draft','cancel']),('mr_exists','=',True)]}"
                             string="Crear MR" help="Crear Requisición de Material"/>
                         <button name="cancel_document" type="object" states="open"
                             string="Cancelar" help="Cancelar la importación"/>
@@ -21,17 +23,18 @@
                     <sheet>
                         <group>
                             <field name="sequence" class="oe_inline"/>
-                            <field name="import_date" class="oe_inline"/>
+                            <field name="import_date" class="oe_inline" attrs="{'readonly':[('state','!=','draft')]}"/>
                             <field name="user_id" class="oe_inline" required="1"/>
                             <field name="mr_exists" invisible="1"/>
                         </group>
                         <notebook>
                             <page string="Detalles">
-                                <field name="lines" nolabel="1">
+                                <field name="lines" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}">
                                     <tree editable="bottom">
                                         <field name="name"/>
                                         <field name="description"/>
                                         <field name="quantity"/>
+                                        <field name="tipo_mr"/>
                                     </tree>
                                 </field>
                             </page>

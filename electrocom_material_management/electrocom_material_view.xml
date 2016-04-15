@@ -17,7 +17,7 @@
                                 <field name="quantity" class="oe_inline"/>
                                 <field name="discipline" class="oe_inline" required="1"/>
                                 <field name="discipline_type" class="oe_inline" required="1"/>
-                                <field name="tipo_mr" class="oe_inline" required="1"/>
+                                <field name="tipo_mr" class="oe_inline"/>
                             </group>
                             <group>
                                 <field name="material_type_id" class="oe_inline"/>
@@ -26,6 +26,7 @@
                                 <field name="measurement_unit" class="oe_inline"/>
                                 <field name="account" class="oe_inline"/>
                                 <field name="piping" class="oe_inline"/>
+                                <field name="import_id" class="oe_inline"/>
                             </group>
                         </group>
                         <group colspan="4">
@@ -43,15 +44,9 @@
                 <tree string="Materiales">
                     <field name="name"/>
                     <field name="code"/>
-                    <field name="quantity"/>
                     <field name="discipline"/>
-                    <field name="discipline_type"/>
-                    <field name="material_type_id"/>
-                    <field name="cost_center_id"/>
-                    <field name="manuf"/>
-                    <field name="measurement_unit"/>
-                    <field name="account"/>
-                    <field name="piping"/>
+                    <field name="import_id"/>
+                    <field name="quantity"/>
                 </tree>
             </field>
         </record>
