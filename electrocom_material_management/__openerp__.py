@@ -28,8 +28,10 @@
     'application': True,
     'installable': True,
     'data':[
-                'electrocom_material_view.xml',
-                'electrocom_mr_view.xml',
+                'data/sequence.xml',
                 'wizard/upload_wizard_view.xml',
+                'electrocom_material_view.xml',
+                'electrocom_material_import_view.xml',
+                'electrocom_mr_view.xml',
             ],
 }

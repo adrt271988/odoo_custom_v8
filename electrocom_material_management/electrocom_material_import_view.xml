@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record id="view_form_electrocom_material_mto" model="ir.ui.view">
+            <field name="name">view.form.electrocom.material.mto</field>
+            <field name="model">electrocom.material.import</field>
+            <field name="arch" type="xml">
+                <form string="MTO">
+                    <header>
+                        <button name="upload_data" type="object" states="draft"
+                            string="Importar" help="Importar Listado de Materiales"/>
+                        <button name="update_master" type="object" states="open"
+                            string="Actualizar Maestro" help="Actualizar Maestro de Materiales"/>
+                        <button name="create_mr" type="object"
+                            attrs="{'invisible':['|',('state','!=','open'),('mr_exists','=',True)]}"
+                            string="Crear MR" help="Crear Requisición de Material"/>
+                        <button name="cancel_document" type="object" states="open"
+                            string="Cancelar" help="Cancelar la importación"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,open,done,cancel"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="sequence" class="oe_inline"/>
+                            <field name="import_date" class="oe_inline"/>
+                            <field name="user_id" class="oe_inline" required="1"/>
+                            <field name="mr_exists" invisible="1"/>
+                        </group>
+                        <notebook>
+                            <page string="Detalles">
+                                <field name="lines" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="description"/>
+                                        <field name="quantity"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_tree_electrocom_material_mto" model="ir.ui.view">
+            <field name="name">view.tree.electrocom.material.mto</field>
+            <field name="model">electrocom.material.import</field>
+            <field name="arch" type="xml">
+                <tree string="MTO">
+                    <field name="sequence"/>
+                    <field name="import_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_electrocom_material_mto" model="ir.actions.act_window">
+            <field name="name">Listado MTO</field>
+            <field name="res_model">electrocom.material.import</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_electrocom_material_mto"
+              name="Listado MTO"
+              parent="electrocom_material_management.menu_electrocom_material"
+              sequence="10"
+              action="action_electrocom_material_mto"/>
+              
+        </data>
+</openerp>

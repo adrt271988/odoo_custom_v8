@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+        <record id="seq_type_electrocom_material_import" model="ir.sequence.type">
+            <field name="name">Importaciones MTO</field>
+            <field name="code">electrocom.material.import</field>
+        </record>
+
+        <record id="seq_electrocom_material_import" model="ir.sequence">
+            <field name="name">Importaciones MTO</field>
+            <field name="code">electrocom.material.import</field>
+            <field name="padding">8</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</openerp>

@@ -48,7 +48,7 @@
         <menuitem id="menu_electrocom_mr"
               name="MR"
               parent="menu_electrocom_material"
-              sequence="10"
+              sequence="30"
               action="action_electrocom_mr"/>
               
         </data>
