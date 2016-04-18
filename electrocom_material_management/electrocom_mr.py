@@ -31,9 +31,19 @@ class ElectrocomMr(models.Model):
     _order = "id asc"
     _rec_name = "name"
 
+    @api.model
+    def create(self, values):
+        if not values.get('sequence'):
+            values['sequence'] = self.env['ir.sequence'].get('electrocom.mr')
+        return super(ElectrocomMr, self).create(values)
+
     name = fields.Char(string='Código')
+    sequence = fields.Char(string='Secuencia', readonly=True)
     notes = fields.Text(string='Notas')
+    date_mr = fields.Datetime('Fecha de MR', default = lambda self: datetime.today())
     mr_lines = fields.One2many('electrocom.mr.line','material_id',string="Líneas MR")
+    user_id = fields.Many2one('res.users', string='Responsable', track_visibility='onchange', readonly=True,
+            default=lambda self: self.env.user)
 
 class ElectrocomMrLine(models.Model):
     _name = 'electrocom.mr.line'
@@ -41,5 +51,7 @@ class ElectrocomMrLine(models.Model):
     _order = "id asc"
 
     material_id = fields.Many2one('electrocom.material',string="Material")
+    id_item = fields.Char(string="Id Item")
+    description = fields.Char(string="Descripción")
     mr_id = fields.Many2one('electrocom.mr',string="MR")
     quantity= fields.Float(string="Cantidad")

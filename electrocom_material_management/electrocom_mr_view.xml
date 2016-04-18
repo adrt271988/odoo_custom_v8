@@ -8,12 +8,17 @@
                 <form string="MR">
                     <sheet>
                         <group>
+                            <field name="sequence" class="oe_inline" required="1"/>
                             <field name="name" class="oe_inline" required="1"/>
+                            <field name="date_mr" class="oe_inline" required="1"/>
+                            <field name="user_id" class="oe_inline" required="1"/>
                         </group>
                         <group string="Líneas MR">
                             <field name="mr_lines" nolabel="1">
                                 <tree editable="bottom">
                                     <field name="material_id"/>
+                                    <field name="id_item"/>
+                                    <field name="description"/>
                                     <field name="quantity"/>
                                 </tree>
                             </field>
@@ -31,7 +36,10 @@
             <field name="model">electrocom.mr</field>
             <field name="arch" type="xml">
                 <tree string="MRs">
-                    <field name="name"/>
+                    <field name="sequence" class="oe_inline" required="1"/>
+                    <field name="name" class="oe_inline" required="1"/>
+                    <field name="date_mr" class="oe_inline" required="1"/>
+                    <field name="user_id" class="oe_inline" required="1"/>
                 </tree>
             </field>
         </record>

@@ -14,7 +14,7 @@
                         <button name="update_master" type="object" states="open"
                             class="oe_highlight" string="Actualizar Maestro" help="Actualizar Maestro de Materiales"/>
                         <button name="create_mr" type="object" class="oe_highlight"
-                            attrs="{'invisible':['|',('state','in',['draft','cancel']),('mr_exists','=',True)]}"
+                            attrs="{'invisible':['|',('state','not in',['done']),('mr_exists','=',True)]}"
                             string="Crear MR" help="Crear Requisición de Material"/>
                         <button name="cancel_document" type="object" states="open"
                             string="Cancelar" help="Cancelar la importación"/>
@@ -23,6 +23,8 @@
                     <sheet>
                         <group>
                             <field name="sequence" class="oe_inline"/>
+                            <field name="project_code" class="oe_inline" required="True"
+                                    attrs="{'readonly':[('state','!=','draft')]}"/>
                             <field name="import_date" class="oe_inline" attrs="{'readonly':[('state','!=','draft')]}"/>
                             <field name="user_id" class="oe_inline" required="1"/>
                             <field name="mr_exists" invisible="1"/>

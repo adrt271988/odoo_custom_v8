@@ -82,6 +82,31 @@ class ElectrocomMaterialImport(models.Model):
     @api.one
     def cancel_document(self):
         self.state = 'cancel'
+
+    @api.one
+    def create_mr(self):
+        if self.lines:
+            self.env.cr.execute('SELECT tipo_mr FROM electrocom_material_import_line \
+                                        WHERE import_id = %d GROUP BY tipo_mr'%self.id)
+            result = self.env.cr.fetchall()
+            for res in result:
+                mr_lines = []
+                importLines = self.lines.search([('tipo_mr','=',res[0])])
+                for il in importLines:
+                    lineVals = {}
+                    material = self.env['electrocom.material'].search([('name','=',il.name)])
+                    lineVals = dict(
+                        material_id = material and material.id or '',
+                        id_item = material and material.name or il.name,
+                        description = material and material.description or il.description,
+                        quantity = il.quantity
+                    )
+                    mr_lines.append((0,0,lineVals))
+                self.env['electrocom.mr'].create(dict(
+                    name = self.project_code+'-MR-'+res[0],
+                    mr_lines = mr_lines
+                ))
+        self.mr_exists = True
     
     @api.model
     def create(self, values):
@@ -90,6 +115,7 @@ class ElectrocomMaterialImport(models.Model):
         return super(ElectrocomMaterialImport, self).create(values)
 
     sequence = fields.Char(string='Secuencia', readonly=True)
+    project_code = fields.Char(string="Proyecto", help="Código del Proyecto")
     user_id = fields.Many2one('res.users', string='Responsable', track_visibility='onchange', readonly=True,
             default=lambda self: self.env.user)
     import_date = fields.Datetime('Fecha de Importación', default = lambda self: datetime.today())
