@@ -18,6 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from datetime import datetime
 from openerp import models, fields, api, _
 
 MAGIC_COLUMNS = ('id', 'create_uid', 'create_date', 'write_uid', 'write_date')
@@ -105,7 +106,7 @@ class TravelerRegister(models.Model):
     birth_date = fields.Date('Fecha de Nacimiento')
     birth_country = fields.Many2one('res.country','Pais de Nacionalidad')
     guest_id = fields.Many2one('lalita.guest','Huésped')
-    entry_date = fields.Datetime('Fecha de Entrada', default = lambda self: fields.Date.context_today(self))
+    entry_date = fields.Datetime('Fecha de Entrada', default = lambda self: datetime.today())
     #~ sent = fields.Boolean('Enviado?', default=False)
     reservation_id = fields.Many2one('lalita.reservation', string='Grupo Reserva')
     user_id = fields.Many2one('res.users', string='Responsable', track_visibility='onchange',

@@ -28,17 +28,18 @@
                     <div class="oe_right oe_button_box" name="buttons"> </div>
                     <group>
                         <group>
-                            <field name="partner_id" required="1"/>
-                            <field name="pricelist_id"/>
+                            <field name="partner_id" required="1"
+                                attrs="{'readonly':[('state','in',['cancel','done'])]}"/>
+                            <field name="pricelist_id" attrs="{'readonly':[('state','in',['cancel','done'])]}"/>
                             <field name="ocupation_days"/>
                             <field name="expected_income"/>
-                            <field name="sale_id"/>
+                            <field name="sale_id" attrs="{'readonly':[('state','in',['cancel','done'])]}"/>
                         </group>
                         <group>
-                            <field name="arrival_date"/>
-                            <field name="out_date"/>
-                            <field name="berths"/>
-                            <field name="user_id"/>
+                            <field name="arrival_date" attrs="{'readonly':[('state','in',['cancel','done'])]}"/>
+                            <field name="out_date" attrs="{'readonly':[('state','in',['cancel','done'])]}"/>
+                            <field name="berths" attrs="{'readonly':[('state','in',['cancel','done'])]}"/>
+                            <field name="user_id" attrs="{'readonly':[('state','in',['cancel','done'])]}"/>
                             <field name="company_id"/>
                         </group>
                         <notebook colspan="4">
@@ -47,10 +48,11 @@
                                     help="Presione para enviar el link del formulario de registro al huésped"/>
                                 <button name="check_in" type="object" string="Check In" class="oe_highlight"
                                     help="Presione para realizar las acciones que conlleva el check in de un huésped"/>
-                                <field name="change_guest_state" nolabel="1" class="oe_inline oe_edit_only"/>
+                                <field name="change_guest_state" nolabel="1" class="oe_inline oe_edit_only"
+                                    attrs="{'readonly':[('state','in',['cancel','done'])]}"/>
                                 <button name="change_state" type="object" string="Cambiar"
                                     class="oe_edit_only" help="Presione para cambiar el estado del o los huéspedes seleccionados"/>
-                                <field name="client_ids" nolabel="1">
+                                <field name="client_ids" nolabel="1" attrs="{'readonly':[('state','in',['cancel','done'])]}">
                                     <tree editable="bottom">
                                         <field name="check" string=" "/>
                                         <field name="partner_id"/>
@@ -77,14 +79,16 @@
                                     <field name="total_berths"/>
                                 </group>
                                 <group string="Habitaciones">
-                                    <field name="room_ids" nolabel="1" widget='many2many'/>
+                                    <field name="room_ids" nolabel="1" widget='many2many'
+                                        attrs="{'readonly':[('state','in',['cancel','done'])]}"/>
                                 </group>
                             </page>
                             <page string="Registros">
                                 <field name="register_ids" readonly="1" nolabel="1" widget='one2many'/>
                             </page>
                             <page string="Facturas">
-                                <field name="invoice_ids" nolabel="1" widget='one2many'/>
+                                <field name="invoice_ids" nolabel="1" widget='one2many'
+                                    attrs="{'readonly':[('state','in',['cancel','done'])]}"/>
                             </page>
                         </notebook>
                         <group colspan="4">

@@ -122,7 +122,7 @@ class LalitaReservation(models.Model):
             for client in self.client_ids:
                 if client.check:
                     if self.change_guest_state == "check_out":
-                        client.out_date = fields.Date.context_today(self)
+                        client.out_date = datetime.today()
                     client.guest_state = self.change_guest_state
                 client.check = False
 
@@ -198,7 +198,7 @@ class LalitaReservation(models.Model):
         return {'warning': msg}
 
     def get_days(self,from_date,to_date):
-        fmt = '%Y-%m-%d'
+        fmt = '%Y-%m-%d %H:%M:%S'
         d1 = datetime.strptime(from_date, fmt)
         d2 = datetime.strptime(to_date, fmt)
         return (d2-d1).days
