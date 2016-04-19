@@ -80,6 +80,7 @@
                                 </group>
                                 <group string="Habitaciones">
                                     <field name="room_ids" nolabel="1" widget='many2many'
+                                        context="{'room_ids':room_ids}"
                                         attrs="{'readonly':[('state','in',['cancel','done'])]}"/>
                                 </group>
                             </page>
