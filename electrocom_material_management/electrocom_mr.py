@@ -44,6 +44,8 @@ class ElectrocomMr(models.Model):
     mr_lines = fields.One2many('electrocom.mr.line','material_id',string="Líneas MR")
     user_id = fields.Many2one('res.users', string='Responsable', track_visibility='onchange', readonly=True,
             default=lambda self: self.env.user)
+    company_id = fields.Many2one('res.company', string='Compañía', change_default=True, readonly=True,
+            default=lambda self: self.env['res.company']._company_default_get('electrocom.mr'))
 
 class ElectrocomMrLine(models.Model):
     _name = 'electrocom.mr.line'
@@ -55,3 +57,4 @@ class ElectrocomMrLine(models.Model):
     description = fields.Char(string="Descripción")
     mr_id = fields.Many2one('electrocom.mr',string="MR")
     quantity= fields.Float(string="Cantidad")
+    unit = fields.Char(strinf="Unidad Medidad")

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report 
+            id="electrocom_report_mr"
+            model="electrocom.mr"
+            string="Formato MR"
+            report_type="qweb-pdf"
+            name="electrocom_material_management.report_mr"
+            file="electrocom_material_management.report_mr"
+        />
+    </data>
+</openerp>

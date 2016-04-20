@@ -99,13 +99,12 @@ class ElectrocomMaterialImport(models.Model):
                         material_id = material and material.id or '',
                         id_item = material and material.name or il.name,
                         description = material and material.description or il.description,
-                        quantity = il.quantity
-                    )
+                        unit = material and material.measurement_unit or '',
+                        quantity = il.quantity)
                     mr_lines.append((0,0,lineVals))
                 self.env['electrocom.mr'].create(dict(
                     name = self.project_code+'-MR-'+res[0],
-                    mr_lines = mr_lines
-                ))
+                    mr_lines = mr_lines))
         self.mr_exists = True
     
     @api.model

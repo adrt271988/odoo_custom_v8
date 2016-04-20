@@ -24,7 +24,7 @@
     'category': 'Mnufacturing',
     'summary': 'Gestión MR Electrocom',
     'author': 'Alexander Rodriguez <adtr271988@gmail.com>',
-    'depends': ['base'],
+    'depends': ['base','report'],
     'application': True,
     'installable': True,
     'data':[
@@ -33,5 +33,7 @@
                 'electrocom_material_view.xml',
                 'electrocom_material_import_view.xml',
                 'electrocom_mr_view.xml',
+                'views/report_mr.xml',
+                'electrocom_report.xml',
             ],
 }

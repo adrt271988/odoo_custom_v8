@@ -11,21 +11,25 @@
                             <field name="sequence" class="oe_inline" required="1"/>
                             <field name="name" class="oe_inline" required="1"/>
                             <field name="date_mr" class="oe_inline" required="1"/>
-                            <field name="user_id" class="oe_inline" required="1"/>
+                            <field name="user_id" class="oe_inline"/>
+                            <field name="company_id" class="oe_inline"/>
                         </group>
-                        <group string="Líneas MR">
-                            <field name="mr_lines" nolabel="1">
-                                <tree editable="bottom">
-                                    <field name="material_id"/>
-                                    <field name="id_item"/>
-                                    <field name="description"/>
-                                    <field name="quantity"/>
-                                </tree>
-                            </field>
-                        </group>
-                        <group colspan="4">
-                            <field name="notes"/>
-                        </group>
+                        <notebook>
+                            <page string="Líneas MR">
+                                <field name="mr_lines" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="material_id"/>
+                                        <field name="id_item"/>
+                                        <field name="description"/>
+                                        <field name="unit"/>
+                                        <field name="quantity"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Notas Internas">
+                                <field name="notes" nolabel="1"/>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>

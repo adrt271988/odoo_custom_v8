@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_mr_document">
+    <div class="page">
+        <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.logo"
+                style="max-height: 100px; max-weight:80px"/>
+        <div t-if="o.date_mr">
+            <p t-field="o.date_mr" t-field-options="{&quot;format&quot;: &quot;dd-MM-yyyy&quot;}"/>
+        </div>
+        <h3 align="center"><strong>Requisición de Materiales (MR)</strong></h3>
+        <br/>
+        <div class="row">
+            <div class="col-xs-6">
+                <div t-if="o.sequence"><span t-field="o.sequence"/></div>
+                <div t-if="o.name"><strong>Código MR:</strong> <span t-field="o.name"/></div>
+                <div t-if="o.user_id"><strong>Responsable:</strong> <span t-field="o.user_id.name"/></div>
+            </div>
+            <div class="col-xs-6">
+                <table style="font-size:10px;width:100%;">
+                    <tr>
+                        <td>Elaborado:</td>
+                        <td>Revisado:</td>
+                        <td>Aprobado:</td>
+                    </tr>
+                    <tr>
+                        <td style="width:33%;"><p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</p></td>
+                        <td style="width:33%;"></td>
+                        <td style="width:33%;"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ingeniero Senior</strong></td>
+                        <td><strong>Gerente SPMO</strong></td>
+                        <td><strong>Gerente Ingeniería</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="clear"/>
+        <br/>
+        <table class="table table-condensed" style="font-size:10px;">
+            <thead>
+                <tr>
+                    <th>Id Item</th>
+                    <th>Descripción</th>
+                    <th>Unidad</th>
+                    <th class="text-right">Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr t-foreach="o.mr_lines" t-as="l">
+                    <td><span t-field="l.id_item"/></td>
+                    <td><span t-field="l.description"/></td>
+                    <td><span t-field="l.unit"/></td>
+                    <td class="text-right"><span t-field="l.quantity"/></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</template>
+
+<template id="report_mr">
+    <t t-call="report.html_container">
+        <t t-foreach="doc_ids" t-as="doc_id">
+            <t t-raw="translate_doc(doc_id, doc_model, 'user_id.lang', 'electrocom_material_management.report_mr_document')"/>
+        </t>
+    </t>
+</template>
+
+</data>
+</openerp>
