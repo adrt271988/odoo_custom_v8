@@ -58,7 +58,7 @@
                                         <field name="partner_id"/>
                                         <field name="phone"/>
                                         <field name="email"/>
-                                        <field name="room_id"/>
+                                        <field name="room_id" domain="[('id', 'in', parent.room_ids[0][2])]"/>
                                         <field name="arrival_date" readonly="1"/>
                                         <field name="out_date" readonly="1"/>
                                         <field name="register_state"/>

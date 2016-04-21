@@ -19,6 +19,7 @@
 #
 ##############################################################################
 
+from lxml import etree
 from datetime import datetime
 from openerp import models, fields, api, _
 from openerp.exceptions import except_orm, Warning, RedirectWarning
@@ -274,15 +275,6 @@ class LalitaGuest(models.Model):
             'context': ctx,
         }
     
-    @api.multi
-    def _get_rooms(self):
-        ctx = self._context
-        if ctx.get('room_ids'):
-            rooms = ctx['room_ids'][0][2]
-            self.room_id = rooms
-            print '**********',self.room_id
-        
-    
     partner_id = fields.Many2one('res.partner',string="Nombre")
     reservation_id = fields.Many2one('lalita.reservation',string="Reservación")
     name = fields.Char(string='Nombre',related="partner_id.name",readonly=True)
@@ -300,7 +292,7 @@ class LalitaGuest(models.Model):
         track_visibility='onchange', copy=False, readonly=True)
     arrival_date = fields.Datetime( string='Fecha de Entrada')
     out_date = fields.Datetime( string='Fecha de Salida')
-    room_id = fields.Many2one('lalita.room',string="Habitación", compute="_get_rooms", readonly=False)
+    room_id = fields.Many2one('lalita.room',string="Habitación")
     register_state = fields.Selection(
         [('not_sent','No enviado'),
         ('sent','Enviado'),
@@ -310,4 +302,4 @@ class LalitaGuest(models.Model):
         track_visibility='onchange', copy=False, readonly=True)
     check = fields.Boolean(string="Seleccione",help="Seleccione para aplicar la acción",default=False)
     leaving_motive = fields.Text(string="Motivo del Retiro", help="Motivo de la Salida del Huésped")
-    #~ 'currency_id' : fields.function(_get_currency, type="many2one", string="Currency", relation="res.currency"),
+
