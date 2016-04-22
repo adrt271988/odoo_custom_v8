@@ -22,7 +22,7 @@
 from lxml import etree
 from datetime import datetime
 from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.exceptions import except_orm, Warning, RedirectWarning, ValidationError
 
 MAGIC_COLUMNS = ('id', 'create_uid', 'create_date', 'write_uid', 'write_date')
 
@@ -133,6 +133,18 @@ class LalitaReservation(models.Model):
         for reservation in self:
             if reservation.room_ids:
                 reservation.total_berths = sum([room.bed_count for room in reservation.room_ids])
+                
+    @api.multi
+    @api.depends('total_berths','client_ids')
+    def _get_available_berths(self):
+        for reservation in self:
+            guests = 0
+            if reservation.client_ids:
+                guests = len([x.id for x in reservation.client_ids])
+            available = reservation.total_berths - guests
+            if available < 0:
+                raise ValidationError(_("No hay mas plazas disponibles!!!"))
+            reservation.available_berths = available
 
     name = fields.Char(string="Código de Reserva",size=7,select=True, readonly=True)
     partner_id = fields.Many2one('res.partner', string='Cliente')
@@ -177,6 +189,8 @@ class LalitaReservation(models.Model):
         string='Estado del Huesped', index=True, default='draft',
         track_visibility='onchange', copy=False,
         help="Seleccione los huéspedes y luego cambie este campo para asignarles el estatus que desee")
+    available_berths = fields.Integer(string='Plazas Restantes', compute='_get_available_berths',
+                                        help="Plazas restantes en la Reserva")
 
     @api.onchange('sale_id')
     def onchange_sale_id(self):
@@ -274,7 +288,7 @@ class LalitaGuest(models.Model):
             'flags': {'form': {'action_buttons': True}},
             'context': ctx,
         }
-    
+
     partner_id = fields.Many2one('res.partner',string="Nombre")
     reservation_id = fields.Many2one('lalita.reservation',string="Reservación")
     name = fields.Char(string='Nombre',related="partner_id.name",readonly=True)

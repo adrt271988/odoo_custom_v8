@@ -43,7 +43,20 @@
                             <field name="company_id"/>
                         </group>
                         <notebook colspan="4">
+                            <page string="Habitaciones">
+                                <group>
+                                    <field name="total_berths"/>
+                                </group>
+                                <group string="Habitaciones">
+                                    <field name="room_ids" nolabel="1" widget='many2many'
+                                        context="{'room_ids':room_ids}"
+                                        attrs="{'readonly':[('state','in',['cancel','done'])]}"/>
+                                </group>
+                            </page>
                             <page string="Huéspedes">
+                                <group>
+                                    <field name="available_berths"/>
+                                </group>
                                 <button name="send_online_form" type="object" string="Enviar Formulario Online" class="oe_highlight"
                                     help="Presione para enviar el link del formulario de registro al huésped"/>
                                 <button name="check_in" type="object" string="Check In" class="oe_highlight"
@@ -73,16 +86,6 @@
                                             type="object" icon="gtk-help" help="Ingresar Motivo de Salida"/>
                                     </tree>
                                 </field>
-                            </page>
-                            <page string="Habitaciones">
-                                <group>
-                                    <field name="total_berths"/>
-                                </group>
-                                <group string="Habitaciones">
-                                    <field name="room_ids" nolabel="1" widget='many2many'
-                                        context="{'room_ids':room_ids}"
-                                        attrs="{'readonly':[('state','in',['cancel','done'])]}"/>
-                                </group>
                             </page>
                             <page string="Registros">
                                 <field name="register_ids" readonly="1" nolabel="1" widget='one2many'/>
