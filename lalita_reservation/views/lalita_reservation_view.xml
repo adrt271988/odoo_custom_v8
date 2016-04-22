@@ -56,6 +56,7 @@
                             <page string="Huéspedes">
                                 <group>
                                     <field name="available_berths"/>
+                                    <field name="available_berths_hidden" invisible="1"/>
                                 </group>
                                 <button name="send_online_form" type="object" string="Enviar Formulario Online" class="oe_highlight"
                                     help="Presione para enviar el link del formulario de registro al huésped"/>

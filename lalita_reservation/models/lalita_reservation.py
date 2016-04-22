@@ -145,6 +145,7 @@ class LalitaReservation(models.Model):
             if available < 0:
                 raise ValidationError(_("No hay mas plazas disponibles!!!"))
             reservation.available_berths = available
+            reservation.available_berths_hidden = available
 
     name = fields.Char(string="Código de Reserva",size=7,select=True, readonly=True)
     partner_id = fields.Many2one('res.partner', string='Cliente')
@@ -191,6 +192,7 @@ class LalitaReservation(models.Model):
         help="Seleccione los huéspedes y luego cambie este campo para asignarles el estatus que desee")
     available_berths = fields.Integer(string='Plazas Restantes', compute='_get_available_berths',
                                         help="Plazas restantes en la Reserva")
+    available_berths_hidden = fields.Integer(string='Plazas Restantes')
 
     @api.onchange('sale_id')
     def onchange_sale_id(self):
@@ -236,6 +238,9 @@ class LalitaReservation(models.Model):
                 raise except_orm(_('Advertencia!'), _("La fecha de salida no puede ser menor a la fecha de entrada"))
         if not values.get('name'):
             values['name'] = self.env['ir.sequence'].get('lalita.reservation')
+        if 'available_berths_hidden' in values:
+            if values['available_berths_hidden'] < 0:
+                raise except_orm('Error!',_("No hay mas plazas disponibles!!!"))
         reservation = super(LalitaReservation, self).create(values)
         reservation.message_post(body=_("Reserva %s creada"%values["name"]))
         return reservation
