@@ -55,25 +55,9 @@ class wizard_receipt_txt(osv.osv_memory):
             context = {}
         values = self.read(cr,uid,ids, context=context)[0]
         print values
-       # expense_obj = self.pool.get('condo.expense.month')
-        #partner_obj = self.pool.get('res.partner')
-        #concept_obj = self.pool.get('condo.concepts')
-        #expense_id = expense_obj.search(cr, uid, [('period_id','=',values['period_id'][0])])
-
         return True
-        #~ return {
-                #~ 'view_type': 'tree',
-                #~ 'name': _('Recibos'),
-                #~ 'view_mode': 'tree, form',
-                #~ 'res_model': 'customer.receipt.payment',
-                #~ 'views': [(resource_id,'tree')],
-                #~ 'view_id': resource_id,
-                #~ 'type': 'ir.actions.act_window',
-                #~ 'target': 'current',
-                #~ 'nodestroy': True,
-            #~ }
 
-     def action_txt(self, cr, uid, ids, context=None):
+    def action_txt(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
 
