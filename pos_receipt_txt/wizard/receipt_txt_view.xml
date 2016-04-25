@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_wizard_receipt_txt" model="ir.ui.view">
+            <field name="name">wizard_receipt_txt</field>
+            <field name="model">wizard.receipt.txt</field>
+            <field name="arch" type="xml">
+                <form string="Choose your date">
+                    <p class="oe_gray" ><!-- attrs="{'invisible': [('choose_date', '=', False)]}"-->
+                        Choose the date for which you want to get the information.
+                    </p>
+                    <p class="oe_gray"> <!--  attrs="{'invisible': [('choose_date', '=', True)]}" -->
+                        Show the information operations in the select range.
+                    </p>
+                    <group>
+                        <group>
+                            <field name="filter_session"/>
+                            <field name="session_id" attrs="{'invisible': ['|',('filter_session', '=', False),('filter_session', '!=', 'single')]}"/>
+                            <field name="session_ids" widget="many2many_tags" attrs="{'invisible': ['|',('filter_session', '=', False),('filter_session', '!=', 'multi')]}"/>
+                        </group>
+                        <group>
+                            <field name="filter_date"/>
+                            <field name="date" attrs="{'invisible': ['|',('filter_date', '=', False),('filter_date', '=', 'range')]}"/>
+                            <field name="date_from" attrs="{'invisible': ['|',('filter_date', '=', False),('filter_date', '=', 'daily')]}"/>
+                            <field name="date_to" attrs="{'invisible': ['|',('filter_date', '=', False),('filter_date', '=', 'daily')]}"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="generate_txt" string="Generar" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_receipt_txt" model="ir.actions.act_window">
+            <field name="name">TXT Recibos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wizard.receipt.txt</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+        <menuitem action="action_receipt_txt"
+            id="menu_action_receipt_txt"
+            parent="point_of_sale.menu_point_config_product"
+            sequence="22"/>
+
+    </data>
+</openerp>
