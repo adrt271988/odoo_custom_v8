@@ -50,10 +50,9 @@ class wizard_receipt_txt(osv.osv_memory):
     }
 
     def generate_txt(self, cr, uid, ids, context= None):
-
         if context is None:
             context = {}
-        values = self.read(cr,uid,ids, context=context)[0]
+        values = self.read(cr,uid,ids,context=context)[0]
         print values
         return True
 
