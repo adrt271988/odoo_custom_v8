@@ -2,8 +2,13 @@
 <openerp>
     <data>
         <template id="efix_report_invoice_document" inherit_id="account.report_invoice_document">
+            <xpath expr="//t[@t-call='report.external_layout']" position="attributes">
+                <attribute name="t-call"></attribute>
+            </xpath>
             <xpath expr="//div[@class='page']" position="replace">
                 <div class="page">
+                    <div style="width:50%;float:left;">LEFT</div>
+                    <div style="width:50%;float:right;">RIGHT</div>
 <!--
                     <div class="row">
                     <div class="col-xs-7" style="padding-top: 15px; color: #7a7a7a; letter-spacing: 1.8px; line-height: 130%;">
