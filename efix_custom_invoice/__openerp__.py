@@ -25,7 +25,7 @@
     'summary': 'Factura Personalizada Efix',
     'description': 'Formato personalizado de Facturas para Efix',
     'author': 'Alexander Rodriguez <adtr271988@gmail.com>',
-    'depends': ['base','report','account'],
+    'depends': ['base','report','account','web'],
     'application': True,
     'installable': True,
     'data':[
