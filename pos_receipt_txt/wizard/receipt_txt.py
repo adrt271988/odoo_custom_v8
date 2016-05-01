@@ -19,7 +19,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import time
+from datetime import datetime, date, time, timedelta
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
@@ -33,10 +33,10 @@ class wizard_receipt_txt(osv.osv_memory):
         'filter_session': fields.selection([('single', 'Sesión'),
                                             ('multi', 'Multiples sesiones'),
                                             ('all', 'Todas las sesiones')],
-                                            string='Selección', required=True),
+                                            string='Filtro de Sesiones', select=True, required=True),
         'filter_date': fields.selection([('daily', 'Por dia'),
                                          ('range', 'Rango de fechas'),],
-                                         string='Selección', required=True),
+                                         string='Filtro de Fechas'),
 
         'date': fields.date('Fecha', required=True),
         'date_from': fields.date('Desde', required=True),
@@ -52,52 +52,51 @@ class wizard_receipt_txt(osv.osv_memory):
     def generate_txt(self, cr, uid, ids, context= None):
         if context is None:
             context = {}
-        values = self.read(cr,uid,ids,context=context)[0]
-        print values
-        return True
-
-    def action_txt(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-
-        values = self.read(cr,uid,ids, context=context)
-        period_id = values[0]['period_id'][0]
-        periodo = values[0]['period_id'][1].replace('/','-')
-        move_line_obj = self.pool.get('account.move.line')
-        #archivo = open('/mnt/gsist06/OpenERP/txt/salida/'+periodo+'.txt','w')
-        ruta = '/home/openerp/txt-activos/'+periodo+'.txt'
-        archivo = open(ruta,'w')
-
-        query = cr.execute(''' SELECT ac.code, ac.name as cuenta, line.name, line.credit as credito, line.debit as debito
-                                FROM account_move_line as line
-                                JOIN account_account ac on ac.id = line.account_id
-                                JOIN account_journal jo on jo.id = line.journal_id
-                                WHERE line.period_id = %s and jo.code = 'DADA' ORDER BY line.name'''%period_id)
-        query = cr.dictfetchall()
-
-        for line in query:
-            cuenta = str(line['code']).zfill(11)
-            descrip =  len(line['name']) > 25 and  line['name'][0:25] or line['name'].ljust(25,'-')
-
-            if line['debito'] > 0.00:
-                tipo = '1'
-                monto = str(int(line['debito']*100)).zfill(10)
-                archivo.write("%s\n"%(cuenta+tipo+descrip+monto))
+        wzd_values = self.read(cr,uid,ids,context=context)[0]
+        pos_order_obj = self.pool.get('pos.order')
+        filter_session = wzd_values['filter_session']
+        filter_date = wzd_values.get('filter_date',False)
+        pos_order_ids = []
+        if filter_session == 'all':
+            if filter_date:
+                pos_order_ids = filter_date == 'daily' and pos_order_obj.search(cr, uid, [('date_order','=',wzd_values['date'])]) \
+                    or pos_order_obj.search(cr, uid, ['|',('date_order','>=',wzd_values['date_from']),('date_order','<=',wzd_values['date_to'])])
             else:
-                tipo = '2'
-                monto= str(int(line['credito']*100)).zfill(10)
-                archivo.write("%s\n"%(cuenta+tipo+descrip+monto))
-
-        archivo.close()
-        return {
-                'type': 'ir.actions.act_window',
-                'name': 'confirm.xml',
-                'view_mode': 'form',
-                'view_type': 'form',
-                'res_model': 'confirm',
-                'target': 'new',
-                'context': context,
-                }
-
+                pos_order_ids = pos_order_obj.search(cr, uid, [])
+        elif filter_session == 'multi':
+            session_ids = wzd_values.get('session_ids') and wzd_values['session_ids'] or []
+            if session_ids:
+                for session in self.pool.get('pos.session').browse(cr, uid, session_ids):
+                    pos_order_ids+=[order.id for order in session.order_ids]
+        else:
+            session_id = wzd_values.get('session_id') and wzd_values['session_id'][0] or False
+            pos_order_ids = session_id and pos_order_obj.search(cr, uid, [('session_id','=',session_id)]) or []
+        path = '/home/openerp/Escritorio/pos.txt'
+        txtFile = open(path,'w')
+        for order in pos_order_obj.browse(cr, uid, pos_order_ids, context=context):
+            date = datetime.strptime(order.date_order, '%Y-%m-%d')
+            txtFile.write("\n\n")
+            company = '           %s'%order.company_id.name
+            partner = '         %s'%order.partner_id.name
+            user = '       Usuario: %s'%order.user_id.name
+            date = '          Fecha: %s'%date.strftime("%d-%m-%Y")
+            ref = '       %s'%order.pos_reference
+            txtFile.write("%s\n%s\n%s\n%s\n%s\n"%(company,partner,user,date,ref))
+            txtFile.write("\n   Descripción     Cantidad  Precio\n")
+            for line in order.lines:
+                str_length = len(line.product_id.name)
+                str_res = 15 - str_length
+                product = str_length > 15 and line.product_id.name[0:15] or \
+                            line.product_id.name+'{s:{c}{n}}'.format(s="",n=str_res,c='')
+                txtFile.write("   %s     %s    %s\n"%(product,line.qty,line.price_subtotal))
+            txtFile.write("\n\n                   Impuestos: %s"%order.amount_tax)
+            txtFile.write("\n                   Total:    %s"%order.amount_total)
+            txtFile.write("\n")
+            txtFile.write("\n   Método de Pago         Importe\n")
+            for payment in order.statement_ids:
+                txtFile.write("   %s          %s\n"%(payment.journal_id.name[0:15],payment.amount))
+            txtFile.write("\n\n------------------------------------------\n")
+        txtFile.close()
+        return True
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

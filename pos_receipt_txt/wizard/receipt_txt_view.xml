@@ -6,12 +6,12 @@
             <field name="name">wizard_receipt_txt</field>
             <field name="model">wizard.receipt.txt</field>
             <field name="arch" type="xml">
-                <form string="Choose your date">
-                    <p class="oe_gray" ><!-- attrs="{'invisible': [('choose_date', '=', False)]}"-->
-                        Choose the date for which you want to get the information.
+                <form string="Generador de TXT">
+                    <p class="oe_gray">
+                        Seleccione la o las sesiones a consultar, o si desea incluir todas
                     </p>
-                    <p class="oe_gray"> <!--  attrs="{'invisible': [('choose_date', '=', True)]}" -->
-                        Show the information operations in the select range.
+                    <p class="oe_gray">
+                        Seleccione el rango de fechas
                     </p>
                     <group>
                         <group>
@@ -20,7 +20,7 @@
                             <field name="session_ids" widget="many2many_tags" attrs="{'invisible': ['|',('filter_session', '=', False),('filter_session', '!=', 'multi')]}"/>
                         </group>
                         <group>
-                            <field name="filter_date"/>
+                            <field name="filter_date" attrs="{'invisible': [('filter_session', 'in', ['single','multi'])]}"/>
                             <field name="date" attrs="{'invisible': ['|',('filter_date', '=', False),('filter_date', '=', 'range')]}"/>
                             <field name="date_from" attrs="{'invisible': ['|',('filter_date', '=', False),('filter_date', '=', 'daily')]}"/>
                             <field name="date_to" attrs="{'invisible': ['|',('filter_date', '=', False),('filter_date', '=', 'daily')]}"/>
@@ -29,7 +29,7 @@
                     <footer>
                         <button name="generate_txt" string="Generar" type="object" class="oe_highlight"/>
                         or
-                        <button string="Cancel" class="oe_link" special="cancel"/>
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
                     </footer>
                 </form>
             </field>
