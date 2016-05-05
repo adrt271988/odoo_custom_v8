@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -22,6 +22,19 @@
 from datetime import datetime, date, time, timedelta
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
+
+import base64
+from openerp.addons.web import http
+#~ from openerp.exceptions import except_orm, Warning
+#~ import openerp.addons.web.http as oeweb
+#~ from openerp import models, fields, api, _
+#~ from operator import attrgetter
+try:
+    import xlwt
+except ImportError:
+    xlwt = None
+import re
+from cStringIO import StringIO
 
 class wizard_receipt_txt(osv.osv_memory):
     _name = 'wizard.receipt.txt'
@@ -71,7 +84,8 @@ class wizard_receipt_txt(osv.osv_memory):
         else:
             session_id = wzd_values.get('session_id') and wzd_values['session_id'][0] or False
             pos_order_ids = session_id and pos_order_obj.search(cr, uid, [('session_id','=',session_id)]) or []
-        path = '/home/openerp/Escritorio/pos.txt'
+
+        path = '/tmp/pos_%s.txt'% (datetime.today())
         txtFile = open(path,'w')
         for order in pos_order_obj.browse(cr, uid, pos_order_ids, context=context):
             date = datetime.strptime(order.date_order, '%Y-%m-%d')
@@ -96,7 +110,21 @@ class wizard_receipt_txt(osv.osv_memory):
             for payment in order.statement_ids:
                 txtFile.write("   %s          %s\n"%(payment.journal_id.name[0:15],payment.amount))
             txtFile.write("\n\n------------------------------------------\n")
+
         txtFile.close()
-        return True
+        arch = open(path, 'r').read()
+        data = base64.encodestring(arch)
+        attach_vals = {
+                 'name':'File#%s_%s.txt' % (ids[0],datetime.today().strftime("%d-%m-%Y")),
+                 'datas':data,
+                 'datas_fname':'File#%s_%s.txt' % (ids[0],datetime.today().strftime("%d-%m-%Y")),
+                 }
+        doc_id = self.pool.get('ir.attachment').create(cr, uid, attach_vals)
+        return {
+                    'type' : 'ir.actions.act_url',
+                    'url':   '/web/binary/saveas?model=ir.attachment&field=datas&filename_field=name&id=%s' % (doc_id),
+                    'target': 'self',
+                    }
+
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
