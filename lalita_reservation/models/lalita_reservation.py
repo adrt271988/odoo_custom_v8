@@ -225,6 +225,8 @@ class LalitaReservation(models.Model):
     def _get_ocupation_days(self):
         from_date = self.arrival_date
         to_date = self.out_date
+        print 'from',from_date
+        print 'to',to_date
         if from_date and to_date:
             days = self.get_days(from_date,to_date)
             if days < 0:

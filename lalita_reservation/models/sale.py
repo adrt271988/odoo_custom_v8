@@ -39,8 +39,8 @@ class LalitaSaleOrder(models.Model):
                     'expected_income': self.amount_total,
                     'pricelist_id': self.pricelist_id and self.pricelist_id.id or False,
                     'berths': self.berths,
-                    'arrival_date': self.arrival_date and self.arrival_date[0:10] or fields.Date.today(),
-                    'out_date': self.departure_date and self.departure_date[0:10] or fields.Date.today(),
+                    'arrival_date': self.arrival_date,
+                    'out_date': self.departure_date,
                 }
         reservation = self.env['lalita.reservation'].create(values)
         self.reservation_created = reservation and True or False
