@@ -107,7 +107,7 @@ class LalitaReservation(models.Model):
                                     'last_name2': client.partner_id.last_name2 and client.partner_id.last_name2 or '',
                                     'first_name': client.partner_id.first_name and client.partner_id.first_name or '',
                                     'gender': client.partner_id.gender and client.partner_id.gender or '',
-                                    'birth_date': client.partner_id.birth_date and client.partner_id.birth_date or '',
+                                    'birth_date': client.partner_id.birth_date,
                                     'birth_country': client.partner_id.country_id and client.partner_id.country_id.id or '',
                                     'reservation_id': self.id
                                         }
