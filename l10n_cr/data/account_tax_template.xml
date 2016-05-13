@@ -9,7 +9,7 @@
             <field name="name">0 Sales Tax</field>
             <field name="description">IV</field>
             <field name="sequence">10</field>
-            <field name="amount">13</field>
+            <field name="amount">0.13</field>
             <field name="type">percent</field>
             <field name="type_tax_use">all</field>
             <field name="applicable_type">true</field>
@@ -31,7 +31,7 @@
             <field name="name">x Sales Tax</field>
             <field name="description">IV</field>
             <field name="sequence">10</field>
-            <field name="amount">13</field>
+            <field name="amount">0.13</field>
             <field name="type">percent</field>
             <field name="type_tax_use">all</field>
             <field name="applicable_type">true</field>
