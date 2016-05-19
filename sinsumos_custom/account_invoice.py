@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openerp.tools.translate import _
-from openerp.tools import number_to_letter
+from number_to_letter import number_to_letter
 from openerp.osv import osv, fields
 import datetime
 
