@@ -26,6 +26,15 @@ from openerp.exceptions import except_orm, Warning, RedirectWarning, ValidationE
 
 MAGIC_COLUMNS = ('id', 'create_uid', 'create_date', 'write_uid', 'write_date')
 
+class LalitaBedType(models.Model):
+    _name = 'lalita.bed.type'
+    _description = "Bed Types"
+    _order = "id desc"
+    _rec_name = "name"
+
+    name = fields.Char('Nombre', required=True)
+    berths = fields.Integer('Plazas',required=True)
+
 class LalitaFloor(models.Model):
     _name = 'lalita.floor'
     _description = "Floors"
@@ -44,6 +53,7 @@ class LalitaBed(models.Model):
     type = fields.Selection(
         [('1','Sencilla'), ('2','Doble'),('3','Supletoria')],
         'Tipo de Cama')
+    bed_type_id = fields.Many2one('lalita.bed.type','Tipo')
     room_id = fields.Many2one('lalita.room', 'Habitación')
 
     _sql_constraints = [
@@ -62,7 +72,7 @@ class LalitaRoom(models.Model):
     def _get_bed_count(self):
         for room in self:
             if room.bed_ids:
-                room.bed_count = sum([int(bed.type) for bed in room.bed_ids])
+                room.bed_count = sum([bed.bed_type_id.berths for bed in room.bed_ids])
 
     name = fields.Char('Nombre',  size=30, required=True)
     bed_count = fields.Integer('N° de Plazas', compute='_get_bed_count')
@@ -108,13 +118,15 @@ class LalitaReservation(models.Model):
                                     'first_name': client.partner_id.first_name and client.partner_id.first_name or '',
                                     'gender': client.partner_id.gender and client.partner_id.gender or '',
                                     'birth_date': client.partner_id.birth_date,
-                                    'birth_country': client.partner_id.country_id and client.partner_id.country_id.id or '',
+                                    'birth_country': client.partner_id.birth_place and client.partner_id.birth_place.id or '',
                                     'reservation_id': self.id
                                         }
                         self.env['traveler.register'].create(traveler_values)
                         client.arrival_date = datetime.today()
                         client.guest_state = 'check_in'
                         client.register_state = 'filled'
+                    else:
+                        raise except_orm(_('Advertencia!'), _("El huesped debe estar confirmado antes de realizar Check In"))
                     client.check = False
 
     @api.one

@@ -7,7 +7,6 @@ def init_debt_journal(cr, registry):
     if registry['ir.model.data'].search(cr, SUPERUSER_ID, [('name', '=', 'debt_account')]):
         # Use account journal from module version < 2.0.0, don't supported multi-company mode
         return
-
     company_ids = registry['res.company'].search(cr, SUPERUSER_ID, [])
     for company in registry['res.company'].browse(cr, SUPERUSER_ID, company_ids):
         if len(registry['account.account'].search(cr, SUPERUSER_ID, [('company_id', '=', company.id)])) == 0:

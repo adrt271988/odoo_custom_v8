@@ -38,4 +38,5 @@ class LalitaResPartner(models.Model):
     first_name = fields.Char('Nombre', size=30)
     gender = fields.Selection([('F','Femenino'),('M','Masculino')],'Sexo')
     birth_date = fields.Date('Fecha de Nacimiento')
+    birth_place = fields.Many2one('res.country','País de Nacimiento')
 
