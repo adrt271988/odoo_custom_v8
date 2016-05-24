@@ -216,7 +216,7 @@
                             <field name="bed_ids" nolabel="1" widget='many2many'>
                                 <tree>
                                     <field name="name"/>
-                                    <field name="type"/>
+                                    <field name="bed_type_id"/>
                                 </tree>
                             </field>
                         </group>
@@ -263,7 +263,6 @@
                     <legend>Camas</legend>
                     <group>
                         <field name="name" class="oe_inline"/>
-                        <field name="type" class="oe_inline"/>
                         <field name="bed_type_id" class="oe_inline"/>
                     </group>
                 </sheet>

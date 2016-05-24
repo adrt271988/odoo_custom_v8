@@ -50,10 +50,7 @@ class LalitaBed(models.Model):
     _rec_name = "name"
 
     name = fields.Char('Nombre', size=30, required=True)
-    type = fields.Selection(
-        [('1','Sencilla'), ('2','Doble'),('3','Supletoria')],
-        'Tipo de Cama')
-    bed_type_id = fields.Many2one('lalita.bed.type','Tipo')
+    bed_type_id = fields.Many2one('lalita.bed.type','Tipo',required=True)
     room_id = fields.Many2one('lalita.room', 'Habitación')
 
     _sql_constraints = [
