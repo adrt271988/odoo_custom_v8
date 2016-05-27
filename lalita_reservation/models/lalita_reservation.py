@@ -100,29 +100,57 @@ class LalitaReservation(models.Model):
                     if client.register_state == 'not_sent':
                         client.register_state = 'sent'
                     client.check = False
-                        
+
+    @api.one
+    def validate_traveler_data(self, partner):
+        if not partner.doc_number:
+            return True
+        if not partner.doc_type:
+            return True
+        if not partner.last_name1:
+            return True
+        if not partner.last_name2:
+            return True
+        if not partner.first_name:
+            return True
+        if not partner.gender:
+            return True
+        if not partner.birth_date:
+            return True
+        if not partner.birth_place:
+            return True
+        return False
+
     @api.one
     def check_in(self):
+        flag = False
         if self.client_ids:
             for client in self.client_ids:
                 if client.check:
                     if client.guest_state == 'confirmed':
+                        flag = self.validate_traveler_data(client.partner_id)
+                        if flag:
+                            raise except_orm(_('Advertencia!'), _("Debe llenar completamente los datos del registro del Huésped... Puede hacerlo en la pestaña Datos de Registro en Clientes"))
                         traveler_values = {
-                                    'doc_number': client.partner_id.doc_number and client.partner_id.doc_number or '',
-                                    'doc_type': client.partner_id.doc_type and client.partner_id.doc_type or '',
-                                    'last_name1': client.partner_id.last_name1 and client.partner_id.last_name1 or '',
-                                    'last_name2': client.partner_id.last_name2 and client.partner_id.last_name2 or '',
-                                    'first_name': client.partner_id.first_name and client.partner_id.first_name or '',
-                                    'gender': client.partner_id.gender and client.partner_id.gender or '',
+                                    'doc_number': client.partner_id.doc_number,
+                                    'doc_type': client.partner_id.doc_type,
+                                    'last_name1': client.partner_id.last_name1,
+                                    'last_name2': client.partner_id.last_name2,
+                                    'first_name': client.partner_id.first_name,
+                                    'gender': client.partner_id.gender,
                                     'birth_date': client.partner_id.birth_date,
-                                    'birth_country': client.partner_id.birth_place and client.partner_id.birth_place.id or '',
+                                    'birth_country': client.partner_id.birth_place.id,
                                     'reservation_id': self.id
                                         }
                         self.env['traveler.register'].create(traveler_values)
                         client.arrival_date = datetime.today()
                         client.guest_state = 'check_in'
                         client.register_state = 'filled'
+                    elif client.guest_state == 'check_in':
+                        client.check = False
+                        raise except_orm(_('Advertencia!'), _("Ya el huesped se encuentra en estatus Check In"))
                     else:
+                        client.check = False
                         raise except_orm(_('Advertencia!'), _("El huesped debe estar confirmado antes de realizar Check In"))
                     client.check = False
 
@@ -234,8 +262,6 @@ class LalitaReservation(models.Model):
     def _get_ocupation_days(self):
         from_date = self.arrival_date
         to_date = self.out_date
-        print 'from',from_date
-        print 'to',to_date
         if from_date and to_date:
             days = self.get_days(from_date,to_date)
             if days < 0:
