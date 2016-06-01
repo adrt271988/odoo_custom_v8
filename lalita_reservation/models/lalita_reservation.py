@@ -86,6 +86,9 @@ class LalitaReservation(models.Model):
 
     @api.one
     def cancel_reservation(self):
+        sale = self.sale_id
+        if sale:
+            sale.write({'reservation_created':False})
         self.state = "cancel"
     
     @api.one

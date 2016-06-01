@@ -19,6 +19,7 @@
 #
 ##############################################################################
 from openerp import models, fields, api, _
+from openerp.exceptions import except_orm
 
 class LalitaSaleOrder(models.Model):
     _inherit = 'sale.order'
@@ -33,6 +34,8 @@ class LalitaSaleOrder(models.Model):
 
     @api.one
     def create_reservation(self):
+        if not self.arrival_date or not self.departure_date:
+            raise except_orm(_('Advertencia!'), _("Debe agregar una fecha de llegada y salida para crear la Reserva"))
         values = {
                     'sale_id': self.id,
                     'partner_id': self.partner_id.id,
@@ -47,7 +50,7 @@ class LalitaSaleOrder(models.Model):
 
     @api.multi
     def action_view_reservation(self):
-        reservation = self.env['lalita.reservation'].search([('sale_id','=',self.id)])
+        reservation = self.env['lalita.reservation'].search([('sale_id','=',self.id),('state','!=','cancel')])
         view_form = self.env.ref('lalita_reservation.view_form_lalita_reservation', False)
         return {
             'type': 'ir.actions.act_window',

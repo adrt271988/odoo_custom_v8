@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <xpath expr="//button[@name='action_button_confirm']" position="after">
                 <button name="create_reservation" string="Crear Reserva" type="object"
-                    attrs="{'invisible': ['|',('reservation_created', '=', True),('state','not in',['draft','sent'])]}"/>
+                    attrs="{'invisible': ['|',('reservation_created', '=', True),('state','in',['done','cancel'])]}"/>
                 <button name="action_view_reservation" string="Ver Reserva" type="object"
                     attrs="{'invisible': [('reservation_created', '=', False)]}"/>
                 <field name="reservation_created" invisible="1"/>
