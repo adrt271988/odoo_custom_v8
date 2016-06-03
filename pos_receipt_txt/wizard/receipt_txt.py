@@ -91,7 +91,7 @@ class wizard_receipt_txt(osv.osv_memory):
             date = datetime.strptime(order.date_order, '%Y-%m-%d')
             txtFile.write("\n\n")
             company = '           %s'%order.company_id.name
-            partner = '         %s'%order.partner_id.name
+            partner = '         %s'%order.partner_id and order.partner_id.name or 'N/A'
             user = '       Usuario: %s'%order.user_id.name
             date = '          Fecha: %s'%date.strftime("%d-%m-%Y")
             ref = '       %s'%order.pos_reference
