@@ -51,6 +51,12 @@
                     <tr t-foreach="orderlines" t-as="orderline">
                         <td>
                             <t t-esc="orderline.get_product().display_name"/>
+                            <t t-foreach="orderline.get_tax_details()" t-as="taxdetail">
+                                <div class="pos-disc-font">
+                                    <!-- With a <t t-esc="taxdetail.name"/> -->
+                                    With a Sale Tax 12%
+                                </div>
+                            </t>
                             <t t-if="orderline.get_discount() > 0">
                                 <div class="pos-disc-font">
                                     With a <t t-esc="orderline.get_discount()"/>% discount

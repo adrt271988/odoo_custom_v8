@@ -191,11 +191,18 @@ function openerp_pos_invoice_ticket(instance, module){ //module is instance.poin
                     .then(function(result){
                         // update the currently created invoice in current order
                         currentOrder.set_invoice({id: result.invoice_id[0], name: result.invoice_id[1], display_name: result.invoice_id[1].split(" ")[0]});
-                        self.pos_widget.receipt_screen.invoice_receipt = true;
-                        self.pos_widget.screen_selector.set_current_screen('receipt');
-                        self.pos_widget.receipt_screen.invoice_receipt = false;
+                        if(self.pos.config.iface_print_via_proxy){
+                            var receipt = currentOrder.export_for_printing();
+                            self.pos.proxy.print_receipt(QWeb.render('XmlReceipt',{
+                                receipt: receipt, widget: self,
+                            }));
+                            self.pos.get('selectedOrder').destroy();    //finish order and go back to scan screen
+                        }else{
+                            self.pos_widget.receipt_screen.invoice_receipt = true;
+                            self.pos_widget.screen_selector.set_current_screen('receipt');
+                            self.pos_widget.receipt_screen.invoice_receipt = false;
+                        }
                     });
-
             });
 
             // hide onscreen (iOS) keyboard 
@@ -261,6 +268,20 @@ function openerp_pos_invoice_ticket(instance, module){ //module is instance.poin
             res.invoice_name = this.get_invoice_name();
 
             return res;
+        },
+    });
+
+    var OrderlineSuper = module.Orderline;
+    module.Orderline = module.Orderline.extend({
+        get_tax_details: function(){
+            var fulldetails = [];
+            var details = OrderlineSuper.prototype.get_tax_details.call(this);
+            for(var id in details){
+                if(details.hasOwnProperty(id)){
+                    fulldetails.push({amount: details[id], tax: this.pos.taxes_by_id[id], name: this.pos.taxes_by_id[id].name});
+                }
+            }
+            return fulldetails;
         },
     });
 
