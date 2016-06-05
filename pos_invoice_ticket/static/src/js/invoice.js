@@ -193,7 +193,7 @@ function openerp_pos_invoice_ticket(instance, module){ //module is instance.poin
                         currentOrder.set_invoice({id: result.invoice_id[0], name: result.invoice_id[1], display_name: result.invoice_id[1].split(" ")[0]});
                         if(self.pos.config.iface_print_via_proxy){
                             var receipt = currentOrder.export_for_printing();
-                            self.pos.proxy.print_receipt(QWeb.render('XmlReceipt',{
+                            self.pos.proxy.print_receipt(QWeb.render('XmlInvoiceReceipt',{
                                 receipt: receipt, widget: self,
                             }));
                             self.pos.get('selectedOrder').destroy();    //finish order and go back to scan screen
@@ -261,27 +261,15 @@ function openerp_pos_invoice_ticket(instance, module){ //module is instance.poin
             res.company.country_id = company.country_id;
             res.company.contact_address = '' + (company.zip?company.zip + ' ' : '') + (company.street?company.street + ' ' : '') + (company.city?company.city +' ' : '') + (company.country_id?company.country_id[1] +' ' : '') ;
             res.client_address = null;
+            res.client_phone = null;
             if (client){     
                 res.client_address = '' + (client.zip?client.zip + ' ' : '') + (client.street?client.street + ' ' : '') + (client.city?client.city +' ' : '') + (client.country_id?client.country_id[1] +' ' : '') ;
+                res.client_phone = client.phone? client.phone : 'n/a';
             }
             res.invoice_id = this.get_invoice() ? this.get_invoice().id : false;
             res.invoice_name = this.get_invoice_name();
 
             return res;
-        },
-    });
-
-    var OrderlineSuper = module.Orderline;
-    module.Orderline = module.Orderline.extend({
-        get_tax_details: function(){
-            var fulldetails = [];
-            var details = OrderlineSuper.prototype.get_tax_details.call(this);
-            for(var id in details){
-                if(details.hasOwnProperty(id)){
-                    fulldetails.push({amount: details[id], tax: this.pos.taxes_by_id[id], name: this.pos.taxes_by_id[id].name});
-                }
-            }
-            return fulldetails;
         },
     });
 
