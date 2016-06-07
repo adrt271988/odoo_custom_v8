@@ -85,6 +85,14 @@ class LalitaReservation(models.Model):
     _rec_name = "name"
 
     @api.one
+    def confirm_reservation(self):
+        sale = self.sale_id
+        if sale:
+            self.pool.get('sale.order').action_button_confirm(self._cr, self.env.user.id, [sale.id])
+        else:
+            self.state = "open"
+        
+    @api.one
     def cancel_reservation(self):
         sale = self.sale_id
         if sale:
@@ -104,7 +112,6 @@ class LalitaReservation(models.Model):
                         client.register_state = 'sent'
                     client.check = False
 
-    @api.one
     def validate_traveler_data(self, partner):
         if not partner.doc_number:
             return True
@@ -183,7 +190,8 @@ class LalitaReservation(models.Model):
                 guests = len([x.id for x in reservation.client_ids])
             available = reservation.total_berths - guests
             if available < 0:
-                raise ValidationError(_("No hay mas plazas disponibles!!!"))
+                #~ raise ValidationError(_("No hay mas plazas disponibles!!!"))
+                raise except_orm(_('Advertencia!'), _("No hay mas plazas disponibles!!!"))
             reservation.available_berths = available
             reservation.available_berths_hidden = available
 

@@ -14,6 +14,7 @@
         <field name="arch" type="xml">
             <form string="Reservas" class="form-horizontal">
                 <header>
+                    <button name="confirm_reservation" states="draft" type="object" string="Confirmar"/>
                     <button name="cancel_reservation" states="draft,open" type="object" string="Cancelar"/>
                     <button name="close_reservation" states="open" type="object" string="Cerrar"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,open,done,cancel"/>
@@ -72,7 +73,8 @@
                                         <field name="partner_id"/>
                                         <field name="phone"/>
                                         <field name="email"/>
-                                        <field name="room_id" domain="[('id', 'in', parent.room_ids[0][2])]"/>
+                                        <field name="room_id" domain="[('id', 'in', parent.room_ids[0][2])]"
+                                            options="{ 'no_create': True , 'no_edit': True}" />
                                         <field name="arrival_date" readonly="1"/>
                                         <field name="out_date" readonly="1"/>
                                         <field name="register_state"/>
