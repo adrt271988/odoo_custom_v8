@@ -20,13 +20,13 @@
 #
 ##############################################################################
 {
-    'name': 'PoS Employee Voucher',
+    'name': 'PoS Employee Coupon',
     'version': '0.0.1',
     'author': 'Onawoo Soluciones C.A., Alexander Rodriguez <adrt271988@gmail.com>',
-    'summary': 'Employee Voucher from PoS',
+    'summary': 'Employee Coupon from PoS',
     'category': 'Point Of Sale',
     'website': 'https://www.onawoo.com.ve',
-    'depends': ['point_of_sale'],
+    'depends': ['point_of_sale','hr'],
     'data': [
         ],
     'installable': True,
