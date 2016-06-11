@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <openerp>
 	<data>
-	<!-- Form View -->
     <record id="pos_coupon_form" model="ir.ui.view">
         <field name="name">pos.coupon.form</field>
         <field name="model">pos.coupon</field>
@@ -9,78 +8,61 @@
             <form string="Vales de Empleado" class="form-horizontal">
                 <header>
                     <field name="state" widget="statusbar" statusbar_visible="draft,done"
-                        statusbar_colors='{"draft":"blue","printed":"blue","sent":"blue"}'/>
+                        statusbar_colors='{"draft":"blue","done":"blue"}'/>
                 </header>
                 <sheet>
                     <div class="oe_title oe_left">
                         <h1>
-                            <field name="code"/>
+                            <field name="name"/>
                         </h1>
                     </div>
-                    <legend>Datos del Viajero</legend>
                     <group>
                         <group>
-                            <field name="doc_number" required="1"/>
-                            <field name="doc_type" required="1"/>
-                            <field name="document_date" required="1"/>
-                            <field name="last_name1" required="1"/>
-                            <field name="last_name2" required="1"/>
-                            <field name="first_name" required="1"/>
-                            <field name="user_id"/>
+                            <field name="employee_id"/>
+                            <field name="order_id"/>
+                            <field name="amount"/>
                         </group>
                         <group>
-                            <field name="gender" required="1"/>
-                            <field name="birth_date" required="1"/>
-                            <field name="birth_country" required="1"/>
-                            <field name="entry_date" required="1"/>
-                            <field name="company_id" string="Establecimiento"/>
-                            <field name="reservation_id" readonly="1"/>
+                            <field name="date"/>
+                            <field name="user_id"/>
                         </group>
                     </group>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
-                    <field name="message_ids" widget="mail_thread"/>
-                </div>
             </form>
         </field>
     </record>
     
-    <!-- List & Search View -->
-    <record id="view_tree_traveler_register" model="ir.ui.view">
-        <field name="name">view.tree.traveler.register</field>
-        <field name="model">traveler.register</field>
+    <record id="pos_coupon_tree" model="ir.ui.view">
+        <field name="name">pos.coupon.tree</field>
+        <field name="model">pos.coupon</field>
         <field name="arch" type="xml">
             <tree colors="blue:state == 'draft';">
-                <field name="doc_number"/>
-                <field name="entry_date"/>
-                <field name="last_name1"/>
-                <field name="last_name2"/>
-                <field name="first_name"/>
-                <field name="reservation_id"/>
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="order_id"/>
+                <field name="date"/>
+                <field name="amount"/>
                 <field name="state"/>
             </tree>
         </field>
     </record>
     
-    <!-- Action to open To-do Task list -->
-    <record id="action_traveler_register" model="ir.actions.act_window">
-        <field name="name">Registro de Viajeros</field>
-        <field name="res_model">traveler.register</field>
+    <record id="pos_coupon_action" model="ir.actions.act_window">
+        <field name="name">Vales de Empleado</field>
+        <field name="res_model">pos.coupon</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
-            Presione para crear nuevo Registro de Viajeros
+            Histórico de vales de empleados
           </p>
         </field>
     </record>
 
-   <!-- Menu item to open To-do Task list -->
-    <menuitem id="traveler_register_menu"
-      name="Registro Viajeros"
-      parent="lalita_reservation.menu_reservation"
+    <menuitem id="pos_coupon_menu"
+      name="Vales de Empleado"
+      parent="point_of_sale.menu_point_of_sale"
       sequence="20"
-      action="action_traveler_register" />
-	</data>
+      action="pos_coupon_action"/>
+    </data>
 </openerp>

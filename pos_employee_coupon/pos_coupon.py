@@ -39,12 +39,10 @@ class PosCoupon(models.Model):
     order_id = fields.Many2one('pos.order', string='Pedido', required=True)
     user_id = fields.Many2one('res.users', string='Responsable', track_visibility='onchange',
             default=lambda self: self.env.user)
-    company_id = fields.Many2one('res.company', string='Compañía',
-            required=True, change_default=True, readonly=True,
-            default=lambda self: self.env['res.company']._company_default_get('pos.coupon'))
     date = fields.Date(string='Fecha', required=True, default=lambda self: fields.Date.today())
     state = fields.Selection(
         [('draft','Borrador'),
         ('done','Contabilizado')],
         string='Estatus',index=True, default='draft',
         track_visibility='onchange', copy=False)
+    amount = fields.Float(string="Monto", required=True)
