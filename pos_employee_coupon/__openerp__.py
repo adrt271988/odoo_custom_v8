@@ -28,6 +28,7 @@
     'website': 'https://www.onawoo.com.ve',
     'depends': ['point_of_sale','hr'],
     'data': [
+            'view/pos_coupon_view.xml'
         ],
     'installable': True,
 }
