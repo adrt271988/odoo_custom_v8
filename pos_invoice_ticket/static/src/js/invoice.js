@@ -268,7 +268,6 @@ function openerp_pos_invoice_ticket(instance, module){ //module is instance.poin
             }
             res.invoice_id = this.get_invoice() ? this.get_invoice().id : false;
             res.invoice_name = this.get_invoice_name();
-
             return res;
         },
     });
