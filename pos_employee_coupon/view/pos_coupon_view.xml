@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+    <record id="pos_coupon_form" model="ir.ui.view">
+        <field name="name">pos.coupon.form</field>
+        <field name="model">pos.coupon</field>
+        <field name="arch" type="xml">
+            <form string="Vales de Empleado" class="form-horizontal">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done"
+                        statusbar_colors='{"draft":"blue","done":"blue"}'/>
+                </header>
+                <sheet>
+                    <div class="oe_title oe_left">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="order_id"/>
+                            <field name="amount"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="user_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="pos_coupon_tree" model="ir.ui.view">
+        <field name="name">pos.coupon.tree</field>
+        <field name="model">pos.coupon</field>
+        <field name="arch" type="xml">
+            <tree colors="blue:state == 'draft';">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="order_id"/>
+                <field name="date"/>
+                <field name="amount"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id="pos_coupon_action" model="ir.actions.act_window">
+        <field name="name">Vales de Empleado</field>
+        <field name="res_model">pos.coupon</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Histórico de vales de empleados
+          </p>
+        </field>
+    </record>
+
+    <menuitem id="pos_coupon_menu"
+      name="Vales de Empleado"
+      parent="point_of_sale.menu_point_of_sale"
+      sequence="20"
+      action="pos_coupon_action"/>
+    </data>
+</openerp>
