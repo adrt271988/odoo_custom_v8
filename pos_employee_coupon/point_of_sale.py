@@ -37,12 +37,14 @@ class PosOrderInherit(osv.osv):
         coupon = self.pool.get('pos.coupon')
         employee_obj = self.pool.get('hr.employee')
         employee_id = employee_obj.search(cr, uid, [('address_home_id','=',order.partner_id.id)])
+        total = 0.00
         if employee_id:
+            total = sum([x.amount for x in order.statement_ids if (x.journal_id.debt is True)])
             vals = {
                 'name': '', #Agregar codigo secuencial
                 'employee_id': employee_id[0],
                 'order_id': order.id,
-                'amount': order.amount_total
+                'amount': total
             }
             coupon.create(cr, uid, vals)
         return order_id
