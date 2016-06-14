@@ -35,9 +35,14 @@ class PosOrderInherit(osv.osv):
         order_id = super(PosOrderInherit, self).create(cr, uid, values, context=context)
         order = self.browse(cr, uid, order_id, context = context)
         coupon = self.pool.get('pos.coupon')
-        user_obj = self.pool.get('res.users')
         employee_obj = self.pool.get('hr.employee')
-        user_id = user_obj.search(cr, uid, [('partner_id','=',order.partner_id.id)])
-        if user_id:
-            employee_id = employee_obj.search(cr, uid, [('user_id','=',user_id[0]))
+        employee_id = employee_obj.search(cr, uid, [('address_home_id','=',order.partner_id.id)])
+        if employee_id:
+            vals = {
+                'name': '', #Agregar codigo secuencial
+                'employee_id': employee_id[0],
+                'order_id': order.id,
+                'amount': order.amount_total
+            }
+            coupon.create(cr, uid, vals)
         return order_id
