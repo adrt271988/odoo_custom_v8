@@ -46,3 +46,9 @@ class PosCoupon(models.Model):
         string='Estatus',index=True, default='draft',
         track_visibility='onchange', copy=False)
     amount = fields.Float(string="Monto", required=True)
+
+    @api.model
+    def create(self, values):
+        if not values.get('name'):
+            values['name'] = self.env['ir.sequence'].get('pos.coupon')
+        return super(PosCoupon, self).create(values)

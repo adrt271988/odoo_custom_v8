@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+        <!-- Sequences for traveler.register -->
+        <record id="seq_type_pos_coupon" model="ir.sequence.type">
+            <field name="name">Vale de Empleados</field>
+            <field name="code">pos.coupon</field>
+        </record>
+
+        <record id="seq_pos_coupon" model="ir.sequence">
+            <field name="name">Vale de Empleados</field>
+            <field name="code">pos.coupon</field>
+            <field name="prefix">VA/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</openerp>

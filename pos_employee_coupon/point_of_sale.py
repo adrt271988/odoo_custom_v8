@@ -31,8 +31,25 @@ MAGIC_COLUMNS = ('id', 'create_uid', 'create_date', 'write_uid', 'write_date')
 class PosOrderInherit(osv.osv):
     _inherit = 'pos.order'
     
-    def create(self, cr, uid, values, context=None):
-        order_id = super(PosOrderInherit, self).create(cr, uid, values, context=context)
+    #~ def create(self, cr, uid, values, context=None):
+        #~ order_id = super(PosOrderInherit, self).create(cr, uid, values, context=context)
+        #~ order = self.browse(cr, uid, order_id, context = context)
+        #~ coupon = self.pool.get('pos.coupon')
+        #~ employee_obj = self.pool.get('hr.employee')
+        #~ employee_id = employee_obj.search(cr, uid, [('address_home_id','=',order.partner_id.id)])
+        #~ total = 0.00
+        #~ if employee_id:
+            #~ total = sum([x.amount for x in order.statement_ids if (x.journal_id.debt is True)])
+            #~ vals = {
+                #~ 'employee_id': employee_id[0],
+                #~ 'order_id': order.id,
+                #~ 'amount': total
+            #~ }
+            #~ coupon.create(cr, uid, vals)
+        #~ return order_id
+
+    def _process_order(self, cr, uid, order, context=None):
+        order_id = super(PosOrderInherit, self)._process_order(cr, uid, order, context=context)
         order = self.browse(cr, uid, order_id, context = context)
         coupon = self.pool.get('pos.coupon')
         employee_obj = self.pool.get('hr.employee')
@@ -41,7 +58,6 @@ class PosOrderInherit(osv.osv):
         if employee_id:
             total = sum([x.amount for x in order.statement_ids if (x.journal_id.debt is True)])
             vals = {
-                'name': '', #Agregar codigo secuencial
                 'employee_id': employee_id[0],
                 'order_id': order.id,
                 'amount': total
