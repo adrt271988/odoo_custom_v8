@@ -30,6 +30,7 @@
     'data': [
             'data/pos_coupon_sequence.xml',
             'view/pos_coupon_view.xml',
+            'view/hr_employee_view.xml',
         ],
     'installable': True,
 }
