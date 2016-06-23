@@ -20,10 +20,17 @@
 #
 ##############################################################################
 {
-    'name': 'PoS Employee Coupon',
+    'name': 'TPV Vales de Empleado',
     'version': '0.0.1',
     'author': 'Onawoo Soluciones C.A., Alexander Rodriguez <adrt271988@gmail.com>',
-    'summary': 'Employee Coupon from PoS',
+    'summary': 'Vales de Empleado desde TPV',
+    'description': """ 
+Vales de Empleado desde el TPV
+==========================================================================================
+* Creación automática de Vales de Empleado
+* Se crearán los vales si el empleado paga una compra en el TPV con diario de Débito
+* Creación de Regla Salariales para descontar los vales al empleado en el recibo de nómina
+    """,
     'category': 'Point Of Sale',
     'website': 'https://www.onawoo.com.ve',
     'depends': ['pos_debt_notebook','hr_payroll'],
