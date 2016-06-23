@@ -26,11 +26,13 @@
     'summary': 'Employee Coupon from PoS',
     'category': 'Point Of Sale',
     'website': 'https://www.onawoo.com.ve',
-    'depends': ['pos_debt_notebook','hr'],
+    'depends': ['pos_debt_notebook','hr_payroll'],
     'data': [
             'data/pos_coupon_sequence.xml',
+            'data/hr_payroll_data.xml',
             'view/pos_coupon_view.xml',
             'view/hr_employee_view.xml',
+            'view/hr_payslip_view.xml',
         ],
     'installable': True,
 }

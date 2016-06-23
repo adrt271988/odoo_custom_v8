@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+       <record model="ir.ui.view" id="pos_coupon_view_hr_payslip_form">
+            <field name="name">pos.coupon.view.hr.payslip.form</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="coupon_amount"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
