@@ -6,8 +6,11 @@
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="replace"/>
                 <xpath expr="//page[@string='Personal Information']/group/group[@string='Contact Information']" position="replace"/>
                 <xpath expr="//field[@name='address_id']" position="before">
+                    <field name="user_id" on_change="onchange_user(user_id)" class="oe_inline"
+                        string="Related User" context="{'default_groups_ref': ['base.group_user']}"/>
                     <field name="address_home_id"/>
                 </xpath>
             </field>

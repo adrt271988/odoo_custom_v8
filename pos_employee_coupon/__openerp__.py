@@ -26,9 +26,10 @@
     'summary': 'Vales de Empleado desde TPV',
     'description': """ 
 Vales de Empleado desde el TPV
-==========================================================================================
+==========================================================================================================
 * Creación automática de Vales de Empleado
 * Se crearán los vales si el empleado paga una compra en el TPV con diario de Débito
+* Se debe configurar el campo Direccion particular en la ficha del empleado con el partner correspondiente
 * Creación de Regla Salariales para descontar los vales al empleado en el recibo de nómina
     """,
     'category': 'Point Of Sale',
