@@ -35,6 +35,20 @@ class EmployeeCouponHrEmployee(osv.osv):
     
     _inherit = 'hr.employee'
 
+    def create(self, cr, uid, values, context=None):
+        if 'address_home_id' in values:
+            partner = self.pool.get('res.partner')
+            partner_brw = partner.browse(cr, uid, values['address_home_id'])
+            partner.write(cr, uid, [partner_brw.id], {'employee':True})
+        return super(EmployeeCouponHrEmployee, self).create(cr, uid, values, context=context)
+
+    def write(self, cr, uid, ids, values, context = None):
+        if 'address_home_id' in values:
+            partner = self.pool.get('res.partner')
+            partner_brw = partner.browse(cr, uid, values['address_home_id'])
+            partner.write(cr, uid, [partner_brw.id], {'employee':True})
+        return super(EmployeeCouponHrEmployee, self).write(cr, uid, ids, values, context = context)
+
     def onchange_user(self, cr, uid, ids, user_id, context=None):
         res = super(EmployeeCouponHrEmployee, self).onchange_user(cr, uid, ids, user_id, context=None)
         if res and user_id:

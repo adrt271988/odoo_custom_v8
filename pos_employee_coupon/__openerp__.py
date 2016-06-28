@@ -34,7 +34,7 @@ Vales de Empleado desde el TPV
     """,
     'category': 'Point Of Sale',
     'website': 'https://www.onawoo.com.ve',
-    'depends': ['pos_debt_notebook','hr_payroll'],
+    'depends': ['pos_debt_notebook','hr_payroll','partner_employee'],
     'data': [
             'data/pos_coupon_sequence.xml',
             'data/hr_payroll_data.xml',
