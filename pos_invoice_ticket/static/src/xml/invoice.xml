@@ -37,13 +37,15 @@
             </div>
             <table>
                 <colgroup>
-                    <col width='50%' />
-                    <col width='25%' />
+                    <col width='45%' />
+                    <col width='10%' />
+                    <col width='20%' />
                     <col width='25%' />
                 </colgroup>
                 <thead class="pos-table-header">
                     <tr>
                         <th style="text-decoration: underline;">Description</th>
+                        <th style="text-decoration: underline;">Tax</th>
                         <th class="pos-right-align" style="text-decoration: underline;">Quantity</th>
                         <th class="pos-right-align" style="text-decoration: underline;">Price</th>
                     </tr>
@@ -52,15 +54,15 @@
                     <tr t-foreach="orderlines" t-as="orderline">
                         <td>
                             <t t-esc="orderline.get_product().display_name"/>
-                            <t t-foreach="orderline.get_applicable_taxes()" t-as="linetax">
-                                <div class="pos-disc-font">
-                                    With a <t t-esc="linetax.name"/>
-                                </div>
-                            </t>
                             <t t-if="orderline.get_discount() > 0">
                                 <div class="pos-disc-font">
                                     With a <t t-esc="orderline.get_discount()"/>% discount
                                 </div>
+                            </t>
+                        </td>
+                        <td>
+                            <t t-foreach="orderline.get_applicable_taxes()" t-as="linetax">
+                                <t t-esc="linetax.name"/>
                             </t>
                         </td>
                         <td class="pos-right-align">
@@ -118,6 +120,15 @@
                 <t t-esc="widget.format_currency(order.getChange())"/>
                 </td></tr>
             </table>
+            <t t-if="order.get_client().employee">
+                <br />
+                <table>
+                    <tr>
+                        <td>Firma del empleado:</td>
+                        <td class="pos-right-align">_________________</td>
+                    </tr>
+                </table>
+            </t>
             <t t-if="widget.pos.config.receipt_footer">
                 <hr />
                 <div style='text-align:center; font-size: 10px;'>
@@ -148,14 +159,8 @@
             </t>
 
             <div font='b'>
-                <t t-if='receipt.shop.name'>
-                    <div><t t-esc='receipt.shop.name' /></div>
-                </t>
-                <t t-if="receipt.company.street">
-                    <div><t t-esc="receipt.company.street"/></div>
-                </t>
-                <t t-if='receipt.company.city'>
-                    <div><t t-esc='receipt.company.city' /></div>
+                <t t-if='receipt.company.contact_address'>
+                    <div><t t-esc='receipt.company.contact_address' /></div>
                 </t>
                 <t t-if='receipt.company.phone'>
                     <div>Tel:<t t-esc='receipt.company.phone' /></div>
@@ -163,19 +168,25 @@
                 <t t-if='receipt.header'>
                     <div><t t-esc='receipt.header' /></div>
                 </t>
+                <t t-if='receipt.cashier'>
+                    <div>--------------------------------</div>
+                    <div>Served by <t t-esc='receipt.cashier' /></div>
+                </t>
             </div>
             <br /><br />
             
             <div font='b'>
-                <t t-if='receipt.client'>
-                    <div>Client:<t t-esc='receipt.client' /></div>
-                </t>
-                <t t-if='receipt.client_address'>
-                    <div>Address:<t t-esc='receipt.client_address' /></div>
-                </t>
-                <t t-if='receipt.client_phone'>
-                    <div>Phone:<t t-esc='receipt.client_phone' /></div>
-                </t>
+                <left>
+                    <t t-if='receipt.client'>
+                        <div>Client:<t t-esc='receipt.client' /></div>
+                    </t>
+                    <t t-if='receipt.client_address'>
+                        <div>Address:<t t-esc='receipt.client_address' /></div>
+                    </t>
+                    <t t-if='receipt.client_phone'>
+                        <div>Phone:<t t-esc='receipt.client_phone' /></div>
+                    </t>
+                </left>
             </div>
             <br /><br />
 
@@ -270,6 +281,12 @@
                         <right><value><t t-esc='tax.amount' /></value></right>
                     </line>
                 </t>
+            </t>
+            <t t-if='receipt.client_employee'>
+                <line>
+                    <left>Firma del empleado:</left>
+                    <right>____________________________</right>
+                </line>
             </t>
 
             <!-- Footer -->

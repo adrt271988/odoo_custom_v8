@@ -20,6 +20,18 @@ function openerp_pos_invoice_ticket(instance, module){ //module is instance.poin
                 self.company.city = company.city;
                 self.company.zip = company.zip;
                 self.company.state_id = company.state_id;
+
+                return self.fetch(
+                    'res.partner',
+                    ['employee'],
+                    [['customer','=',true]],
+                    {}
+                );
+            }).then(function(partners){
+                $.each(partners, function(){
+                    $.extend(self.db.get_partner_by_id(this.id) || {}, this)
+                })
+                return $.when()
             })
             return loaded;
         },
@@ -78,6 +90,7 @@ function openerp_pos_invoice_ticket(instance, module){ //module is instance.poin
                         self.validate_invoice_receipt();
                     },
                 });
+                /*
                 this.add_action_button({
                     label: _t('Invoice'),
                     name: 'invoice_pdf',
@@ -86,6 +99,7 @@ function openerp_pos_invoice_ticket(instance, module){ //module is instance.poin
                         self.validate_invoice_receipt({invoice: true});
                     },
                 });
+                */
             }
             this.update_payment_summary();
 
@@ -101,7 +115,7 @@ function openerp_pos_invoice_ticket(instance, module){ //module is instance.poin
                     //alert(Object.getOwnPropertyNames(invoice_button));
                 }
                 this.pos_widget.action_bar.set_button_disabled('invoice_receipt', !this.is_paid());
-                this.pos_widget.action_bar.set_button_disabled('invoice_pdf', !this.is_paid());
+                /*this.pos_widget.action_bar.set_button_disabled('invoice_pdf', !this.is_paid());*/
             }
         },
         validate_order: function(options) {
@@ -159,7 +173,7 @@ function openerp_pos_invoice_ticket(instance, module){ //module is instance.poin
 
             // deactivate the validation button while we try to send the order
             this.pos_widget.action_bar.set_button_disabled('validation',true);
-            this.pos_widget.action_bar.set_button_disabled('invoice_pdf',true);
+            /*this.pos_widget.action_bar.set_button_disabled('invoice_pdf',true);*/
             this.pos_widget.action_bar.set_button_disabled('invoice_receipt',true);
 
             var invoiced = this.pos.push_order_and_invoice_receipt(currentOrder);
@@ -177,7 +191,7 @@ function openerp_pos_invoice_ticket(instance, module){ //module is instance.poin
                     });
                 }
                 self.pos_widget.action_bar.set_button_disabled('validation',false);
-                self.pos_widget.action_bar.set_button_disabled('invoice_pdf',false);
+                /*self.pos_widget.action_bar.set_button_disabled('invoice_pdf',false);*/
                 self.pos_widget.action_bar.set_button_disabled('invoice_receipt',false);
             });
 
@@ -262,12 +276,28 @@ function openerp_pos_invoice_ticket(instance, module){ //module is instance.poin
             res.company.contact_address = '' + (company.zip?company.zip + ' ' : '') + (company.street?company.street + ' ' : '') + (company.city?company.city +' ' : '') + (company.country_id?company.country_id[1] +' ' : '') ;
             res.client_address = null;
             res.client_phone = null;
+            res.client_employee = false;
             if (client){     
                 res.client_address = '' + (client.zip?client.zip + ' ' : '') + (client.street?client.street + ' ' : '') + (client.city?client.city +' ' : '') + (client.country_id?client.country_id[1] +' ' : '') ;
                 res.client_phone = client.phone? client.phone : 'n/a';
+                res.client_employee = client.employee;
             }
             res.invoice_id = this.get_invoice() ? this.get_invoice().id : false;
             res.invoice_name = this.get_invoice_name();
+            return res;
+        },
+    });
+
+    var OrderlineSuper = module.Orderline;
+    module.Orderline = module.Orderline.extend({
+        export_for_printing:function(){
+            var res = OrderlineSuper.prototype.export_for_printing.call(this);
+            var taxes = this.get_applicable_taxes();
+            res.tax_name = '';
+            for(var i = 0; i < taxes.length; i++){
+                res.tax_name = taxes[i].name;
+                break;
+            }
             return res;
         },
     });
