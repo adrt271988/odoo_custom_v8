@@ -41,8 +41,18 @@ function openerp_pos_invoice_ticket(instance, module){ //module is instance.poin
                 invoiced.reject('error-no-client');
                 return invoiced;
             }
+            else{
+                var client = order.get_client()
+                order.get('paymentLines').each(function(line){
+                    var journal = line.cashregister.journal;
+                    if (!journal.debt)
+                        return;
+                    var amount = line.get_amount();
+                    client.debt += amount;
+                });
+            }
 
-            var order_id = this.db.add_order(order.export_as_JSON());
+            var order_id = this.db.add_order(order.export_as_JSON());        
 
             this.flush_mutex.exec(function(){
                 var done = new $.Deferred(); // holds the mutex
