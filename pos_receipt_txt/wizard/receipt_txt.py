@@ -25,10 +25,7 @@ from openerp.tools.translate import _
 
 import base64
 from openerp.addons.web import http
-#~ from openerp.exceptions import except_orm, Warning
-#~ import openerp.addons.web.http as oeweb
-#~ from openerp import models, fields, api, _
-#~ from operator import attrgetter
+import unicodedata
 try:
     import xlwt
 except ImportError:
@@ -62,6 +59,10 @@ class wizard_receipt_txt(osv.osv_memory):
         'date_to': fields.datetime.now,
     }
 
+    def remove_accents(self,input_str):
+        nkfd_form = unicodedata.normalize('NFKD', input_str)
+        return u"".join([c for c in nkfd_form if not unicodedata.combining(c)])
+
     def generate_txt(self, cr, uid, ids, context= None):
         if context is None:
             context = {}
@@ -90,9 +91,9 @@ class wizard_receipt_txt(osv.osv_memory):
         for order in pos_order_obj.browse(cr, uid, pos_order_ids, context=context):
             date = datetime.strptime(order.date_order, '%Y-%m-%d')
             txtFile.write("\n\n")
-            company = '           %s'%order.company_id.name
-            partner = '         %s'%order.partner_id and order.partner_id.name or 'N/A'
-            user = '       Usuario: %s'%order.user_id.name
+            company = '           %s'%self.remove_accents(order.company_id.name)
+            partner = '         %s'%order.partner_id and self.remove_accents(order.partner_id.name) or 'N/A'
+            user = '       Usuario: %s'%self.remove_accents(order.user_id.name)
             date = '          Fecha: %s'%date.strftime("%d-%m-%Y")
             ref = '       %s'%order.pos_reference
             txtFile.write("%s\n%s\n%s\n%s\n%s\n"%(company,partner,user,date,ref))
@@ -100,15 +101,15 @@ class wizard_receipt_txt(osv.osv_memory):
             for line in order.lines:
                 str_length = len(line.product_id.name)
                 str_res = 15 - str_length
-                product = str_length > 15 and line.product_id.name[0:15] or \
-                            line.product_id.name+'{s:{c}{n}}'.format(s="",n=str_res,c='')
+                product = str_length > 15 and self.remove_accents(line.product_id.name[0:15]) or \
+                            self.remove_accents(line.product_id.name)+'{s:{c}{n}}'.format(s="",n=str_res,c='')
                 txtFile.write("   %s     %s    %s\n"%(product,line.qty,line.price_subtotal))
             txtFile.write("\n\n                   Impuestos: %s"%order.amount_tax)
             txtFile.write("\n                   Total:    %s"%order.amount_total)
             txtFile.write("\n")
             txtFile.write("\n   Método de Pago         Importe\n")
             for payment in order.statement_ids:
-                txtFile.write("   %s          %s\n"%(payment.journal_id.name[0:15],payment.amount))
+                txtFile.write("   %s          %s\n"%(self.remove_accents(payment.journal_id.name[0:15]),payment.amount))
             txtFile.write("\n\n------------------------------------------\n")
 
         txtFile.close()
