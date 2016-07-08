@@ -20,7 +20,6 @@ function openerp_pos_invoice_ticket(instance, module){ //module is instance.poin
                 self.company.city = company.city;
                 self.company.zip = company.zip;
                 self.company.state_id = company.state_id;
-
                 return self.fetch(
                     'res.partner',
                     ['employee'],
@@ -264,6 +263,17 @@ function openerp_pos_invoice_ticket(instance, module){ //module is instance.poin
             var invoice = this.get('invoice');
             return invoice ? invoice.display_name : "";
         },
+        is_debt: function(){
+            var isDebt = false
+            var lines = this.get('paymentLines').models;
+            for (var i = 0; i < lines.length; i++) {
+                if (lines[i].cashregister.journal.debt) {
+                    isDebt = true;
+                    break;
+                }
+            }
+            return isDebt;
+        },
         export_for_printing:function(){
             var res = OrderSuper.prototype.export_for_printing.call(this);
             var company = this.pos.company;
@@ -284,6 +294,7 @@ function openerp_pos_invoice_ticket(instance, module){ //module is instance.poin
             }
             res.invoice_id = this.get_invoice() ? this.get_invoice().id : false;
             res.invoice_name = this.get_invoice_name();
+            res.pay_debt = this.is_debt();
             return res;
         },
     });

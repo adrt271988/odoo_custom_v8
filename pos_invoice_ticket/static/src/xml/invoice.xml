@@ -120,7 +120,7 @@
                 <t t-esc="widget.format_currency(order.getChange())"/>
                 </td></tr>
             </table>
-            <t t-if="order.get_client().employee">
+            <t t-if="order.get_client().employee and order.is_debt()">
                 <br />
                 <table>
                     <tr>
@@ -282,7 +282,7 @@
                     </line>
                 </t>
             </t>
-            <t t-if='receipt.client_employee'>
+            <t t-if='receipt.client_employee and receipt.pay_debt'>
                 <line>
                     <left>Firma del empleado:</left>
                     <right>____________________________</right>

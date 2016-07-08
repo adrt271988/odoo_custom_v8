@@ -10,7 +10,7 @@ Main Features
 * Add a new button to print invoice as ticket in Point of Sale
     """,
     'author': 'Jose Suniaga <suniagajose@gmail.com>',
-    'depends': ['point_of_sale'],
+    'depends': ['point_of_sale', 'tg_pos_debt_notebook', 'partner_employee'],
     'data': [
         'views/view.xml'
     ],
