@@ -34,14 +34,14 @@ class PosCoupon(models.Model):
     _order = "id desc"
     _rec_name = "name"
 
-    name = fields.Char(string="Código de Vale",size=6,select=True, readonly=True)
+    name = fields.Char(string="Código de Vale",select=True, readonly=True)
     employee_id = fields.Many2one('hr.employee', string='Empleado', required=True)
     order_id = fields.Many2one('pos.order', string='Pedido', required=True)
     user_id = fields.Many2one('res.users', string='Responsable', track_visibility='onchange',
             default=lambda self: self.env.user)
     date = fields.Date(string='Fecha', required=True, default=lambda self: fields.Date.today())
     state = fields.Selection(
-        [('draft','Borrador'),
+        [('draft','Sin Procesar'),
         ('done','Contabilizado')],
         string='Estatus',index=True, default='draft',
         track_visibility='onchange', copy=False)
