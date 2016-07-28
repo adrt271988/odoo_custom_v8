@@ -124,5 +124,5 @@ class EmployeeCouponHrPayslip(models.Model):
                                                         ('state','=','draft')
                                                         ])
                     coupon_obj.write(cr, uid, coupon_ids, {'state':'done'})
-            self.write(cr, uid, [payslip.id], {'line_ids': lines, 'number': number,}, context=context)
+            self.write(cr, uid, [payslip.id], {'line_ids': lines, 'number': number}, context=context)
         return True
