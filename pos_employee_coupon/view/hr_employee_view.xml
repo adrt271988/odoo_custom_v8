@@ -15,5 +15,28 @@
                 </xpath>
             </field>
         </record>
+
+        <!-- RES PARTNER -->
+        <record id="coupon_view_partner_form_debt" model="ir.ui.view">
+            <field name="name">coupon.res.partner.form.debt</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="pos_debt_notebook.view_partner_form_debt"/>
+            <field name="arch" type="xml">
+                <field name="debt" position="replace">
+                    <field name="debt" string="Deuda"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="coupon_view_tg_partner_tree" model="ir.ui.view">
+            <field name="name">coupon.res.partner.tree.debt</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="pos_debt_notebook.view_tg_partner_tree"/>
+            <field name="arch" type="xml">
+                <field name="debt" position="replace">
+                    <field name="debt" string="Deuda"/>
+                </field>
+            </field>
+        </record>
     </data>
 </openerp>
