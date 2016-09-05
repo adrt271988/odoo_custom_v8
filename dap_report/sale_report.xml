@@ -18,7 +18,7 @@
             <field name="page_height">350</field>
             <field name="page_width">195</field>
             <field name="orientation">Landscape</field>
-            <field name="margin_top">30</field>
+            <field name="margin_top">10</field>
             <field name="margin_bottom">13</field>
             <field name="margin_left">5</field>
             <field name="margin_right">5</field>

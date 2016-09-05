@@ -2,74 +2,65 @@
 <openerp>
 <data>
 <template id="report_dap_document">
-    <t t-call="report.external_layout">
-        <div class="page">
-			<br/>
-            <h2>
-                <span>Reporte DAP</span>
-            </h2>
-            <table class="table table table-condensed">
-                <thead>
-                    <tr>
-                        <th style="width:10%" class="text-left">Referencia</th>
-                        <th style="width:8%" class="text-left">EAN13</th>
-                        <th style="width:12%" class="text-left">&amp;nbsp;&amp;nbsp;Producto</th>
-                        <th style="width:20%" class="text-left">&amp;nbsp;&amp;nbsp;&amp;nbsp;Descripción y composición</th>
-                        <th style="width:10%" class="text-left">Marca</th>
-                        <th style="width:5%" class="text-center">Imagen</th>
-                        <th style="width:5%" class="text-left">Código Arancelario</th>
-                        <th style="width:5%" class="text-left">País de origen</th>
-                        <th class="text-right" style="width:5%" >CBM Unidad</th>
-                    </tr>
-               </thead>
-            </table>
-            <table class="table">
-               <tbody>
-                    <tr t-foreach="o.order_line" t-as="l">
-                        <td style="width:10%" class="text-left">
-							<span t-field="l.product_id.default_code"/>
-                        </td>
-                        <td style="width:8%" class="text-left">
-							<span t-if="not l.product_id.ean13">&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;</span>
-							<span t-field="l.product_id.ean13"/>
-                        </td>
-                        <td style="width:12%" class="text-left">
-                           <span t-field="l.product_id.name"/>
-                        </td>
-                        <td style="width:20%" class="text-left">
-                           <span t-field="l.product_id.description"/>
-                        </td>
-                        <td style="width:10%" class="text-left">
-							<span t-field="l.product_id.product_tmpl_id.brand"/>
-<!--
-							<span>MARCA</span>
--->
-                        </td>
-                        <td style="width:5%" class="text-center">
-							<span t-field="l.product_id.image_small" t-field-options='{"widget": "image"}'/>
-                        </td>
-                        <td style="width:5%" class="text-left">
-							<span t-field="l.product_id.product_tmpl_id.arancel_cod"/>
-<!--
-							<span>ARANCEL</span>
--->
-                        </td>
-                        <td style="width:5%" class="text-left">
-							<span t-field="l.product_id.product_tmpl_id.description_2"/>
-<!--
-							<span>ORIGEN</span>
--->
-                        </td>
-                        <td class="text-right" style="width:5%">
-							<span t-field="l.product_id.volume"/>
-                        </td>
-                    </tr>
-                    
-                </tbody>
-            </table>
-
-        </div>
-    </t>
+    <div class="page">
+        <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.logo"
+                    style="max-height: 100px; max-weight:80px"/>
+        <span t-field="o.company_id.name"/>
+		<br/>
+        <h2 style="margin-top:35px;">
+            <span>Reporte DAP <strong t-field="o.name"/></span>
+        </h2>
+        <table class="table table table-condensed">
+            <thead>
+                <tr>
+                    <th style="width:8%" class="text-left">Referencia</th>
+                    <th style="width:10%" class="text-left">EAN13</th>
+                    <th style="width:12%" class="text-left">&amp;nbsp;&amp;nbsp;Producto</th>
+                    <th style="width:20%" class="text-left">&amp;nbsp;&amp;nbsp;&amp;nbsp;Descripción y composición</th>
+                    <th style="width:10%" class="text-left">Marca</th>
+                    <th style="width:5%" class="text-center">Imagen</th>
+                    <th style="width:5%" class="text-left">Código Arancelario</th>
+                    <th style="width:5%" class="text-left">País de origen</th>
+                    <th class="text-right" style="width:5%" >CBM Unidad</th>
+                </tr>
+           </thead>
+        </table>
+        <table class="table">
+           <tbody>
+                <tr t-foreach="o.order_line" t-as="l">
+                    <td style="width:8%" class="text-left">
+						<span t-field="l.product_id.default_code"/>
+                    </td>
+                    <td style="width:10%" class="text-left">
+						<span t-if="not l.product_id.ean13">&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;</span>
+						<span t-field="l.product_id.ean13"/>
+                    </td>
+                    <td style="width:12%" class="text-left">
+                       <span t-field="l.product_id.name"/>
+                    </td>
+                    <td style="width:20%" class="text-left">
+                       <span t-field="l.product_id.description"/>
+                    </td>
+                    <td style="width:10%" class="text-left">
+						<span t-field="l.product_id.product_tmpl_id.brand"/>
+                    </td>
+                    <td style="width:5%" class="text-center">
+						<span t-field="l.product_id.image_small" t-field-options='{"widget": "image"}'/>
+                    </td>
+                    <td style="width:5%" class="text-left">
+						<span t-field="l.product_id.product_tmpl_id.arancel_cod"/>
+                    </td>
+                    <td style="width:5%" class="text-left">
+						<span t-field="l.product_id.product_tmpl_id.description_2"/>
+                    </td>
+                    <td class="text-right" style="width:5%">
+						<span t-field="l.product_id.volume"/>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
 </template>
 
 <template id="report_dap">

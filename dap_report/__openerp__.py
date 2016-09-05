@@ -31,10 +31,10 @@ Presenta información de los productos requerida en Aduana para identificar y va
     """,
     'author': 'Alexander Rodriguez',
     'website': '',
-    'depends': ['sale','report'],
+    'depends': ['sale','report','kasa_company'],
     'data': [
-            ##'view/report_dap.xml',
-            ##'sale_report.xml',
+            'view/report_dap.xml',
+            'sale_report.xml',
             
     ],
     'demo': [],
