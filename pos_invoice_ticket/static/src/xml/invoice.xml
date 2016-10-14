@@ -37,15 +37,13 @@
             </div>
             <table>
                 <colgroup>
-                    <col width='45%' />
-                    <col width='10%' />
+                    <col width='55%' />
                     <col width='20%' />
                     <col width='25%' />
                 </colgroup>
                 <thead class="pos-table-header">
                     <tr>
                         <th style="text-decoration: underline;">Description</th>
-                        <th style="text-decoration: underline;">Tax</th>
                         <th class="pos-right-align" style="text-decoration: underline;">Quantity</th>
                         <th class="pos-right-align" style="text-decoration: underline;">Price</th>
                     </tr>
@@ -59,10 +57,10 @@
                                     With a <t t-esc="orderline.get_discount()"/>% discount
                                 </div>
                             </t>
-                        </td>
-                        <td>
                             <t t-foreach="orderline.get_applicable_taxes()" t-as="linetax">
-                                <t t-esc="linetax.name"/>
+                                <div class="pos-disc-font">
+                                    <t t-esc="linetax.name"/>
+                                </div>
                             </t>
                         </td>
                         <td class="pos-right-align">
@@ -194,7 +192,7 @@
 
             <div line-ratio='0.6'>
                 <t t-foreach='receipt.orderlines' t-as='line'>
-                    <t t-set='simple' t-value='line.discount === 0 and line.unit_name === "Unit(s)" and line.quantity === 1 and line.get_applicable_taxes().length === 0' />
+                    <t t-set='simple' t-value='line.discount === 0 and line.unit_name === "Unit(s)" and line.quantity === 1 and line.taxes.length === 0' />
                     <t t-if='simple'>
                         <line>
                             <left><t t-esc='line.product_name' /></left>
@@ -210,11 +208,9 @@
                                 <left>Discount: <t t-esc='line.discount' />%</left>
                             </line>
                         </t>
-                        <t t-foreach="line.get_applicable_taxes()" t-as="linetax">
+                        <t t-foreach="line.taxes" t-as="linetax">
                             <line indent='1'>
-                                <left>
-                                    <t t-esc="linetax.name"/>
-                                </left>
+                                <left><t t-esc="linetax.name"/></left>
                             </line>
                         </t>
                         <line indent='1'>

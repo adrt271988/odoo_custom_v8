@@ -314,11 +314,7 @@ function openerp_pos_invoice_ticket(instance, module){ //module is instance.poin
         export_for_printing:function(){
             var res = OrderlineSuper.prototype.export_for_printing.call(this);
             var taxes = this.get_applicable_taxes();
-            res.tax_name = '';
-            for(var i = 0; i < taxes.length; i++){
-                res.tax_name = taxes[i].name;
-                break;
-            }
+            res.taxes = taxes;
             return res;
         },
     });

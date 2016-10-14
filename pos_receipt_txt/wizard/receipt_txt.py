@@ -91,11 +91,11 @@ class wizard_receipt_txt(osv.osv_memory):
         for order in pos_order_obj.browse(cr, uid, pos_order_ids, context=context):
             date = datetime.strptime(order.date_order, '%Y-%m-%d')
             txtFile.write("\n\n")
-            company = '           %s'%self.remove_accents(order.company_id.name)
-            partner = '         %s'%order.partner_id and self.remove_accents(order.partner_id.name) or 'N/A'
-            user = '       Usuario: %s'%self.remove_accents(order.user_id.name)
-            date = '          Fecha: %s'%date.strftime("%d-%m-%Y")
-            ref = '       %s'%order.pos_reference
+            company = u'           %s'%self.remove_accents(order.company_id.name)
+            partner = u'         %s'%(order.partner_id and self.remove_accents(order.partner_id.name) or u'SIN DATOS CLIENTE')
+            user = u'       Usuario: %s'%self.remove_accents(order.user_id.name)
+            date = u'          Fecha: %s'%date.strftime("%d-%m-%Y")
+            ref = u'       %s'%order.pos_reference
             txtFile.write("%s\n%s\n%s\n%s\n%s\n"%(company,partner,user,date,ref))
             txtFile.write("\n   Descripción     Cantidad  Precio\n")
             for line in order.lines:
