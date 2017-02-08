@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 {
     'name': 'Secuencias Documentos',
-    'version': '0.1',
+    'version': '8.0.1',
     'category': 'Accounting',
     'summary': """Secuencias de documentos personalizadas en el Partner""",
     'description': """Secuencias de documentos personalizadas en el Partner""",
