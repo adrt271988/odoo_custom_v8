@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <record id="partner_sequence_view_partner_form" model="ir.ui.view">
+        <field name="name">partner.sequence.view.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='title']" position="after">
+                <field name="custom_sequence"/>
+            </xpath>
+            <xpath expr="//page[@name='internal_notes']" position="after">
+                <page string="Secuencias" attrs="{'invisible': [('custom_sequence','=',False)]}">
+                    <group>
+                        <group>
+                            <field name="purchase_seq_id"/>
+                            <field name="sale_seq_id"/>
+                            <field name="in_invoice_seq_id"/>
+                            <field name="out_invoice_seq_id"/>
+                            <field name="picking_seq_id"/>
+                            <field name="in_refund_seq_id"/>
+                            <field name="out_refund_seq_id"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</data>
+</openerp>
