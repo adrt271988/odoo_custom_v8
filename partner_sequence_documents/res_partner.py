@@ -29,7 +29,8 @@ class CustomResPartner(osv.osv):
         'sale_seq_id': fields.many2one('ir.sequence','Secuencia Pedidos de Venta', help="Secuencia personalizada para pedidos de venta"),
         'in_invoice_seq_id': fields.many2one('ir.sequence','Secuencia Facturas de Compra', help="Secuencia personalizada para facturas de compra"),
         'out_invoice_seq_id': fields.many2one('ir.sequence','Secuencia Facturas de Venta', help="Secuencia personalizada para facturas de venta"),
-        'picking_seq_id': fields.many2one('ir.sequence','Secuencia Albaránes', help="Secuencia personalizada para albaránes"),
-        'in_refund_seq_id': fields.many2one('ir.sequence','Secuencia Notas de Crédito Compras', help="Secuencia personalizada para notas de crédito de compra"),
-        'out_refund_seq_id': fields.many2one('ir.sequence','Secuencia Notas de Crédito de Ventas', help="Secuencia personalizada para notas de crédito de venta"),
+        'picking_in_seq_id': fields.many2one('ir.sequence','Secuencia Albaránes Entrada', help="Secuencia personalizada para albaránes de entrada"),
+        'picking_out_seq_id': fields.many2one('ir.sequence','Secuencia Albaránes Salida', help="Secuencia personalizada para albaránes salida"),
+        'in_refund_seq_id': fields.many2one('ir.sequence','Secuencia Facturas Rectificativas de Compra', help="Secuencia personalizada para facturas rectificativas de compra"),
+        'out_refund_seq_id': fields.many2one('ir.sequence','Secuencia Facturas Rectificativas de Ventas', help="Secuencia personalizada para facturas rectificativas de venta"),
     }

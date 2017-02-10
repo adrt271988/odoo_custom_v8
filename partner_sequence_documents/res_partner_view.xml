@@ -17,7 +17,8 @@
                             <field name="sale_seq_id"/>
                             <field name="in_invoice_seq_id"/>
                             <field name="out_invoice_seq_id"/>
-                            <field name="picking_seq_id"/>
+                            <field name="picking_in_seq_id"/>
+                            <field name="picking_out_seq_id"/>
                             <field name="in_refund_seq_id"/>
                             <field name="out_refund_seq_id"/>
                         </group>

@@ -6,7 +6,7 @@
     'summary': """Secuencias de documentos personalizadas en el Partner""",
     'description': """Secuencias de documentos personalizadas en el Partner""",
     'author': 'Alexander Rodriguez <adrt271988@gmail.com>',
-    'depends': ['base','account','sale','purchase'],
+    'depends': ['l10n_es_account_invoice_sequence','sale','purchase'],
     'init_xml': [],
     'data': [
         'res_partner_view.xml',
