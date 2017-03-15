@@ -8,13 +8,13 @@
         <br/>
         <div class="row mt32 mb32">
             <div class="col-xs-6">
-                <div>NIF: &#160;<span t-field="o.company_id.vat"/></div>
-                <div>Nombre del Establecimiento: &#160;<span t-field="o.company_id.name"/></div>
-                <div>Municipio: &#160;<span t-field="o.company_id.city"/></div>
-                <div>Parroquia: &#160;<span t-field="o.company_id.street2"/></div>
+                <div>NIF: <span t-field="o.company_id.vat"/></div>
+                <div>Nombre del Establecimiento: <span t-field="o.company_id.name"/></div>
+                <div>Municipio: <span t-field="o.company_id.city"/></div>
+                <div>Parroquia: <span t-field="o.company_id.street2"/></div>
             </div>
             <div class="col-xs-6">
-                <div>Parte n°: &#160;<span t-field="o.code"/></div>
+                <div>Parte n°:<span t-field="o.code"/></div>
                 <div>&#160;</div>
                 <div>&#160;</div>
                 <div>&#160;</div>
@@ -26,36 +26,36 @@
         <div class="row mt32 mb32">
             <div class="col-xs-6">
                 <div>
-                    Num de documento de identidad: &#160;<span t-field="o.doc_number"/>
+                    Num de documento de identidad:<span t-field="o.doc_number"/>
                 </div>
                 <div>
-                    Tipo de documento: &#160;<span t-field="o.doc_type"/>
+                    Tipo de documento:<span t-field="o.doc_type"/>
                 </div>
                 <div>
-                    Fecha de expedición de documento: &#160;<span t-field="o.document_date" 
+                    Fecha de expedición de documento:<span t-field="o.document_date" 
                        t-field-options="{&quot;format&quot;: &quot;yyyy-MM-dd&quot;}"  />
                 </div>
                 <div>
-                    Primer Apellido: &#160;<span t-field="o.last_name1"/>
+                    Primer Apellido:<span t-field="o.last_name1"/>
                 </div>
                 <div>
-                    Segundo Apellido: &#160;<span t-field="o.last_name2"/>
+                    Segundo Apellido:<span t-field="o.last_name2"/>
                 </div>
                 <div>
-                    Nombre: &#160;<span t-field="o.first_name"/>
+                    Nombre:<span t-field="o.first_name"/>
                 </div>
                 <div>
-                    Sexo: &#160;<span t-field="o.gender"/>
+                    Sexo:<span t-field="o.gender"/>
                 </div>
                 <div>
-                    Fecha de nacimiento: &#160;<span t-field="o.birth_date" 
+                    Fecha de nacimiento:<span t-field="o.birth_date" 
                         t-field-options="{&quot;format&quot;: &quot;yyyy-MM-dd&quot;}" />
                 </div>
                 <div>
-                    País de nacionalidad: &#160;<span t-field="o.birth_country"/>
+                    País de nacionalidad:<span t-field="o.birth_country"/>
                 </div>
                 <div>
-                    Fecha de entrada: &#160;<span t-field="o.entry_date" 
+                    Fecha de entrada:<span t-field="o.entry_date" 
                         t-field-options="{&quot;format&quot;: &quot;yyyy-MM-dd&quot;}" />
                 </div>
             </div>
