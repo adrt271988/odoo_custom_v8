@@ -190,7 +190,6 @@ class LalitaReservation(models.Model):
                 guests = len([x.id for x in reservation.client_ids])
             available = reservation.total_berths - guests
             if available < 0:
-                #~ raise ValidationError(_("No hay mas plazas disponibles!!!"))
                 raise except_orm(_('Advertencia!'), _("No hay mas plazas disponibles!!!"))
             reservation.available_berths = available
             reservation.available_berths_hidden = available
@@ -227,7 +226,7 @@ class LalitaReservation(models.Model):
     register_ids = fields.One2many('traveler.register','reservation_id',string="Registros de Viajeros")
     sale_id = fields.Many2one('sale.order',string="Pedido",help="Pedido de Ventas Asociado",
         domain="[('state','not in',['draft','sent','cancel','waiting_date'])]")
-    invoice_ids = fields.One2many('account.invoice','reservation_id',string="Facturas")
+    invoice_ids = fields.One2many('account.invoice','reservation_id', string="Facturas")
     change_guest_state = fields.Selection(
         [('draft','Nuevo'),
         ('confirmed','Confirmado'),
